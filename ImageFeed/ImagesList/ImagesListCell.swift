@@ -39,7 +39,7 @@ final class ImagesListCell: UITableViewCell {
         gradientView.layer.masksToBounds = true
         gradientView.layer.maskedCorners = [.layerMinXMaxYCorner,.layerMaxXMaxYCorner]
         let gradientViewLayer = CAGradientLayer()
-        gradientViewLayer.colors = [UIColor.ypBlack0.cgColor, UIColor.ypBlack20.cgColor]
+        gradientViewLayer.colors = [UIColor.ypBlack.cgColor, UIColor.ypBlack20.cgColor]
         gradientViewLayer.frame = gradientView.bounds
         gradientView.layer.addSublayer(gradientViewLayer)
     }
