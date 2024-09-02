@@ -34,15 +34,19 @@ class ImagesListViewController: UIViewController {
     // MARK: - Private Methods
 }
 
-    // MARK: - Extentions
+// MARK: - Extentions
 
 extension ImagesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return photosName.count
     }
     
+    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListCell.reuseIdentifier, for: indexPath)
+        
         
         guard let imageListCell = cell as? ImagesListCell else {
             return UITableViewCell()
@@ -62,7 +66,7 @@ extension ImagesListViewController: UITableViewDelegate {
         }
         let imageInsets = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
         let imageViewWidth = tableView.bounds.width - imageInsets.left - imageInsets.right
-        let imageWidth = image.size.width
+        let imageWidth = image.size.width == 0 ? 1 : image.size.width
         let scale = imageViewWidth / imageWidth
         let cellHeight = image.size.height * scale + imageInsets.top + imageInsets.bottom
         return cellHeight

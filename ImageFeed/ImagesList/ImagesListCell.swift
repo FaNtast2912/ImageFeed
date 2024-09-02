@@ -11,10 +11,10 @@ import UIKit
 
 final class ImagesListCell: UITableViewCell {
     // MARK: - IB Outlets
-    @IBOutlet var imageCellView: UIImageView!
-    @IBOutlet var likeButton: UIButton!
-    @IBOutlet var dateLabel: UILabel!
-    @IBOutlet var gradientView: UIImageView!
+    @IBOutlet private var imageCellView: UIImageView!
+    @IBOutlet private var likeButton: UIButton!
+    @IBOutlet private var dateLabel: UILabel!
+    @IBOutlet private var gradientView: UIImageView!
     // MARK: - Public Properties
     static let reuseIdentifier = "ImagesListCell"
     // MARK: - Private Properties
@@ -24,6 +24,12 @@ final class ImagesListCell: UITableViewCell {
         formatter.timeStyle = .none
         return formatter
     }()
+    // MARK: - Overrides Methods
+//    override func prepareForReuse() {
+//        if self.gradientView.layer.sublayers?.count != nil  {
+//            self.gradientView.layer.sublayers?.removeAll()
+//        }
+//    }
     // MARK: - Public Methods
     func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
         
@@ -35,13 +41,17 @@ final class ImagesListCell: UITableViewCell {
         let likeImage = isLiked ? UIImage(named: "like_button_on") : UIImage(named: "like_button_off")
         cell.likeButton.setTitle("", for: .normal)
         cell.likeButton.setImage(likeImage, for: .normal)
-        
+        addGradient()
+    }
+    func addGradient() {
         gradientView.layer.masksToBounds = true
         gradientView.layer.maskedCorners = [.layerMinXMaxYCorner,.layerMaxXMaxYCorner]
         let gradientViewLayer = CAGradientLayer()
-        gradientViewLayer.colors = [UIColor.ypBlack.cgColor, UIColor.ypBlack20.cgColor]
+        gradientViewLayer.colors = [UIColor.ypBlack0.cgColor, UIColor.ypBlack20.cgColor]
         gradientViewLayer.frame = gradientView.bounds
-        gradientView.layer.addSublayer(gradientViewLayer)
+        if self.gradientView.layer.sublayers?.count == nil  {
+            gradientView.layer.addSublayer(gradientViewLayer)
+        }
     }
     // MARK: - Private Methods
     
