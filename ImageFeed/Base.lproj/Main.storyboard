@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="7oL-5b-GZw">
     <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -150,6 +151,9 @@
                                                     <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage"/>
                                                     <color key="baseForegroundColor" red="0.96078431372549022" green="0.41960784313725491" blue="0.42352941176470588" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="profileExitButton:" destination="7oL-5b-GZw" eventType="touchUpInside" id="Q0T-lU-Zlz"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <constraints>
@@ -235,11 +239,14 @@
                                         </attributedString>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JfI-YA-2sd" userLabel="numbers of favorites button">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JfI-YA-2sd" userLabel="numbers of favorites button">
                                         <rect key="frame" x="135" y="0.0" width="42" height="22"/>
-                                        <color key="backgroundColor" red="0.21568627450980393" green="0.44705882352941173" blue="0.90588235294117647" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" systemColor="systemBlueColor"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain">
+                                            <backgroundConfiguration key="background" cornerRadius="69">
+                                                <color key="backgroundColor" red="0.21568627450980393" green="0.44705882352941173" blue="0.90588235294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </backgroundConfiguration>
                                             <attributedString key="attributedTitle">
                                                 <fragment content="27">
                                                     <attributes>
@@ -277,6 +284,9 @@
                                         <buttonConfiguration key="configuration" style="plain" image="mainScreenInactive">
                                             <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="17"/>
                                         </buttonConfiguration>
+                                        <connections>
+                                            <action selector="mainScreenButton:" destination="7oL-5b-GZw" eventType="touchUpInside" id="XsE-t3-hx5"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="opA-wH-9RT" userLabel="profileScreenButton">
                                         <rect key="frame" x="214" y="0.0" width="49" height="49"/>
@@ -284,6 +294,9 @@
                                         <inset key="imageEdgeInsets" minX="19" minY="19" maxX="19" maxY="19"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="profileScreenActive"/>
+                                        <connections>
+                                            <action selector="profileScreenButton:" destination="7oL-5b-GZw" eventType="touchUpInside" id="jPX-4t-zn8"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
@@ -307,7 +320,7 @@
                                 <rect key="frame" x="0.0" y="277" width="375" height="452"/>
                                 <color key="backgroundColor" name="YP Black"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="favoritesListCell" rowHeight="252" id="TD7-4H-83N">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="ImagesListCell" rowHeight="252" id="TD7-4H-83N" customClass="ImagesListCell" customModule="ImageFeed" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="50" width="375" height="252"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="TD7-4H-83N" id="FrF-DD-KoV">
@@ -376,6 +389,12 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" name="YP Black"/>
+                                        <connections>
+                                            <outlet property="dateLabel" destination="iiy-dg-k0Q" id="09a-9u-pGx"/>
+                                            <outlet property="gradientView" destination="BzG-s0-jtV" id="eMb-Z6-3Ta"/>
+                                            <outlet property="imageCellView" destination="dE4-u2-YBk" id="NhD-Na-S9d"/>
+                                            <outlet property="likeButton" destination="VPR-dB-uSe" id="zb5-gU-FaZ"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -400,6 +419,17 @@
                             <constraint firstItem="v5M-x5-EqJ" firstAttribute="leading" secondItem="eNT-me-iX3" secondAttribute="leading" constant="130" id="wpW-GD-h3Z"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="mainScreenButton" destination="cE8-bY-MUP" id="LyX-MM-amh"/>
+                        <outlet property="nameSecondNameLabel" destination="0Oe-17-tgh" id="TXk-WH-h95"/>
+                        <outlet property="numbersOfFavoritesButton" destination="JfI-YA-2sd" id="0Kb-US-JaP"/>
+                        <outlet property="profileExitButton" destination="ILQ-jl-si1" id="NhR-Zf-J6o"/>
+                        <outlet property="profileNameLabel" destination="7mW-pe-P1K" id="w7g-zR-cMb"/>
+                        <outlet property="profileScreenButton" destination="opA-wH-9RT" id="q0e-Zr-Un1"/>
+                        <outlet property="profileStatusLabel" destination="X24-4m-YF2" id="1dJ-If-Cp2"/>
+                        <outlet property="tableView" destination="TYy-Kk-Wcj" id="phV-oG-v8c"/>
+                        <outlet property="userPickImageView" destination="NMC-ck-Aie" id="73n-1V-N8H"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="o5N-9h-WZr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -410,12 +440,15 @@
         <image name="0" width="1600" height="1059"/>
         <image name="ipad.and.arrow.forward" catalog="system" width="119" height="128"/>
         <image name="like_button_off" width="42" height="42"/>
-        <image name="mainScreenInactive" width="40" height="44"/>
+        <image name="mainScreenInactive" width="24" height="26"/>
         <image name="noPhoto" width="204" height="230"/>
-        <image name="profileScreenActive" width="48" height="48"/>
+        <image name="profileScreenActive" width="24" height="24"/>
         <image name="userPick" width="140" height="140"/>
         <namedColor name="YP Black">
             <color red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="systemBlueColor">
+            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
     </resources>
 </document>
