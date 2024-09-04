@@ -8,10 +8,8 @@
 import Foundation
 import UIKit
 
-class ProfileViewController: UIViewController {
+final class ProfileViewController: UIViewController {
     // MARK: - IB Outlets
-    @IBOutlet var mainScreenButton: UIButton!
-    @IBOutlet var profileScreenButton: UIButton!
     @IBOutlet var numbersOfFavoritesButton: UIButton!
     @IBOutlet var userPickImageView: UIImageView!
     @IBOutlet var profileExitButton: UIButton!
@@ -35,19 +33,10 @@ class ProfileViewController: UIViewController {
         tableView.rowHeight = 200
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
         profileExitButton.setTitle("", for: .normal)
-        mainScreenButton.setTitle("", for: .normal)
-        profileScreenButton.setTitle("", for: .normal)
+
     }
     // MARK: - IB Actions
     @IBAction func profileExitButton(_ sender: Any) {
-        
-    }
-    
-    @IBAction func mainScreenButton(_ sender: Any) {
-        
-    }
-    
-    @IBAction func profileScreenButton(_ sender: Any) {
         
     }
     // MARK: - Public Methods
