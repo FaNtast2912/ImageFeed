@@ -139,7 +139,7 @@
                     <navigationItem key="navigationItem" id="ecN-yF-Ahp"/>
                     <connections>
                         <outlet property="tableView" destination="bcd-Se-1GM" id="9aR-rY-oCh"/>
-                        <segue destination="1he-9x-PNs" kind="show" identifier="ShowSingleImage" id="cJk-YM-2ws"/>
+                        <segue destination="1he-9x-PNs" kind="presentation" identifier="ShowSingleImage" id="cJk-YM-2ws"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -149,32 +149,59 @@
         <!--SingleImageViewController-->
         <scene sceneID="qd4-WN-xd0">
             <objects>
-                <viewController id="1he-9x-PNs" userLabel="SingleImageViewController" customClass="SingleImageViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="1he-9x-PNs" userLabel="SingleImageViewController" customClass="SingleImageViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="sei-OP-mxS">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="HkN-sy-s1c">
-                                <rect key="frame" x="0.0" y="-8" width="375" height="828"/>
-                            </imageView>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" minimumZoomScale="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="b1R-rJ-fvO">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="HkN-sy-s1c">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="828"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                </subviews>
+                                <viewLayoutGuide key="contentLayoutGuide" id="zWE-sq-TKH"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="opy-gM-kYn"/>
+                                <connections>
+                                    <outlet property="delegate" destination="1he-9x-PNs" id="Mc7-2s-DVi"/>
+                                </connections>
+                            </scrollView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="avR-WF-FA8" userLabel="chevronBackward">
+                                <rect key="frame" x="9" y="11" width="44" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="44" id="36l-H5-vdU"/>
+                                    <constraint firstAttribute="height" constant="44" id="K4J-tV-Qyq"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="shevronBackward"/>
+                                <connections>
+                                    <action selector="didTapBackButton:" destination="1he-9x-PNs" eventType="touchUpInside" id="5A4-OH-Afz"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="U6q-7s-1hu"/>
                         <color key="backgroundColor" name="YP Black"/>
                         <constraints>
-                            <constraint firstItem="HkN-sy-s1c" firstAttribute="leading" secondItem="U6q-7s-1hu" secondAttribute="leading" id="557-0r-z6a"/>
-                            <constraint firstItem="HkN-sy-s1c" firstAttribute="topMargin" secondItem="U6q-7s-1hu" secondAttribute="top" id="8au-g6-KvY"/>
-                            <constraint firstItem="U6q-7s-1hu" firstAttribute="bottom" secondItem="HkN-sy-s1c" secondAttribute="bottomMargin" id="Iex-bK-CBx"/>
-                            <constraint firstItem="U6q-7s-1hu" firstAttribute="trailing" secondItem="HkN-sy-s1c" secondAttribute="trailing" id="vhH-gw-mqK"/>
+                            <constraint firstItem="avR-WF-FA8" firstAttribute="leading" secondItem="U6q-7s-1hu" secondAttribute="leading" constant="9" id="4uN-fr-QXu"/>
+                            <constraint firstItem="avR-WF-FA8" firstAttribute="top" secondItem="U6q-7s-1hu" secondAttribute="top" constant="11" id="6jO-MW-haD"/>
+                            <constraint firstItem="b1R-rJ-fvO" firstAttribute="top" secondItem="sei-OP-mxS" secondAttribute="top" id="CRn-bC-PKq"/>
+                            <constraint firstAttribute="bottom" secondItem="b1R-rJ-fvO" secondAttribute="bottom" id="FqD-MV-Hi0"/>
+                            <constraint firstItem="b1R-rJ-fvO" firstAttribute="leading" secondItem="U6q-7s-1hu" secondAttribute="leading" id="PbS-Uv-a1g"/>
+                            <constraint firstItem="U6q-7s-1hu" firstAttribute="trailing" secondItem="b1R-rJ-fvO" secondAttribute="trailing" id="Wfi-Md-jI4"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="9un-bU-viO"/>
                     <connections>
+                        <outlet property="BackButton" destination="avR-WF-FA8" id="4cU-z0-tnf"/>
                         <outlet property="imageView" destination="HkN-sy-s1c" id="pCt-Qe-VFC"/>
+                        <outlet property="scrollView" destination="b1R-rJ-fvO" id="4vP-U5-OGF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mMT-re-Pgc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1406" y="-505"/>
+            <point key="canvasLocation" x="1405.5999999999999" y="-505.41871921182269"/>
         </scene>
         <!--ProfileViewController-->
         <scene sceneID="y3P-gh-ZxP">
@@ -484,6 +511,7 @@
         <image name="like_button_off" width="42" height="42"/>
         <image name="mainScreenActive" width="24" height="24"/>
         <image name="profileScreenActive" width="24" height="24"/>
+        <image name="shevronBackward" width="24" height="24"/>
         <image name="userPick" width="140" height="140"/>
         <namedColor name="YP Black">
             <color red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

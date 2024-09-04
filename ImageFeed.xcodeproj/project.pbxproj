@@ -19,6 +19,7 @@
 		58DC27CA2C8223CE00A8D4F1 /* ImageFeedUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DC27C92C8223CE00A8D4F1 /* ImageFeedUITestsLaunchTests.swift */; };
 		58DC28132C83698F00A8D4F1 /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DC28122C83698F00A8D4F1 /* ImagesListCell.swift */; };
 		58FD206F2C876CC8003FD861 /* SingleImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58FD206E2C876CC8003FD861 /* SingleImageViewController.swift */; };
+		58FD20702C88977F003FD861 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 58DC27AC2C8223CA00A8D4F1 /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -251,6 +252,7 @@
 				58DC27B02C8223CE00A8D4F1 /* Assets.xcassets in Resources */,
 				58DC27B32C8223CE00A8D4F1 /* Base in Resources */,
 				58DC27AE2C8223CA00A8D4F1 /* Base in Resources */,
+				58FD20702C88977F003FD861 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
