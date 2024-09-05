@@ -6,7 +6,6 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -160,6 +159,11 @@
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="HkN-sy-s1c">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="828"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="25"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                     </imageView>
                                 </subviews>
                                 <viewLayoutGuide key="contentLayoutGuide" id="zWE-sq-TKH"/>
@@ -168,6 +172,42 @@
                                     <outlet property="delegate" destination="1he-9x-PNs" id="Mc7-2s-DVi"/>
                                 </connections>
                             </scrollView>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="137" translatesAutoresizingMaskIntoConstraints="NO" id="CxQ-xp-uRU" userLabel="ShareLikeButton">
+                                <rect key="frame" x="68" y="745" width="239" height="51"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F6C-V0-xqy" userLabel="like">
+                                        <rect key="frame" x="0.0" y="0.0" width="51" height="51"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="51" id="Jbv-2s-RAe"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="likeInFavorites">
+                                            <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </buttonConfiguration>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="25"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </button>
+                                    <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pcy-7r-h4q" userLabel="share">
+                                        <rect key="frame" x="188" y="0.0" width="51" height="51"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="51" id="wf8-bk-lTJ"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="share_button">
+                                            <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="didTapShareButton:" destination="1he-9x-PNs" eventType="touchUpInside" id="RUd-Aa-4U1"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="51" id="dbf-m6-qZA"/>
+                                </constraints>
+                            </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="avR-WF-FA8" userLabel="chevronBackward">
                                 <rect key="frame" x="9" y="11" width="44" height="44"/>
                                 <constraints>
@@ -184,19 +224,24 @@
                         <viewLayoutGuide key="safeArea" id="U6q-7s-1hu"/>
                         <color key="backgroundColor" name="YP Black"/>
                         <constraints>
+                            <constraint firstItem="U6q-7s-1hu" firstAttribute="trailing" secondItem="CxQ-xp-uRU" secondAttribute="trailing" constant="68" id="19d-5W-a16"/>
                             <constraint firstItem="avR-WF-FA8" firstAttribute="leading" secondItem="U6q-7s-1hu" secondAttribute="leading" constant="9" id="4uN-fr-QXu"/>
                             <constraint firstItem="avR-WF-FA8" firstAttribute="top" secondItem="U6q-7s-1hu" secondAttribute="top" constant="11" id="6jO-MW-haD"/>
                             <constraint firstItem="b1R-rJ-fvO" firstAttribute="top" secondItem="sei-OP-mxS" secondAttribute="top" id="CRn-bC-PKq"/>
                             <constraint firstAttribute="bottom" secondItem="b1R-rJ-fvO" secondAttribute="bottom" id="FqD-MV-Hi0"/>
+                            <constraint firstItem="CxQ-xp-uRU" firstAttribute="leading" secondItem="U6q-7s-1hu" secondAttribute="leading" constant="68" id="NTg-n4-R01"/>
                             <constraint firstItem="b1R-rJ-fvO" firstAttribute="leading" secondItem="U6q-7s-1hu" secondAttribute="leading" id="PbS-Uv-a1g"/>
                             <constraint firstItem="U6q-7s-1hu" firstAttribute="trailing" secondItem="b1R-rJ-fvO" secondAttribute="trailing" id="Wfi-Md-jI4"/>
+                            <constraint firstItem="U6q-7s-1hu" firstAttribute="bottom" secondItem="CxQ-xp-uRU" secondAttribute="bottom" constant="16" id="o2A-Sf-3q7"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="9un-bU-viO"/>
                     <connections>
                         <outlet property="BackButton" destination="avR-WF-FA8" id="4cU-z0-tnf"/>
                         <outlet property="imageView" destination="HkN-sy-s1c" id="pCt-Qe-VFC"/>
+                        <outlet property="likeButton" destination="F6C-V0-xqy" id="SEe-hf-gcX"/>
                         <outlet property="scrollView" destination="b1R-rJ-fvO" id="4vP-U5-OGF"/>
+                        <outlet property="shareButton" destination="pcy-7r-h4q" id="SdV-oo-SfC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mMT-re-Pgc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -224,17 +269,17 @@
                                                     <constraint firstAttribute="height" constant="70" id="mpV-9C-UfP"/>
                                                 </constraints>
                                             </imageView>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ILQ-jl-si1" userLabel="Exit">
+                                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ILQ-jl-si1" userLabel="Exit">
                                                 <rect key="frame" x="291" y="13.666666666666671" width="44" height="44"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="ILQ-jl-si1" secondAttribute="height" multiplier="1:1" id="H56-yd-F3a"/>
                                                     <constraint firstAttribute="height" constant="44" id="TFJ-3a-EY7"/>
                                                 </constraints>
-                                                <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" image="ipad.and.arrow.forward" catalog="system">
-                                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage"/>
-                                                    <color key="baseForegroundColor" red="0.96078431372549022" green="0.41960784313725491" blue="0.42352941176470588" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                </buttonConfiguration>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" image="logout">
+                                                    <color key="titleColor" red="0.96078431372549022" green="0.41960784313725491" blue="0.42352941176470588" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration"/>
+                                                </state>
                                                 <connections>
                                                     <action selector="profileExitButton:" destination="7oL-5b-GZw" eventType="touchUpInside" id="Q0T-lU-Zlz"/>
                                                 </connections>
@@ -248,13 +293,20 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="6AQ-l0-wbd" userLabel="Profile info view">
                                         <rect key="frame" x="0.0" y="79" width="335" height="70"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Екатерина Новикова" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Oe-17-tgh">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Oe-17-tgh">
                                                 <rect key="frame" x="0.0" y="0.0" width="335" height="18"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="18" id="o3z-5t-Euh"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" name="SFPro-Regular" family="SF Pro" pointSize="23"/>
-                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <attributedString key="attributedText">
+                                                    <fragment content="Екатерина Новикова">
+                                                        <attributes>
+                                                            <color key="NSColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <font key="NSFont" size="23" name="SFPro-Bold"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
                                                 <color key="highlightedColor" name="YP Black"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7mW-pe-P1K">
@@ -317,20 +369,18 @@
                                             <fragment content="Избранное">
                                                 <attributes>
                                                     <color key="NSColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <font key="NSFont" size="23" name="SFPro-Regular"/>
+                                                    <font key="NSFont" size="23" name="SFPro-Bold"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                 </attributes>
                                             </fragment>
                                         </attributedString>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JfI-YA-2sd" userLabel="numbers of favorites button">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JfI-YA-2sd" userLabel="numbers of favorites button">
                                         <rect key="frame" x="135" y="0.0" width="42" height="22"/>
-                                        <color key="backgroundColor" systemColor="systemBlueColor"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain">
-                                            <backgroundConfiguration key="background" cornerRadius="69">
-                                                <color key="backgroundColor" red="0.21568627450980393" green="0.44705882352941173" blue="0.90588235294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            </backgroundConfiguration>
+                                        <color key="backgroundColor" name="favoritesButton"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="Button">
                                             <attributedString key="attributedTitle">
                                                 <fragment content="27">
                                                     <attributes>
@@ -339,6 +389,12 @@
                                                     </attributes>
                                                 </fragment>
                                             </attributedString>
+                                        </state>
+                                        <buttonConfiguration key="configuration" style="plain" title="27" cornerStyle="capsule" titleAlignment="center">
+                                            <backgroundConfiguration key="background">
+                                                <color key="backgroundColor" name="favoritesButton"/>
+                                            </backgroundConfiguration>
+                                            <fontDescription key="titleFontDescription" name="SFPro-Regular" family="SF Pro" pointSize="13"/>
                                             <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </buttonConfiguration>
                                         <userDefinedRuntimeAttributes>
@@ -357,6 +413,8 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="TYy-Kk-Wcj" userLabel="favoritesTableView">
                                 <rect key="frame" x="0.0" y="277" width="375" height="452"/>
                                 <color key="backgroundColor" name="YP Black"/>
+                                <color key="separatorColor" name="YP Black"/>
+                                <color key="sectionIndexBackgroundColor" name="YP Black"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="ImagesListCell" rowHeight="252" id="TD7-4H-83N" customClass="ImagesListCell" customModule="ImageFeed" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="50" width="375" height="252"/>
@@ -507,17 +565,19 @@
     </scenes>
     <resources>
         <image name="0" width="1600" height="1059"/>
-        <image name="ipad.and.arrow.forward" catalog="system" width="119" height="128"/>
+        <image name="likeInFavorites" width="50" height="50"/>
         <image name="like_button_off" width="42" height="42"/>
+        <image name="logout" width="44" height="44"/>
         <image name="mainScreenActive" width="24" height="24"/>
         <image name="profileScreenActive" width="24" height="24"/>
+        <image name="share_button" width="50" height="50"/>
         <image name="shevronBackward" width="24" height="24"/>
         <image name="userPick" width="140" height="140"/>
         <namedColor name="YP Black">
             <color red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <systemColor name="systemBlueColor">
-            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
+        <namedColor name="favoritesButton">
+            <color red="0.21568627450980393" green="0.44705882352941179" blue="0.90588235294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>

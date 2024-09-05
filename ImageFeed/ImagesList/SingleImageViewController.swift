@@ -14,6 +14,8 @@ final class SingleImageViewController: UIViewController {
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var BackButton: UIButton!
     @IBOutlet var scrollView: UIScrollView!
+    @IBOutlet var likeButton: UIButton!
+    @IBOutlet var shareButton: UIButton!
     
     // MARK: - Public Properties
     var image: UIImage? {
@@ -37,6 +39,10 @@ final class SingleImageViewController: UIViewController {
         imageView.frame.size = image.size
         BackButton.setTitle("" , for: .normal)
         BackButton.setTitle("" , for: .highlighted)
+        likeButton.setTitle("" , for: .normal)
+        likeButton.setTitle("" , for: .highlighted)
+        shareButton.setTitle("" , for: .normal)
+        shareButton.setTitle("" , for: .highlighted)
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
         rescaleAndCenterImageInScrollView(image: image)
@@ -46,6 +52,14 @@ final class SingleImageViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func didTapShareButton(_ sender: Any) {
+        guard let image else { return }
+        let share = UIActivityViewController(
+            activityItems: [image],
+            applicationActivities: nil
+        )
+        present(share, animated: true, completion: nil)
+    }
     // MARK: - Public Methods
     
     // MARK: - Private Methods
