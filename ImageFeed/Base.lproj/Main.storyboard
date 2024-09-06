@@ -6,6 +6,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -27,7 +28,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="Xwy-2S-n1E" kind="relationship" relationship="viewControllers" id="DEE-Cn-RUZ"/>
-                        <segue destination="7oL-5b-GZw" kind="relationship" relationship="viewControllers" id="tuc-51-bzv"/>
+                        <segue destination="UoE-1m-avg" kind="relationship" relationship="viewControllers" id="bey-S1-O1I"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nxj-Ed-yGP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -411,7 +412,7 @@
                                 </constraints>
                             </stackView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="TYy-Kk-Wcj" userLabel="favoritesTableView">
-                                <rect key="frame" x="0.0" y="277" width="375" height="452"/>
+                                <rect key="frame" x="0.0" y="277" width="375" height="501"/>
                                 <color key="backgroundColor" name="YP Black"/>
                                 <color key="separatorColor" name="YP Black"/>
                                 <color key="sectionIndexBackgroundColor" name="YP Black"/>
@@ -533,7 +534,25 @@
                     </items>
                 </tabBar>
             </objects>
-            <point key="canvasLocation" x="-442" y="214"/>
+            <point key="canvasLocation" x="-60" y="228"/>
+        </scene>
+        <!--ProfileViewFinalController-->
+        <scene sceneID="az4-wi-Rwi">
+            <objects>
+                <viewController title="profileViewFinal" id="UoE-1m-avg" userLabel="ProfileViewFinalController" customClass="ProfileViewFinalController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="cw7-rX-pkq">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="z68-Lj-9tp"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="" image="profileScreenActive" id="qP7-el-xbl">
+                        <color key="badgeColor" name="YP Black"/>
+                    </tabBarItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="byQ-IP-3xv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-898" y="229"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="zl9-RX-8rI">
@@ -579,5 +598,8 @@
         <namedColor name="favoritesButton">
             <color red="0.21568627450980393" green="0.44705882352941179" blue="0.90588235294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>
