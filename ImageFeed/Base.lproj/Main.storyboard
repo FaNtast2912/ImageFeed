@@ -27,13 +27,13 @@
                         </tabBarAppearance>
                     </tabBar>
                     <connections>
-                        <segue destination="Xwy-2S-n1E" kind="relationship" relationship="viewControllers" id="DEE-Cn-RUZ"/>
-                        <segue destination="UoE-1m-avg" kind="relationship" relationship="viewControllers" id="bey-S1-O1I"/>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="qNN-Ej-Y4P"/>
+                        <segue destination="UoE-1m-avg" kind="relationship" relationship="viewControllers" id="ZXV-0l-hz2"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nxj-Ed-yGP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2092" y="-89"/>
+            <point key="canvasLocation" x="-2121" y="-80"/>
         </scene>
         <!--ImageList-->
         <scene sceneID="tne-QT-ifu">
@@ -136,6 +136,9 @@
                             <constraint firstAttribute="trailing" secondItem="bcd-Se-1GM" secondAttribute="trailing" id="xpu-uN-pY9"/>
                         </constraints>
                     </view>
+                    <tabBarItem key="tabBarItem" title="Item" image="mainScreenActive" id="EvW-ME-5Gs">
+                        <color key="badgeColor" name="YP Black"/>
+                    </tabBarItem>
                     <navigationItem key="navigationItem" id="ecN-yF-Ahp"/>
                     <connections>
                         <outlet property="tableView" destination="bcd-Se-1GM" id="9aR-rY-oCh"/>
@@ -144,7 +147,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="500" y="-504.67980295566502"/>
+            <point key="canvasLocation" x="-898" y="-487"/>
         </scene>
         <!--SingleImageViewController-->
         <scene sceneID="qd4-WN-xd0">
@@ -247,299 +250,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mMT-re-Pgc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1405.5999999999999" y="-505.41871921182269"/>
+            <point key="canvasLocation" x="7" y="-488"/>
         </scene>
         <!--ProfileViewController-->
-        <scene sceneID="y3P-gh-ZxP">
-            <objects>
-                <viewController title="profileView" id="7oL-5b-GZw" userLabel="ProfileViewController" customClass="ProfileViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="TZf-QJ-rws">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Z7Q-A4-bCS" userLabel="profile info view">
-                                <rect key="frame" x="16" y="82" width="335" height="149"/>
-                                <subviews>
-                                    <stackView opaque="NO" contentMode="scaleAspectFit" distribution="fillProportionally" alignment="center" spacing="221" translatesAutoresizingMaskIntoConstraints="NO" id="mWu-RX-x2B" userLabel="Userpcik and exit">
-                                        <rect key="frame" x="0.0" y="0.0" width="335" height="71"/>
-                                        <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="userPick" translatesAutoresizingMaskIntoConstraints="NO" id="NMC-ck-Aie" userLabel="Userpick">
-                                                <rect key="frame" x="0.0" y="0.6666666666666714" width="70" height="70"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="70" id="8NG-uN-MhX"/>
-                                                    <constraint firstAttribute="height" constant="70" id="mpV-9C-UfP"/>
-                                                </constraints>
-                                            </imageView>
-                                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ILQ-jl-si1" userLabel="Exit">
-                                                <rect key="frame" x="291" y="13.666666666666671" width="44" height="44"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" secondItem="ILQ-jl-si1" secondAttribute="height" multiplier="1:1" id="H56-yd-F3a"/>
-                                                    <constraint firstAttribute="height" constant="44" id="TFJ-3a-EY7"/>
-                                                </constraints>
-                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                <state key="normal" image="logout">
-                                                    <color key="titleColor" red="0.96078431372549022" green="0.41960784313725491" blue="0.42352941176470588" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="profileExitButton:" destination="7oL-5b-GZw" eventType="touchUpInside" id="Q0T-lU-Zlz"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="ILQ-jl-si1" secondAttribute="trailing" id="5gC-Gk-eoW"/>
-                                            <constraint firstItem="ILQ-jl-si1" firstAttribute="centerY" secondItem="NMC-ck-Aie" secondAttribute="centerY" id="CQM-y3-hkx"/>
-                                        </constraints>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="6AQ-l0-wbd" userLabel="Profile info view">
-                                        <rect key="frame" x="0.0" y="79" width="335" height="70"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Oe-17-tgh">
-                                                <rect key="frame" x="0.0" y="0.0" width="335" height="18"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="18" id="o3z-5t-Euh"/>
-                                                </constraints>
-                                                <attributedString key="attributedText">
-                                                    <fragment content="Екатерина Новикова">
-                                                        <attributes>
-                                                            <color key="NSColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                            <font key="NSFont" size="23" name="SFPro-Bold"/>
-                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                        </attributes>
-                                                    </fragment>
-                                                </attributedString>
-                                                <color key="highlightedColor" name="YP Black"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7mW-pe-P1K">
-                                                <rect key="frame" x="0.0" y="26" width="335" height="18"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="18" id="Xso-pk-xau"/>
-                                                </constraints>
-                                                <attributedString key="attributedText">
-                                                    <fragment content="@ekaterina_nov">
-                                                        <attributes>
-                                                            <color key="NSColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                            <font key="NSFont" size="13" name="SFPro-Regular"/>
-                                                        </attributes>
-                                                    </fragment>
-                                                </attributedString>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X24-4m-YF2">
-                                                <rect key="frame" x="0.0" y="52" width="335" height="18"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="18" id="8AV-gI-GV9"/>
-                                                </constraints>
-                                                <attributedString key="attributedText">
-                                                    <fragment content="Hello, world!">
-                                                        <attributes>
-                                                            <color key="NSColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                            <font key="NSFont" size="13" name="SFPro-Regular"/>
-                                                        </attributes>
-                                                    </fragment>
-                                                </attributedString>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                        <color key="backgroundColor" name="YP Black"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="70" id="rqX-9F-8Dw" userLabel="height = 70"/>
-                                        </constraints>
-                                    </stackView>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="leading" secondItem="mWu-RX-x2B" secondAttribute="leading" id="CDk-Fd-Vad"/>
-                                    <constraint firstItem="mWu-RX-x2B" firstAttribute="top" secondItem="Z7Q-A4-bCS" secondAttribute="top" id="DTP-D4-etV"/>
-                                    <constraint firstAttribute="width" constant="335" id="LqG-OP-CRv"/>
-                                    <constraint firstAttribute="bottom" secondItem="6AQ-l0-wbd" secondAttribute="bottom" id="Zxk-ca-0Qg"/>
-                                    <constraint firstAttribute="height" constant="149" id="aqx-mP-nFe" userLabel="height = 148"/>
-                                    <constraint firstAttribute="trailing" secondItem="6AQ-l0-wbd" secondAttribute="trailing" id="e5s-fz-twf"/>
-                                    <constraint firstAttribute="leading" secondItem="6AQ-l0-wbd" secondAttribute="leading" id="rps-SD-gsJ"/>
-                                    <constraint firstAttribute="trailing" secondItem="mWu-RX-x2B" secondAttribute="trailing" id="yuT-fD-7U9"/>
-                                </constraints>
-                            </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="GAy-VH-toN" userLabel="favorites text view">
-                                <rect key="frame" x="16" y="255" width="177" height="22"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gqd-Iv-cl0" userLabel="Favorites text label">
-                                        <rect key="frame" x="0.0" y="2" width="127" height="18"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="18" id="sOz-Rc-gUF"/>
-                                        </constraints>
-                                        <attributedString key="attributedText">
-                                            <fragment content="Избранное">
-                                                <attributes>
-                                                    <color key="NSColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <font key="NSFont" size="23" name="SFPro-Bold"/>
-                                                    <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                </attributes>
-                                            </fragment>
-                                        </attributedString>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JfI-YA-2sd" userLabel="numbers of favorites button">
-                                        <rect key="frame" x="135" y="0.0" width="42" height="22"/>
-                                        <color key="backgroundColor" name="favoritesButton"/>
-                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <state key="normal" title="Button">
-                                            <attributedString key="attributedTitle">
-                                                <fragment content="27">
-                                                    <attributes>
-                                                        <font key="NSFont" size="13" name="SFPro-Regular"/>
-                                                        <font key="NSOriginalFont" size="12" name="Helvetica"/>
-                                                    </attributes>
-                                                </fragment>
-                                            </attributedString>
-                                        </state>
-                                        <buttonConfiguration key="configuration" style="plain" title="27" cornerStyle="capsule" titleAlignment="center">
-                                            <backgroundConfiguration key="background">
-                                                <color key="backgroundColor" name="favoritesButton"/>
-                                            </backgroundConfiguration>
-                                            <fontDescription key="titleFontDescription" name="SFPro-Regular" family="SF Pro" pointSize="13"/>
-                                            <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </buttonConfiguration>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <integer key="value" value="69"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                    </button>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstItem="JfI-YA-2sd" firstAttribute="centerY" secondItem="Gqd-Iv-cl0" secondAttribute="centerY" id="0f2-zL-OlY"/>
-                                    <constraint firstAttribute="width" constant="177" id="G0i-oj-VDe"/>
-                                    <constraint firstAttribute="height" constant="22" id="dI6-5L-ufu"/>
-                                </constraints>
-                            </stackView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="TYy-Kk-Wcj" userLabel="favoritesTableView">
-                                <rect key="frame" x="0.0" y="277" width="375" height="501"/>
-                                <color key="backgroundColor" name="YP Black"/>
-                                <color key="separatorColor" name="YP Black"/>
-                                <color key="sectionIndexBackgroundColor" name="YP Black"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="ImagesListCell" rowHeight="252" id="TD7-4H-83N" customClass="ImagesListCell" customModule="ImageFeed" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="50" width="375" height="252"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="TD7-4H-83N" id="FrF-DD-KoV">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="252"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="dE4-u2-YBk" userLabel="Cell Image">
-                                                    <rect key="frame" x="16" y="11" width="343" height="230"/>
-                                                    <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                            <integer key="value" value="16"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
-                                                    </userDefinedRuntimeAttributes>
-                                                </imageView>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VPR-dB-uSe" userLabel="Like Button">
-                                                    <rect key="frame" x="317" y="11" width="42" height="42"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" secondItem="VPR-dB-uSe" secondAttribute="height" multiplier="1:1" id="1Yp-Br-qsj"/>
-                                                        <constraint firstAttribute="height" constant="42" id="Rpx-Ow-6zG"/>
-                                                    </constraints>
-                                                    <state key="normal" title="Button"/>
-                                                    <buttonConfiguration key="configuration" style="plain" image="like_button_off"/>
-                                                </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iiy-dg-k0Q" userLabel="Date Label">
-                                                    <rect key="frame" x="24" y="215" width="152" height="18"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="18" id="9jt-6S-0lS"/>
-                                                    </constraints>
-                                                    <attributedString key="attributedText">
-                                                        <fragment content="32 Августа 2024">
-                                                            <attributes>
-                                                                <color key="NSColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                <font key="NSFont" size="13" name="SFPro-Regular"/>
-                                                            </attributes>
-                                                        </fragment>
-                                                    </attributedString>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BzG-s0-jtV" userLabel="gradientView">
-                                                    <rect key="frame" x="16" y="211" width="343" height="30"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="30" id="wjW-fl-mlZ"/>
-                                                    </constraints>
-                                                    <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                            <integer key="value" value="16"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                    </userDefinedRuntimeAttributes>
-                                                </imageView>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="trailingMargin" secondItem="BzG-s0-jtV" secondAttribute="trailing" id="2eE-2x-dcN"/>
-                                                <constraint firstItem="dE4-u2-YBk" firstAttribute="bottom" secondItem="iiy-dg-k0Q" secondAttribute="bottom" constant="8" id="2mn-Hf-UJa"/>
-                                                <constraint firstItem="dE4-u2-YBk" firstAttribute="top" secondItem="FrF-DD-KoV" secondAttribute="topMargin" id="Dgk-5v-4MY"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="BzG-s0-jtV" secondAttribute="bottom" id="YQi-LM-3jz"/>
-                                                <constraint firstItem="iiy-dg-k0Q" firstAttribute="leading" secondItem="dE4-u2-YBk" secondAttribute="leading" constant="8" id="Z25-Dl-jBk"/>
-                                                <constraint firstItem="dE4-u2-YBk" firstAttribute="leading" secondItem="FrF-DD-KoV" secondAttribute="leadingMargin" id="ZbI-t2-wlG"/>
-                                                <constraint firstItem="VPR-dB-uSe" firstAttribute="top" secondItem="dE4-u2-YBk" secondAttribute="top" id="aHe-Ue-yqK"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="dE4-u2-YBk" secondAttribute="bottom" id="eeV-K3-852"/>
-                                                <constraint firstItem="VPR-dB-uSe" firstAttribute="trailing" secondItem="dE4-u2-YBk" secondAttribute="trailing" id="gcc-6r-lRq"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="dE4-u2-YBk" secondAttribute="trailing" id="sNe-p8-VMT"/>
-                                                <constraint firstItem="BzG-s0-jtV" firstAttribute="leading" secondItem="FrF-DD-KoV" secondAttribute="leadingMargin" id="vGT-dM-Jtk"/>
-                                                <constraint firstItem="iiy-dg-k0Q" firstAttribute="trailing" secondItem="dE4-u2-YBk" secondAttribute="trailing" constant="-183" id="vfG-br-2Y6"/>
-                                                <constraint firstItem="VPR-dB-uSe" firstAttribute="leading" secondItem="dE4-u2-YBk" secondAttribute="leading" constant="301" id="w9L-hw-tAO"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" name="YP Black"/>
-                                        <connections>
-                                            <outlet property="dateLabel" destination="iiy-dg-k0Q" id="09a-9u-pGx"/>
-                                            <outlet property="gradientView" destination="BzG-s0-jtV" id="eMb-Z6-3Ta"/>
-                                            <outlet property="imageCellView" destination="dE4-u2-YBk" id="NhD-Na-S9d"/>
-                                            <outlet property="likeButton" destination="VPR-dB-uSe" id="zb5-gU-FaZ"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="eNT-me-iX3"/>
-                        <color key="backgroundColor" name="YP Black"/>
-                        <constraints>
-                            <constraint firstItem="TYy-Kk-Wcj" firstAttribute="leading" secondItem="eNT-me-iX3" secondAttribute="leading" id="9YD-z1-cBu"/>
-                            <constraint firstItem="eNT-me-iX3" firstAttribute="bottom" secondItem="TYy-Kk-Wcj" secondAttribute="bottom" id="BoA-xZ-r1k"/>
-                            <constraint firstItem="GAy-VH-toN" firstAttribute="top" secondItem="Z7Q-A4-bCS" secondAttribute="bottom" constant="24" id="KMN-e4-ygV"/>
-                            <constraint firstItem="eNT-me-iX3" firstAttribute="trailing" secondItem="Z7Q-A4-bCS" secondAttribute="trailing" constant="24" id="MmL-d6-tPm"/>
-                            <constraint firstItem="GAy-VH-toN" firstAttribute="leading" secondItem="eNT-me-iX3" secondAttribute="leading" constant="16" id="RBu-x2-vz3"/>
-                            <constraint firstItem="eNT-me-iX3" firstAttribute="trailing" secondItem="TYy-Kk-Wcj" secondAttribute="trailing" id="Zee-iy-3mW"/>
-                            <constraint firstItem="TYy-Kk-Wcj" firstAttribute="top" secondItem="GAy-VH-toN" secondAttribute="bottom" id="knC-62-LqD"/>
-                            <constraint firstItem="Z7Q-A4-bCS" firstAttribute="leading" secondItem="eNT-me-iX3" secondAttribute="leading" constant="16" id="lVX-gn-NFm"/>
-                            <constraint firstItem="Z7Q-A4-bCS" firstAttribute="top" secondItem="eNT-me-iX3" secondAttribute="top" constant="32" id="pFI-5v-FWT"/>
-                        </constraints>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="" image="profileScreenActive" id="f6H-WO-qpv">
-                        <color key="badgeColor" name="YP Black"/>
-                    </tabBarItem>
-                    <connections>
-                        <outlet property="nameSecondNameLabel" destination="0Oe-17-tgh" id="TXk-WH-h95"/>
-                        <outlet property="numbersOfFavoritesButton" destination="JfI-YA-2sd" id="0Kb-US-JaP"/>
-                        <outlet property="profileExitButton" destination="ILQ-jl-si1" id="NhR-Zf-J6o"/>
-                        <outlet property="profileNameLabel" destination="7mW-pe-P1K" id="w7g-zR-cMb"/>
-                        <outlet property="profileStatusLabel" destination="X24-4m-YF2" id="1dJ-If-Cp2"/>
-                        <outlet property="tableView" destination="TYy-Kk-Wcj" id="phV-oG-v8c"/>
-                        <outlet property="userPickImageView" destination="NMC-ck-Aie" id="73n-1V-N8H"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="o5N-9h-WZr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <tabBar contentMode="scaleToFill" id="DVo-NV-1as">
-                    <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <items>
-                        <tabBarItem systemItem="favorites" id="cFK-Tf-9vn"/>
-                        <tabBarItem systemItem="more" id="9A7-8F-fEx"/>
-                    </items>
-                </tabBar>
-            </objects>
-            <point key="canvasLocation" x="-60" y="228"/>
-        </scene>
-        <!--ProfileViewFinalController-->
         <scene sceneID="az4-wi-Rwi">
             <objects>
-                <viewController title="profileViewFinal" id="UoE-1m-avg" userLabel="ProfileViewFinalController" customClass="ProfileViewFinalController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="profileView" id="UoE-1m-avg" userLabel="ProfileViewController" customClass="ProfileViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cw7-rX-pkq">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -554,49 +270,17 @@
             </objects>
             <point key="canvasLocation" x="-898" y="229"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="zl9-RX-8rI">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Xwy-2S-n1E" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="mainScreenActive" id="7sD-Hj-LQP">
-                        <color key="badgeColor" name="YP Black"/>
-                    </tabBarItem>
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="k5i-Z9-tWc">
-                        <rect key="frame" x="0.0" y="50" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <navigationBarAppearance key="standardAppearance">
-                            <color key="backgroundColor" name="YP Black"/>
-                            <color key="shadowColor" name="YP Black"/>
-                        </navigationBarAppearance>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="CJr-Al-p9S"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="BiF-bm-lbd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-442.39999999999998" y="-504.67980295566502"/>
-        </scene>
     </scenes>
     <resources>
         <image name="0" width="1600" height="1059"/>
         <image name="likeInFavorites" width="50" height="50"/>
         <image name="like_button_off" width="42" height="42"/>
-        <image name="logout" width="44" height="44"/>
         <image name="mainScreenActive" width="24" height="24"/>
         <image name="profileScreenActive" width="24" height="24"/>
         <image name="share_button" width="50" height="50"/>
         <image name="shevronBackward" width="24" height="24"/>
-        <image name="userPick" width="140" height="140"/>
         <namedColor name="YP Black">
             <color red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="favoritesButton">
-            <color red="0.21568627450980393" green="0.44705882352941179" blue="0.90588235294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
