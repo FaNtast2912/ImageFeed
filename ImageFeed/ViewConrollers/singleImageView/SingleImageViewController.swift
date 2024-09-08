@@ -11,11 +11,11 @@ import UIKit
 final class SingleImageViewController: UIViewController {
     
     // MARK: - IB Outlets
-    @IBOutlet var imageView: UIImageView!
-    @IBOutlet var BackButton: UIButton!
-    @IBOutlet var scrollView: UIScrollView!
-    @IBOutlet var likeButton: UIButton!
-    @IBOutlet var shareButton: UIButton!
+    @IBOutlet private var imageView: UIImageView!
+    @IBOutlet private var backButton: UIButton!
+    @IBOutlet private var scrollView: UIScrollView!
+    @IBOutlet private var likeButton: UIButton!
+    @IBOutlet private var shareButton: UIButton!
     
     // MARK: - Public Properties
     var image: UIImage? {
@@ -37,22 +37,17 @@ final class SingleImageViewController: UIViewController {
         guard let image else { return }
         imageView.image = image
         imageView.frame.size = image.size
-        BackButton.setTitle("" , for: .normal)
-        BackButton.setTitle("" , for: .highlighted)
-        likeButton.setTitle("" , for: .normal)
-        likeButton.setTitle("" , for: .highlighted)
-        shareButton.setTitle("" , for: .normal)
-        shareButton.setTitle("" , for: .highlighted)
+        deleteTitleFromButtons()
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
         rescaleAndCenterImageInScrollView(image: image)
     }
     // MARK: - IB Actions
-    @IBAction func didTapBackButton(_ sender: Any) {
+    @IBAction private func didTapBackButton(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func didTapShareButton(_ sender: Any) {
+    @IBAction private func didTapShareButton(_ sender: Any) {
         guard let image else { return }
         let share = UIActivityViewController(
             activityItems: [image],
@@ -79,7 +74,18 @@ final class SingleImageViewController: UIViewController {
         let y = (newContentSize.height - visibleRectSize.height) / 2
         scrollView.setContentOffset(CGPoint(x: x, y: y), animated: false)
     }
+    
+    private func deleteTitleFromButtons() {
+        backButton.setTitle("" , for: .normal)
+        backButton.setTitle("" , for: .highlighted)
+        likeButton.setTitle("" , for: .normal)
+        likeButton.setTitle("" , for: .highlighted)
+        shareButton.setTitle("" , for: .normal)
+        shareButton.setTitle("" , for: .highlighted)
+    }
 }
+
+
 
 extension SingleImageViewController: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
