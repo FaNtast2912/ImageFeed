@@ -24,12 +24,6 @@ final class ImagesListCell: UITableViewCell {
         formatter.timeStyle = .none
         return formatter
     }()
-    // MARK: - Overrides Methods
-//    override func prepareForReuse() {
-//        if self.gradientView.layer.sublayers?.count != nil  {
-//            self.gradientView.layer.sublayers?.removeAll()
-//        }
-//    }
     // MARK: - Public Methods
     func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
         
