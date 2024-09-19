@@ -160,7 +160,7 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" ambiguous="YES" minimumZoomScale="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="b1R-rJ-fvO">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="HkN-sy-s1c">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="HkN-sy-s1c">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <userDefinedRuntimeAttributes>
@@ -231,11 +231,11 @@
                             <constraint firstItem="U6q-7s-1hu" firstAttribute="trailing" secondItem="CxQ-xp-uRU" secondAttribute="trailing" constant="68" id="19d-5W-a16"/>
                             <constraint firstItem="avR-WF-FA8" firstAttribute="leading" secondItem="U6q-7s-1hu" secondAttribute="leading" constant="9" id="4uN-fr-QXu"/>
                             <constraint firstItem="avR-WF-FA8" firstAttribute="top" secondItem="U6q-7s-1hu" secondAttribute="top" constant="11" id="6jO-MW-haD"/>
-                            <constraint firstItem="b1R-rJ-fvO" firstAttribute="top" secondItem="sei-OP-mxS" secondAttribute="top" id="CRn-bC-PKq"/>
+                            <constraint firstAttribute="top" secondItem="b1R-rJ-fvO" secondAttribute="top" id="CRn-bC-PKq"/>
                             <constraint firstAttribute="bottom" secondItem="b1R-rJ-fvO" secondAttribute="bottom" id="FqD-MV-Hi0"/>
                             <constraint firstItem="CxQ-xp-uRU" firstAttribute="leading" secondItem="U6q-7s-1hu" secondAttribute="leading" constant="68" id="NTg-n4-R01"/>
-                            <constraint firstItem="b1R-rJ-fvO" firstAttribute="leading" secondItem="sei-OP-mxS" secondAttribute="leading" id="PbS-Uv-a1g"/>
-                            <constraint firstAttribute="trailing" secondItem="b1R-rJ-fvO" secondAttribute="trailing" id="Wfi-Md-jI4"/>
+                            <constraint firstItem="U6q-7s-1hu" firstAttribute="leading" secondItem="b1R-rJ-fvO" secondAttribute="leading" id="PbS-Uv-a1g"/>
+                            <constraint firstItem="b1R-rJ-fvO" firstAttribute="trailing" secondItem="U6q-7s-1hu" secondAttribute="trailing" id="Wfi-Md-jI4"/>
                             <constraint firstItem="U6q-7s-1hu" firstAttribute="bottom" secondItem="CxQ-xp-uRU" secondAttribute="bottom" constant="16" id="o2A-Sf-3q7"/>
                         </constraints>
                     </view>
@@ -250,7 +250,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mMT-re-Pgc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7" y="-488"/>
+            <point key="canvasLocation" x="5.5999999999999996" y="-488.42364532019707"/>
         </scene>
         <!--ProfileViewController-->
         <scene sceneID="az4-wi-Rwi">
