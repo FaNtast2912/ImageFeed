@@ -10,33 +10,31 @@ import UIKit
 import WebKit
 
 final class WebViewViewController: UIViewController, WKNavigationDelegate {
-    
-    
     // MARK: - IB Outlets
+    
     @IBOutlet private var webView: WKWebView!
     @IBOutlet private var progressView: UIProgressView!
+    
     // MARK: - Public Properties
+    
     weak var delegate: WebViewViewControllerDelegate?
+    
     // MARK: - Private Properties
+    
     enum WebViewConstants {
         static let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
-        static let unsplashGetTokenURLString = "https://unsplash.com/oauth/token"
     }
+    
     // MARK: - Initializers
     
     // MARK: - Overrides Methods
-    
-    override func observeValue(
-        forKeyPath keyPath: String?,
-        of object: Any?,
-        change: [NSKeyValueChangeKey : Any]?,
-        context: UnsafeMutableRawPointer?
-    ) {
-        if keyPath == #keyPath(WKWebView.estimatedProgress) {
-            updateProgress()
-        } else {
-            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
-        }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        view.backgroundColor = .ypBlack
+        configureBackButton()
+        loadAuthView()
+        webView.navigationDelegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -54,19 +52,27 @@ final class WebViewViewController: UIViewController, WKNavigationDelegate {
         webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), context: nil)
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        view.backgroundColor = .ypBlack
-        configureBackButton()
-        loadAuthView()
-        webView.navigationDelegate = self
+    override func observeValue(
+        forKeyPath keyPath: String?,
+        of object: Any?,
+        change: [NSKeyValueChangeKey : Any]?,
+        context: UnsafeMutableRawPointer?
+    ) {
+        if keyPath == #keyPath(WKWebView.estimatedProgress) {
+            updateProgress()
+        } else {
+            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+        }
     }
+
     // MARK: - IB Actions
+    
     @IBAction private func didTapBackButton(_ sender: Any?) {
         dismiss(animated: true, completion: nil)
     }
+    
     // MARK: - Public Methods
+    
     func webView(
         _ webView: WKWebView,
         decidePolicyFor navigationAction: WKNavigationAction,
@@ -81,12 +87,6 @@ final class WebViewViewController: UIViewController, WKNavigationDelegate {
     }
     
     // MARK: - Private Methods
-    private func configureBackButton() {
-        navigationController?.navigationBar.backIndicatorImage = UIImage(named: "nav_back_button")
-        navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "nav_back_button")
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        navigationItem.backBarButtonItem?.tintColor? = UIColor.ypBlack
-    }
     
     private func loadAuthView() {
         guard var urlComponents = URLComponents(string: WebViewConstants.unsplashAuthorizeURLString) else {
@@ -120,6 +120,13 @@ final class WebViewViewController: UIViewController, WKNavigationDelegate {
         } else {
             return nil
         }
+    }
+    
+    private func configureBackButton() {
+        navigationController?.navigationBar.backIndicatorImage = UIImage(named: "nav_back_button")
+        navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "nav_back_button")
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem?.tintColor? = UIColor.ypBlack
     }
     
     private func updateProgress() {

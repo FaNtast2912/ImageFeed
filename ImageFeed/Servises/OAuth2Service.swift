@@ -8,7 +8,7 @@
 import Foundation
 
 protocol NetworkRouting {
-    func fetch(url: URL, handler: @escaping (Result<Data, Error>) -> Void)
+    func fetchOAuthToken(for request: URLRequest, completion: @escaping (Result<OAuthTokenResponseBody, any Error>) -> Void) -> URLSessionTask
 }
 
 final class OAuth2Service: NetworkRouting {
@@ -18,6 +18,7 @@ final class OAuth2Service: NetworkRouting {
     static let shared = OAuth2Service()
     
     // MARK: - Private Properties
+    private let urlSession = URLSession.shared
     private enum NetworkError: Error {
         case codeError
     }
@@ -31,26 +32,26 @@ final class OAuth2Service: NetworkRouting {
     // MARK: - IB Actions
     
     // MARK: - Public Methods
-    
-    func fetch(request: URLRequest, handler: @escaping (Result<Data, any Error>) -> Void) {
-
-        let task = URLSession.shared.dataTask(with: request) { data,response,error in
-            
-            if let error = error {
-                handler(.failure(error))
-                return
+    func fetchOAuthToken(for request: URLRequest, completion: @escaping (Result<OAuthTokenResponseBody, any Error>) -> Void) -> URLSessionTask {
+        
+        let decoder = JSONDecoder()
+        
+        return urlSession.data(for: request) { result in
+            switch result {
+            case .success(let data):
+                
+                do {
+                    let OAuthTokenResponseBody = try decoder.decode(OAuthTokenResponseBody.self, from: data)
+                    completion(.success(OAuthTokenResponseBody))
+                } catch {
+                    completion(.failure(error))
+                }
+                
+            case .failure(let error):
+                completion(.failure(error))
+                
             }
-            
-            if let response = response as? HTTPURLResponse,
-               response.statusCode < 200 || response.statusCode >= 300 {
-                handler(.failure(NetworkError.codeError))
-                return
-            }
-            
-            guard let data = data else {return}
-            handler(.success(data))
         }
-        task.resume()
     }
     
     func makeOAuthTokenRequest(code: String) -> URLRequest {

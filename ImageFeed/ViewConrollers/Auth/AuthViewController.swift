@@ -56,7 +56,6 @@ class AuthViewController: UIViewController, WebViewViewControllerDelegate {
             super.prepare(for: segue, sender: sender)
         }
     }
-    
 }
 
 
