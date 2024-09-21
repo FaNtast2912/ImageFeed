@@ -8,9 +8,11 @@
 import Foundation
 import UIKit
 
+protocol AuthViewControllerDelegate: AnyObject {
+    func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String)
+}
 
 final class AuthViewController: UIViewController, WebViewViewControllerDelegate {
-    
     // MARK: - IB Outlets
 
     // MARK: - Public Properties
@@ -19,6 +21,7 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
     private let segueIdentifier = "ShowWebView"
     private let oauth2Service = OAuth2Service.shared
     private let storage = OAuth2TokenStorage()
+    weak var delegate: AuthViewControllerDelegate?
     // MARK: - Initializers
 
     // MARK: - Overrides Methods
@@ -32,17 +35,7 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
     // MARK: - Public Methods
     
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-        let request = oauth2Service.makeOAuthTokenRequest(code: code)
-        oauth2Service.fetchOAuthToken(for: request) { [weak self] result in
-            guard let self else { preconditionFailure("Weak self error") }
-            switch result {
-            case .success(let result):
-                print(result)
-            case .failure(let error):
-                print("fetch token error")
-            }
-        }
-        
+        delegate?.authViewController(self, didAuthenticateWithCode: code)
     }
     
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {

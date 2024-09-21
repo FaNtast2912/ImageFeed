@@ -11,10 +11,18 @@ protocol NetworkRouting {
     func fetchOAuthToken(for request: URLRequest, completion: @escaping (Result<OAuthTokenResponseBody, any Error>) -> Void) -> URLSessionTask
 }
 
-final class OAuth2Service: NetworkRouting {
+final class OAuth2Service {
     // MARK: - IB Outlets
     
     // MARK: - Public Properties
+    var authToken: String? {
+        get {
+            OAuth2TokenStorage().token
+        }
+        set {
+            OAuth2TokenStorage().token = newValue
+        }
+    }
     
     static let shared = OAuth2Service()
     
@@ -33,26 +41,39 @@ final class OAuth2Service: NetworkRouting {
     // MARK: - IB Actions
     
     // MARK: - Public Methods
-    func fetchOAuthToken(for request: URLRequest, completion: @escaping (Result<OAuthTokenResponseBody, any Error>) -> Void) -> URLSessionTask {
+    func fetchOAuthToken(_ code: String, completion: @escaping (Result<String, any Error>) -> Void) {
+        
+        let mainQueueComplition:(Result<String,Error>) -> Void = { result in
+            DispatchQueue.main.async {
+                completion(result)
+            }
+        }
+        
+        let request = makeOAuthTokenRequest(code: code)
         
         let decoder = JSONDecoder()
         
-        return urlSession.data(for: request) { result in
+        let task = urlSession.data(for: request) { [weak self] result in
+            
+            guard let self else { preconditionFailure("self is unavalible") }
+            
             switch result {
             case .success(let data):
                 
                 do {
                     let OAuthTokenResponseBody = try decoder.decode(OAuthTokenResponseBody.self, from: data)
-                    completion(.success(OAuthTokenResponseBody))
+                    self.authToken = OAuthTokenResponseBody.accessToken
+                    mainQueueComplition(.success(OAuthTokenResponseBody.accessToken))
                 } catch {
-                    completion(.failure(error))
+                    mainQueueComplition(.failure(error))
                 }
                 
             case .failure(let error):
-                completion(.failure(error))
+                mainQueueComplition(.failure(error))
                 
             }
         }
+        task.resume()
     }
     
     func makeOAuthTokenRequest(code: String) -> URLRequest {
