@@ -17,5 +17,4 @@ enum Constants {
         guard let url = URL(string: "https://api.unsplash.com") else {preconditionFailure("Unable to construct unsplashUrl")}
         return url
     }
-    
 }

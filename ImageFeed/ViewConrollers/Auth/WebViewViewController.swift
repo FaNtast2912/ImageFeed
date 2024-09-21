@@ -21,7 +21,7 @@ final class WebViewViewController: UIViewController, WKNavigationDelegate {
     
     // MARK: - Private Properties
     
-    enum WebViewConstants {
+    private enum WebViewConstants {
         static let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
     }
     

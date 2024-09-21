@@ -10,7 +10,6 @@ import UIKit
 
 
 final class SplashViewController: UIViewController, AuthViewControllerDelegate {
-    
     // MARK: - IB Outlets
     
     // MARK: - Public Properties
@@ -20,7 +19,6 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
     private let storage = OAuth2TokenStorage()
     private enum SplashViewControllerConstants {
         static let showAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreen"
-        static let showTabBarViewControllerSegueIdentifier = "ShowTabBarViewController"
     }
     // MARK: - Initializers
     
@@ -84,7 +82,7 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
     private func switchToTabBarController() {
         guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
         let tabBarController = UIStoryboard(name: "Main", bundle: .main)
-            .instantiateViewController(withIdentifier: SplashViewControllerConstants.showTabBarViewControllerSegueIdentifier)
+            .instantiateViewController(withIdentifier: "TabBarController")
         window.rootViewController = tabBarController
     }
     
@@ -98,7 +96,5 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
                 print("fetch token error \(error)")
             }
         }
-        
-        
     }
 }

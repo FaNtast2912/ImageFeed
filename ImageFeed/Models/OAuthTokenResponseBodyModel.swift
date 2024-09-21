@@ -34,11 +34,12 @@ struct OAuthTokenResponseBody: Decodable {
         accessToken = try container.decode(String.self, forKey: .accessToken)
         tokenType = try container.decode(String.self, forKey: .tokenType)
         scope = try container.decode(String.self, forKey: .scope)
-        let createdAtDate = try container.decode(String.self, forKey: .createdAt)
-        guard let createdAt = Int(createdAtDate) else {
-            throw ParseError.createdAtFailure
-        }
-        self.createdAt = createdAt
+        createdAt = try container.decode(Int.self, forKey: .createdAt)
+//        let createdAtDate = try container.decode(String.self, forKey: .createdAt)
+//        guard let createdAt = Int(createdAtDate) else {
+//            throw ParseError.createdAtFailure
+//        }
+//        self.createdAt = createdAt
     }
     // MARK: - Overrides Methods
 

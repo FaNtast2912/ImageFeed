@@ -7,14 +7,9 @@
 
 import Foundation
 
-protocol NetworkRouting {
-    func fetchOAuthToken(for request: URLRequest, completion: @escaping (Result<OAuthTokenResponseBody, any Error>) -> Void) -> URLSessionTask
-}
-
 final class OAuth2Service {
-    // MARK: - IB Outlets
-    
     // MARK: - Public Properties
+    
     var authToken: String? {
         get {
             OAuth2TokenStorage().token
@@ -27,18 +22,20 @@ final class OAuth2Service {
     static let shared = OAuth2Service()
     
     // MARK: - Private Properties
+    
     private let urlSession = URLSession.shared
+    
     private enum NetworkError: Error {
         case codeError
     }
+    
     private enum OAuth2ServiceConstants {
         static let unsplashGetTokenURLString = "https://unsplash.com/oauth/token"
     }
-    // MARK: - Initializers
-    private init() {}
-    // MARK: - Overrides Methods
     
-    // MARK: - IB Actions
+    // MARK: - Initializers
+    
+    private init() {}
     
     // MARK: - Public Methods
     func fetchOAuthToken(_ code: String, completion: @escaping (Result<String, any Error>) -> Void) {
@@ -62,6 +59,8 @@ final class OAuth2Service {
                 
                 do {
                     let OAuthTokenResponseBody = try decoder.decode(OAuthTokenResponseBody.self, from: data)
+                    print(OAuthTokenResponseBody)
+                    print(OAuthTokenResponseBody.accessToken)
                     self.authToken = OAuthTokenResponseBody.accessToken
                     mainQueueComplition(.success(OAuthTokenResponseBody.accessToken))
                 } catch {
@@ -84,7 +83,7 @@ final class OAuth2Service {
         urlComponents.queryItems = [
             URLQueryItem(name: "client_id", value: Constants.accessKey),
             URLQueryItem(name: "client_secret", value: Constants.secretKey),
-            URLQueryItem(name: "redirect_url", value: Constants.redirectURI),
+            URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
             URLQueryItem(name: "code", value: code),
             URLQueryItem(name: "grant_type", value: "authorization_code")
         ]
@@ -95,6 +94,7 @@ final class OAuth2Service {
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
+        print(request)
         return request
     }
     // MARK: - Private Methods
