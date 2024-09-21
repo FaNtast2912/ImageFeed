@@ -11,6 +11,7 @@
 		5804BB2C2C9DD0F100038C31 /* OAuth2Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5804BB2B2C9DD0F100038C31 /* OAuth2Service.swift */; };
 		5804BB2E2C9EA7E800038C31 /* URLSession+data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5804BB2D2C9EA7E800038C31 /* URLSession+data.swift */; };
 		5804BB302C9EA97A00038C31 /* OAuthTokenResponseBodyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5804BB2F2C9EA97A00038C31 /* OAuthTokenResponseBodyModel.swift */; };
+		5804BB352C9EBE1200038C31 /* OAuth2TokenStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5804BB342C9EBE1200038C31 /* OAuth2TokenStorage.swift */; };
 		583FC7B12C8C95C400F0ECAA /* FavoritesServise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 583FC7B02C8C95C400F0ECAA /* FavoritesServise.swift */; };
 		583FC7B42C8DE57E00F0ECAA /* UIColorHexExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 583FC7B32C8DE57E00F0ECAA /* UIColorHexExtention.swift */; };
 		58DC27A72C8223CA00A8D4F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DC27A62C8223CA00A8D4F1 /* AppDelegate.swift */; };
@@ -53,6 +54,7 @@
 		5804BB2B2C9DD0F100038C31 /* OAuth2Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2Service.swift; sourceTree = "<group>"; };
 		5804BB2D2C9EA7E800038C31 /* URLSession+data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+data.swift"; sourceTree = "<group>"; };
 		5804BB2F2C9EA97A00038C31 /* OAuthTokenResponseBodyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthTokenResponseBodyModel.swift; sourceTree = "<group>"; };
+		5804BB342C9EBE1200038C31 /* OAuth2TokenStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2TokenStorage.swift; sourceTree = "<group>"; };
 		583FC7B02C8C95C400F0ECAA /* FavoritesServise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesServise.swift; sourceTree = "<group>"; };
 		583FC7B32C8DE57E00F0ECAA /* UIColorHexExtention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorHexExtention.swift; sourceTree = "<group>"; };
 		58DC27A32C8223CA00A8D4F1 /* ImageFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -114,6 +116,7 @@
 			children = (
 				583FC7B02C8C95C400F0ECAA /* FavoritesServise.swift */,
 				5804BB2B2C9DD0F100038C31 /* OAuth2Service.swift */,
+				5804BB342C9EBE1200038C31 /* OAuth2TokenStorage.swift */,
 			);
 			path = Servises;
 			sourceTree = "<group>";
@@ -388,6 +391,7 @@
 				583FC7B42C8DE57E00F0ECAA /* UIColorHexExtention.swift in Sources */,
 				58FD206F2C876CC8003FD861 /* SingleImageViewController.swift in Sources */,
 				58DC27A92C8223CA00A8D4F1 /* SceneDelegate.swift in Sources */,
+				5804BB352C9EBE1200038C31 /* OAuth2TokenStorage.swift in Sources */,
 				5804BB2A2C9DABDF00038C31 /* WebViewViewControllerDelegate.swift in Sources */,
 				583FC7B12C8C95C400F0ECAA /* FavoritesServise.swift in Sources */,
 				58EC7CC82C9C390400D27F55 /* Constants.swift in Sources */,

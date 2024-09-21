@@ -15,6 +15,7 @@ final class OAuth2Service: NetworkRouting {
     // MARK: - IB Outlets
     
     // MARK: - Public Properties
+    
     static let shared = OAuth2Service()
     
     // MARK: - Private Properties
