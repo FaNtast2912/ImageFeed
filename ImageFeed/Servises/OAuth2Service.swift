@@ -22,6 +22,7 @@ final class OAuth2Service {
     static let shared = OAuth2Service()
     
     // MARK: - Private Properties
+    private let decoder = JSONDecoder()
     
     private let urlSession = URLSession.shared
     
@@ -40,15 +41,7 @@ final class OAuth2Service {
     // MARK: - Public Methods
     func fetchOAuthToken(_ code: String, completion: @escaping (Result<String, any Error>) -> Void) {
         
-        let mainQueueComplition:(Result<String,Error>) -> Void = { result in
-            DispatchQueue.main.async {
-                completion(result)
-            }
-        }
-        
         let request = makeOAuthTokenRequest(code: code)
-        
-        let decoder = JSONDecoder()
         
         let task = urlSession.data(for: request) { [weak self] result in
             
@@ -62,13 +55,13 @@ final class OAuth2Service {
                     print(OAuthTokenResponseBody)
                     print(OAuthTokenResponseBody.accessToken)
                     self.authToken = OAuthTokenResponseBody.accessToken
-                    mainQueueComplition(.success(OAuthTokenResponseBody.accessToken))
+                    completion(.success(OAuthTokenResponseBody.accessToken))
                 } catch {
-                    mainQueueComplition(.failure(error))
+                    completion(.failure(error))
                 }
                 
             case .failure(let error):
-                mainQueueComplition(.failure(error))
+                completion(.failure(error))
                 
             }
         }

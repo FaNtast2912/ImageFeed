@@ -28,6 +28,9 @@ struct OAuthTokenResponseBody: Decodable {
     }
 
     // MARK: - Initializers
+    
+    //А этот init не нужен, CodingKeys сделает свою работу. Вот этот кастомный инит определяют, если нужна какая-то дополнительная логика при преобразовании/маппинге полей, но тут такого нет
+    
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
