@@ -45,7 +45,7 @@ final class ProfileViewController: UIViewController {
         setProfileLoginTextLabel()
         setProfileStatusTextLabel()
         setFavoritesTextLabel()
-        setnoFavoritesPhotoPlaceHolder()
+        setNoFavoritesPhotoPlaceHolder()
     }
     
     private func setProfileImage() {
@@ -147,7 +147,7 @@ final class ProfileViewController: UIViewController {
         self.favoritesTextLabel = favoritesTextLabel
     }
     
-    private func setnoFavoritesPhotoPlaceHolder() {
+    private func setNoFavoritesPhotoPlaceHolder() {
         let noFavoritesPhotoPlaceHolder = UIImageView()
         let FavoritesPhotoImage = UIImage(named: "noPhoto")
         noFavoritesPhotoPlaceHolder.image = FavoritesPhotoImage

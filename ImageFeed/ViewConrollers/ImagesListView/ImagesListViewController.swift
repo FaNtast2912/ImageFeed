@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ImagesListViewController: UIViewController {
+final class ImagesListViewController: UIViewController {
     
     // MARK: - IB Outlets
     @IBOutlet private var tableView: UITableView!
@@ -51,7 +51,7 @@ class ImagesListViewController: UIViewController {
     // MARK: - Private Methods
 }
 
-// MARK: - Extentions
+// MARK: - Extensions
 
 extension ImagesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

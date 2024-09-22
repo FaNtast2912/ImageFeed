@@ -7,6 +7,6 @@
 
 import Foundation
 
-class FavoritesServise {
-    
+final class FavoritesService {
+    //TODO: code
 }
