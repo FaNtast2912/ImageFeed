@@ -52,8 +52,6 @@ final class OAuth2Service {
                 
                 do {
                     let OAuthTokenResponseBody = try decoder.decode(OAuthTokenResponseBody.self, from: data)
-                    print(OAuthTokenResponseBody)
-                    print(OAuthTokenResponseBody.accessToken)
                     self.authToken = OAuthTokenResponseBody.accessToken
                     completion(.success(OAuthTokenResponseBody.accessToken))
                 } catch {
@@ -70,7 +68,7 @@ final class OAuth2Service {
     
     func makeOAuthTokenRequest(code: String) -> URLRequest {
         guard var urlComponents = URLComponents(string: OAuth2ServiceConstants.unsplashGetTokenURLString) else {
-            preconditionFailure("invalide sheme or host name")
+            preconditionFailure("invalid scheme or host name")
         }
         
         urlComponents.queryItems = [
@@ -87,7 +85,6 @@ final class OAuth2Service {
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        print(request)
         return request
     }
     // MARK: - Private Methods
