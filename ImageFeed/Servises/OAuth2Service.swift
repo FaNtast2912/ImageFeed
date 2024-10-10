@@ -22,9 +22,15 @@ final class OAuth2Service {
     static let shared = OAuth2Service()
     
     // MARK: - Private Properties
-    private let decoder = JSONDecoder()
+    private var task: URLSessionTask? // для того чтобы смотреть выполняется ли сейчас поход в сеть за токеном
+    private var lastCode: String? // для того чтобы запомнить последний токен и потом сравнивать полученный с ним
     
+    private let decoder = JSONDecoder()
     private let urlSession = URLSession.shared
+    
+    private enum AuthServiceError: Error {
+        case invalidRequest
+    }
     
     private enum NetworkError: Error {
         case codeError
@@ -41,17 +47,39 @@ final class OAuth2Service {
     // MARK: - Public Methods
     func fetchOAuthToken(_ code: String, completion: @escaping (Result<String, any Error>) -> Void) {
         
-        let request = makeOAuthTokenRequest(code: code)
+        assert(Thread.isMainThread) // вроде как проверка на то что мы в главном потоке.
+        
+        if task != nil {
+            if lastCode != code {
+                task?.cancel()
+            } else {
+                completion(.failure(AuthServiceError.invalidRequest))
+                return
+            }
+        } else {
+            if lastCode == code {
+                completion(.failure(AuthServiceError.invalidRequest))
+                return
+            }
+        }
+        
+        lastCode = code
+        
+        guard let request = makeOAuthTokenRequest(code: code) else {
+            completion(.failure(AuthServiceError.invalidRequest))
+            return
+        }
         
         let task = urlSession.data(for: request) { [weak self] result in
             
             guard let self else { preconditionFailure("self is unavalible") }
             
+            
             switch result {
             case .success(let data):
                 
                 do {
-                    let OAuthTokenResponseBody = try decoder.decode(OAuthTokenResponseBody.self, from: data)
+                    let OAuthTokenResponseBody = try self.decoder.decode(OAuthTokenResponseBody.self, from: data)
                     self.authToken = OAuthTokenResponseBody.accessToken
                     completion(.success(OAuthTokenResponseBody.accessToken))
                 } catch {
@@ -62,11 +90,15 @@ final class OAuth2Service {
                 completion(.failure(error))
                 
             }
+            self.task = nil
+            self.lastCode = nil
+            
         }
+        self.task = task
         task.resume()
     }
     
-    func makeOAuthTokenRequest(code: String) -> URLRequest {
+    func makeOAuthTokenRequest(code: String) -> URLRequest? {
         guard var urlComponents = URLComponents(string: OAuth2ServiceConstants.unsplashGetTokenURLString) else {
             preconditionFailure("invalid scheme or host name")
         }
@@ -80,7 +112,8 @@ final class OAuth2Service {
         ]
         
         guard let url = urlComponents.url else {
-            preconditionFailure("Cannot make url")
+            assertionFailure("Failed to create URL")
+            return nil
         }
         
         var request = URLRequest(url: url)

@@ -14,6 +14,9 @@ final class ProfileViewController: UIViewController {
     // MARK: - Public Properties
     
     // MARK: - Private Properties
+    private let storage = OAuth2TokenStorage()
+    private var profile: Profile?
+    private let profileService = ProfileService.shared
     private var profileImageView: UIImageView?
     private var exitButton: UIButton?
     private var fullNameTextLabel: UILabel?
@@ -27,6 +30,7 @@ final class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setProfileScreen()
+        getProfile()
         
     }
     // MARK: - Actions
@@ -36,6 +40,21 @@ final class ProfileViewController: UIViewController {
     // MARK: - Public Methods
     
     // MARK: - Private Methods
+    
+    private func getProfile() {
+        guard let token = storage.token else {
+            preconditionFailure("token doesn't exist")
+        }
+        profileService.fetchOAuthToken(token) { [weak self] result in
+            guard let self else { preconditionFailure("Weak self error") }
+            switch result {
+            case .success(let profile):
+                self.profile = profile
+            case .failure(let error):
+                print("fetch token error \(error)")
+            }
+        }
+    }
     
     private func setProfileScreen() {
         view.backgroundColor = .ypBlack
@@ -85,10 +104,11 @@ final class ProfileViewController: UIViewController {
     
     private func setFullNameTextLabel() {
         guard let profileImageView = self.profileImageView else { return }
+        guard let profile = profile else { return }
         let fullNameTextLabel = UILabel()
         view.addSubview(fullNameTextLabel)
         fullNameTextLabel.translatesAutoresizingMaskIntoConstraints = false
-        fullNameTextLabel.text = "Екатерина Новикова"
+        fullNameTextLabel.text = profile.name
         fullNameTextLabel.textColor = .white
         fullNameTextLabel.font = .boldSystemFont(ofSize: 23)
         
@@ -101,10 +121,11 @@ final class ProfileViewController: UIViewController {
     
     private func setProfileLoginTextLabel() {
         guard let fullNameTextLabel = self.fullNameTextLabel else { return }
+        guard let profile = profile else { return }
         let profileLoginTextLabel = UILabel()
         view.addSubview(profileLoginTextLabel)
         profileLoginTextLabel.translatesAutoresizingMaskIntoConstraints = false
-        profileLoginTextLabel.text = "ekaterina_nov"
+        profileLoginTextLabel.text = profile.loginName
         profileLoginTextLabel.textColor = .white
         profileLoginTextLabel.font = .systemFont(ofSize: 13)
         
@@ -117,10 +138,11 @@ final class ProfileViewController: UIViewController {
     
     private func setProfileStatusTextLabel() {
         guard let profileLoginTextLabel = self.profileLoginTextLabel else { return }
+        guard let profile = profile else { return }
         let profileStatusTextLabel = UILabel()
         view.addSubview(profileStatusTextLabel)
         profileStatusTextLabel.translatesAutoresizingMaskIntoConstraints = false
-        profileStatusTextLabel.text = "Hello, world!"
+        profileStatusTextLabel.text = profile.bio
         profileStatusTextLabel.textColor = .white
         profileStatusTextLabel.font = .systemFont(ofSize: 13)
         

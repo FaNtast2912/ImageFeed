@@ -80,9 +80,9 @@ final class WebViewViewController: UIViewController, WKNavigationDelegate {
     ) {
         if let code = code(from: navigationAction) {
             delegate?.webViewViewController(self, didAuthenticateWithCode: code)
-            decisionHandler(.cancel) //3
+            decisionHandler(.cancel)
         } else {
-            decisionHandler(.allow) //4
+            decisionHandler(.allow)
         }
     }
     

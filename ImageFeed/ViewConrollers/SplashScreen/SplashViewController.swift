@@ -7,7 +7,7 @@
 
 import Foundation
 import UIKit
-
+import ProgressHUD
 
 final class SplashViewController: UIViewController, AuthViewControllerDelegate {
     // MARK: - IB Outlets
@@ -89,6 +89,7 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
     private func fetchOAuthToken(_ code: String) {
         oauth2Service.fetchOAuthToken(code) { [weak self] result in
             guard let self else { preconditionFailure("Weak self error") }
+            UIBlockingProgressHUD.dismiss()
             switch result {
             case .success:
                 self.switchToTabBarController()

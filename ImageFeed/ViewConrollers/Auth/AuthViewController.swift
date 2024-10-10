@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import ProgressHUD
 
 protocol AuthViewControllerDelegate: AnyObject {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String)
@@ -46,6 +47,9 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
     
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
         delegate?.authViewController(self, didAuthenticateWithCode: code)
+        ProgressHUD.animationType = .ballVerticalBounce
+        ProgressHUD.colorBackground = .ypBlack
+        UIBlockingProgressHUD.show()
     }
     
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {

@@ -8,8 +8,6 @@
 import Foundation
 
 struct OAuthTokenResponseBody: Decodable {
-    // MARK: - IB Outlets
-
     // MARK: - Public Properties
     let accessToken: String
     let tokenType: String
@@ -39,11 +37,4 @@ struct OAuthTokenResponseBody: Decodable {
         scope = try container.decode(String.self, forKey: .scope)
         createdAt = try container.decode(Int.self, forKey: .createdAt)
     }
-    // MARK: - Overrides Methods
-
-    // MARK: - IB Actions
-
-    // MARK: - Public Methods
-
-    // MARK: - Private Methods
 }
