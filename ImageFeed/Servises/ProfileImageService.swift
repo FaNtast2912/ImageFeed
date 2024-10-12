@@ -41,27 +41,20 @@ final class ProfileImageService {
             return
         }
         
-        let task = urlSession.data(for: request) { [weak self] result in
+        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<UserResult, Error>) in
             
             guard let self else { preconditionFailure("self is unavalible") }
             
-            
             switch result {
-            case .success(let data):
-                
-                do {
-                    let userResult = try self.decoder.decode(UserResult.self, from: data)
-                    guard let imageURL = userResult.profileImage.small else { preconditionFailure("cant get image URL") }
-                    self.avatarURL = imageURL
-                    completion(.success(imageURL))
-                    NotificationCenter.default
-                        .post(
-                            name: ProfileImageService.didChangeNotification,
-                            object: self,
-                            userInfo: ["URL": imageURL])
-                } catch {
-                    completion(.failure(error))
-                }
+            case .success(let userResult):
+                guard let imageURL = userResult.profileImage.small else { preconditionFailure("cant get image URL") }
+                self.avatarURL = imageURL
+                completion(.success(imageURL))
+                NotificationCenter.default
+                    .post(
+                        name: ProfileImageService.didChangeNotification,
+                        object: self,
+                        userInfo: ["URL": imageURL])
                 
             case .failure(let error):
                 completion(.failure(error))

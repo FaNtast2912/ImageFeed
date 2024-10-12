@@ -9,10 +9,6 @@ import Foundation
 import UIKit
 import ProgressHUD
 
-protocol AuthViewControllerDelegate: AnyObject {
-    func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String)
-}
-
 final class AuthViewController: UIViewController, WebViewViewControllerDelegate {
     // MARK: - IB Outlets
 
@@ -28,7 +24,6 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
     override func viewDidLoad() {
         super.viewDidLoad()
         configureBackButton()
-        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -55,6 +50,7 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
     }
 
     // MARK: - Private Methods
+    
     private func configureBackButton() {
         navigationController?.navigationBar.backIndicatorImage = UIImage(named: "nav_back_button")
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "nav_back_button")

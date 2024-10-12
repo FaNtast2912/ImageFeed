@@ -15,6 +15,7 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
     // MARK: - Public Properties
     
     // MARK: - Private Properties
+    private var alertPresenter: AlertPresenterProtocol?
     private let profileImageService = ProfileImageService.shared
     private let profileService = ProfileService.shared
     private let oauth2Service = OAuth2Service.shared
@@ -39,7 +40,7 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        alertPresenter = AlertPresenter(delegate: self)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -84,8 +85,9 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
         if storage.token != nil {
             UIBlockingProgressHUD.show()
             fetchProfile { [weak self] in
+                guard let self else { preconditionFailure("Weak self error") }
                 UIBlockingProgressHUD.dismiss()
-                self?.switchToTabBarController()
+                self.switchToTabBarController()
             }
             
         } else {
@@ -101,6 +103,7 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
     }
     
     private func fetchOAuthToken(_ code: String) {
+        UIBlockingProgressHUD.show()
         oauth2Service.fetchOAuthToken(code) { [weak self] result in
             guard let self else { preconditionFailure("Weak self error") }
             switch result {
@@ -108,6 +111,7 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
                 self.fetchProfile { UIBlockingProgressHUD.dismiss() }
             case .failure(let error):
                 print("fetch token error \(error)")
+                self.showAlert()
                 UIBlockingProgressHUD.dismiss()
             }
         }
@@ -120,13 +124,12 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
             guard let self else { preconditionFailure("Weak self error") }
             switch result {
             case .success(let profile):
-                UIBlockingProgressHUD.dismiss()
+                self.switchToTabBarController()
                 let username = profile.username
                 self.fetchProfileImage(username: username)
-                self.switchToTabBarController()
             case .failure(let error):
-                UIBlockingProgressHUD.dismiss()
                 print("fetch token error \(error)")
+                self.showAlert()
             }
             completion()
         }
@@ -134,15 +137,31 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
     
     private func fetchProfileImage(username: String) {
         profileImageService.fetchImageURL(with: username) { [weak self] result in
-            guard let self else { preconditionFailure("Weak self error") }
+//            guard let self else { preconditionFailure("Weak self error") }
             switch result {
             case .success(let image):
                 print("image fetched")
             case .failure(let error):
+//                self.showAlert()
                 print("fetch image error \(error)")
             }
         }
     }
     
+    private func showAlert() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { preconditionFailure("weak self error")}
+            let alertModel = AlertModel(
+                title: "Что-то пошло не так(",
+                message: "Не удалось войти в систему",
+                buttonText: "Ок"
+            ) { [weak self] in
+                guard let self else { preconditionFailure("weak self error")}
+                self.authenticateStatus = false
+                self.isAuthenticated()
+            }
+            self.alertPresenter?.showAlert(model: alertModel)
+        }
+    }
     
 }

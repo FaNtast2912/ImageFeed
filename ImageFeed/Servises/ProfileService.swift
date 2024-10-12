@@ -16,7 +16,6 @@ final class ProfileService {
     private var task: URLSessionTask? // для того чтобы смотреть выполняется ли сейчас поход в сеть за токеном
     private var lastToken: String?// для того чтобы запомнить последний токен и потом сравнивать полученный с ним
     private let storage = OAuth2TokenStorage()
-    private let decoder = SnakeCaseJSONDecoder()
     private(set) var profile: Profile?
     
     private enum AuthServiceError: Error {
@@ -54,38 +53,33 @@ final class ProfileService {
             return
         }
         
-        let task = urlSession.data(for: request) { [weak self] result in
+        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<ProfileResponseResult, Error>) in
             
             guard let self else { preconditionFailure("self is unavalible") }
             
             
             switch result {
-            case .success(let data):
                 
-                do {
-                    let ProfileResponseResult = try self.decoder.decode(ProfileResponseResult.self, from: data)
-                    let username = ProfileResponseResult.username
-                    let name = ProfileResponseResult.name
-                    let firstName = ProfileResponseResult.firstName
-                    let lastName = ProfileResponseResult.lastName
-                    let bio = ProfileResponseResult.bio
-                    let profile = Profile(
-                        username: username,
-                        name: name ?? "",
-                        firstName: firstName ?? "",
-                        lastName: lastName ?? "",
-                        bio: bio ?? ""
-                    )
-                    self.profile = profile
-                    completion(.success(profile))
-                } catch {
-                    completion(.failure(error))
-                }
+            case .success(let ProfileResponseResult):
+                let username = ProfileResponseResult.username
+                let name = ProfileResponseResult.name
+                let firstName = ProfileResponseResult.firstName
+                let lastName = ProfileResponseResult.lastName
+                let bio = ProfileResponseResult.bio
+                let profile = Profile(
+                    username: username,
+                    name: name ?? "",
+                    firstName: firstName ?? "",
+                    lastName: lastName ?? "",
+                    bio: bio ?? ""
+                )
+                self.profile = profile
+                completion(.success(profile))
                 
             case .failure(let error):
                 completion(.failure(error))
-                
             }
+            
             self.task = nil
             self.lastToken = nil
             
