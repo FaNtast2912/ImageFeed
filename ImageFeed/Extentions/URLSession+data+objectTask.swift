@@ -65,6 +65,7 @@ extension URLSession {
                     let result = try decoder.decode(T.self, from: data)
                     fulfillCompletionOnTheMainThread(.success(result))
                 } catch {
+                    print("Decode error in \(#function): \(error.localizedDescription), Response: \(String(data: data, encoding: .utf8) ?? "")")
                     fulfillCompletionOnTheMainThread(.failure(NetworkError.decodeError))
                 }
             case .failure(let error):

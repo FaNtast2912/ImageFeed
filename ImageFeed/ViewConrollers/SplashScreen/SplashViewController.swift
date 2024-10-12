@@ -121,9 +121,9 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
             switch result {
             case .success(let profile):
                 UIBlockingProgressHUD.dismiss()
-                self.switchToTabBarController()
                 let username = profile.username
                 self.fetchProfileImage(username: username)
+                self.switchToTabBarController()
             case .failure(let error):
                 UIBlockingProgressHUD.dismiss()
                 print("fetch token error \(error)")
