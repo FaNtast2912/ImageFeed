@@ -1,55 +1,42 @@
 //
-//  ProfileService.swift
+//  ProfileImageService.swift
 //  ImageFeed
 //
-//  Created by Maksim Zakharov on 08.10.2024.
+//  Created by Maksim Zakharov on 11.10.2024.
 //
 
 import Foundation
 
-
-final class ProfileService {
+final class ProfileImageService {
     // MARK: - Public Properties
-    static let shared = ProfileService()
+    static let shared = ProfileImageService()
+    static let didChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
     // MARK: - Private Properties
     private let urlSession = URLSession.shared
     private var task: URLSessionTask? // для того чтобы смотреть выполняется ли сейчас поход в сеть за токеном
     private var lastToken: String?// для того чтобы запомнить последний токен и потом сравнивать полученный с ним
     private let storage = OAuth2TokenStorage()
     private let decoder = SnakeCaseJSONDecoder()
-    private(set) var profile: Profile?
+    private(set) var avatarURL: String?
+    
     
     private enum AuthServiceError: Error {
         case invalidRequest
     }
     
-    private enum profileResultsConstants {
-        static let unsplashGetProfileResultsURLString = "https://api.unsplash.com/me"
+    private enum profileImageConstants {
+        static let unsplashGetProfileImageURLString = "https://api.unsplash.com/users/"
     }
     // MARK: - Initializers
     private init() {}
     // MARK: - Public Methods
-    func fetchProfile(with token: String, completion: @escaping (Result<Profile, any Error>) -> Void) {
+    func fetchImageURL(with username: String, completion: @escaping (Result<String, any Error>) -> Void) {
         
         assert(Thread.isMainThread)
         
-        if task != nil {
-            if lastToken != token {
-                task?.cancel()
-            } else {
-                completion(.failure(AuthServiceError.invalidRequest))
-                return
-            }
-        } else {
-            if lastToken == token {
-                completion(.failure(AuthServiceError.invalidRequest))
-                return
-            }
-        }
+        task?.cancel()
         
-        lastToken = token
-        
-        guard let request = makeProfileResultRequest() else {
+        guard let request = makeProfileResultRequest(username: username) else {
             completion(.failure(AuthServiceError.invalidRequest))
             return
         }
@@ -63,21 +50,15 @@ final class ProfileService {
             case .success(let data):
                 
                 do {
-                    let ProfileResponseResult = try self.decoder.decode(ProfileResponseResult.self, from: data)
-                    let username = ProfileResponseResult.username
-                    let name = ProfileResponseResult.name
-                    let firstName = ProfileResponseResult.firstName
-                    let lastName = ProfileResponseResult.lastName
-                    let bio = ProfileResponseResult.bio
-                    let profile = Profile(
-                        username: username,
-                        name: name ?? "",
-                        firstName: firstName ?? "",
-                        lastName: lastName ?? "",
-                        bio: bio ?? ""
-                    )
-                    self.profile = profile
-                    completion(.success(profile))
+                    let userResult = try self.decoder.decode(UserResult.self, from: data)
+                    guard let imageURL = userResult.profileImage.small else { preconditionFailure("cant get image URL") }
+                    self.avatarURL = imageURL
+                    completion(.success(imageURL))
+                    NotificationCenter.default
+                        .post(
+                            name: ProfileImageService.didChangeNotification,
+                            object: self,
+                            userInfo: ["URL": imageURL])
                 } catch {
                     completion(.failure(error))
                 }
@@ -94,8 +75,8 @@ final class ProfileService {
         task.resume()
     }
     
-    func makeProfileResultRequest() -> URLRequest? {
-        guard let url = URL(string: profileResultsConstants.unsplashGetProfileResultsURLString) else {
+    func makeProfileResultRequest(username: String) -> URLRequest? {
+        guard let url = URL(string: profileImageConstants.unsplashGetProfileImageURLString + username) else {
             assertionFailure("Cant make URL")
             return nil
         }

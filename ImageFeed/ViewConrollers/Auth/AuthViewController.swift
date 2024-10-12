@@ -47,8 +47,6 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
     
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
         delegate?.authViewController(self, didAuthenticateWithCode: code)
-        ProgressHUD.animationType = .ballVerticalBounce
-        ProgressHUD.colorBackground = .ypBlack
         UIBlockingProgressHUD.show()
     }
     

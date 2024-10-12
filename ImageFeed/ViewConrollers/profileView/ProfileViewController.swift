@@ -17,6 +17,7 @@ final class ProfileViewController: UIViewController {
     private let storage = OAuth2TokenStorage()
     private var profile: Profile?
     private let profileService = ProfileService.shared
+    private let profileImageService = ProfileImageService.shared
     private var profileImageView: UIImageView?
     private var exitButton: UIButton?
     private var fullNameTextLabel: UILabel?
@@ -24,14 +25,16 @@ final class ProfileViewController: UIViewController {
     private var profileStatusTextLabel: UILabel?
     private var favoritesTextLabel: UILabel?
     private var noFavoritesPhotoPlaceHolder: UIImageView?
+    private var profileImageServiceObserver: NSObjectProtocol?
     // MARK: - Initializers
     
     // MARK: - Overrides Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         setProfileScreen()
-        getProfile()
-        
+        updateProfileDetails()
+        addProfileImageObserver()
+        updateAvatar()
     }
     // MARK: - Actions
     @objc
@@ -41,19 +44,35 @@ final class ProfileViewController: UIViewController {
     
     // MARK: - Private Methods
     
-    private func getProfile() {
-        guard let token = storage.token else {
-            preconditionFailure("token doesn't exist")
+    
+    private func addProfileImageObserver() {
+        profileImageServiceObserver = NotificationCenter.default
+            .addObserver(
+                forName: ProfileImageService.didChangeNotification,
+                object: nil,
+                queue: .main,
+                using: { [weak self] _ in
+                    guard let self = self else { return }
+                    self.updateAvatar()
+                }
+            )
+    }
+    
+    private func updateAvatar() {
+        guard
+            let profileImageURL = ProfileImageService.shared.avatarURL,
+            let url = URL(string: profileImageURL)
+        else { return }
+        // TO DO [sprint 11] обновить аватар используя кингфишер
+    }
+    
+    private func updateProfileDetails() {
+        guard let profile = profileService.profile else {
+            return
         }
-        profileService.fetchOAuthToken(token) { [weak self] result in
-            guard let self else { preconditionFailure("Weak self error") }
-            switch result {
-            case .success(let profile):
-                self.profile = profile
-            case .failure(let error):
-                print("fetch token error \(error)")
-            }
-        }
+        self.fullNameTextLabel?.text = profile.name
+        self.profileLoginTextLabel?.text = profile.loginName
+        self.profileStatusTextLabel?.text = profile.bio
     }
     
     private func setProfileScreen() {
@@ -104,11 +123,10 @@ final class ProfileViewController: UIViewController {
     
     private func setFullNameTextLabel() {
         guard let profileImageView = self.profileImageView else { return }
-        guard let profile = profile else { return }
         let fullNameTextLabel = UILabel()
         view.addSubview(fullNameTextLabel)
         fullNameTextLabel.translatesAutoresizingMaskIntoConstraints = false
-        fullNameTextLabel.text = profile.name
+        fullNameTextLabel.text = ""
         fullNameTextLabel.textColor = .white
         fullNameTextLabel.font = .boldSystemFont(ofSize: 23)
         
@@ -121,11 +139,10 @@ final class ProfileViewController: UIViewController {
     
     private func setProfileLoginTextLabel() {
         guard let fullNameTextLabel = self.fullNameTextLabel else { return }
-        guard let profile = profile else { return }
         let profileLoginTextLabel = UILabel()
         view.addSubview(profileLoginTextLabel)
         profileLoginTextLabel.translatesAutoresizingMaskIntoConstraints = false
-        profileLoginTextLabel.text = profile.loginName
+        profileLoginTextLabel.text = ""
         profileLoginTextLabel.textColor = .white
         profileLoginTextLabel.font = .systemFont(ofSize: 13)
         
@@ -138,11 +155,10 @@ final class ProfileViewController: UIViewController {
     
     private func setProfileStatusTextLabel() {
         guard let profileLoginTextLabel = self.profileLoginTextLabel else { return }
-        guard let profile = profile else { return }
         let profileStatusTextLabel = UILabel()
         view.addSubview(profileStatusTextLabel)
         profileStatusTextLabel.translatesAutoresizingMaskIntoConstraints = false
-        profileStatusTextLabel.text = profile.bio
+        profileStatusTextLabel.text = ""
         profileStatusTextLabel.textColor = .white
         profileStatusTextLabel.font = .systemFont(ofSize: 13)
         

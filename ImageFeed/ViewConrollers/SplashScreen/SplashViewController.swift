@@ -15,11 +15,14 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
     // MARK: - Public Properties
     
     // MARK: - Private Properties
+    private let profileImageService = ProfileImageService.shared
+    private let profileService = ProfileService.shared
     private let oauth2Service = OAuth2Service.shared
     private let storage = OAuth2TokenStorage()
     private enum SplashViewControllerConstants {
         static let showAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreen"
     }
+    private var authenticateStatus = false
     // MARK: - Initializers
     
     // MARK: - Overrides Methods
@@ -28,7 +31,7 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
         super.viewWillAppear(animated)
         setNeedsStatusBarAppearanceUpdate()
     }
-
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .lightContent
     }
@@ -41,13 +44,7 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        if storage.token != nil {
-            switchToTabBarController()
-        } else {
-            performSegue(withIdentifier: SplashViewControllerConstants.showAuthenticationScreenSegueIdentifier, sender: nil)
-        }
-        
+        isAuthenticated()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -79,6 +76,23 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
     
     // MARK: - Private Methods
     
+    private func isAuthenticated() {
+        guard !authenticateStatus else { return }
+        
+        authenticateStatus = true
+        
+        if storage.token != nil {
+            UIBlockingProgressHUD.show()
+            fetchProfile { [weak self] in
+                UIBlockingProgressHUD.dismiss()
+                self?.switchToTabBarController()
+            }
+            
+        } else {
+            performSegue(withIdentifier: SplashViewControllerConstants.showAuthenticationScreenSegueIdentifier, sender: nil)
+        }
+    }
+    
     private func switchToTabBarController() {
         guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
         let tabBarController = UIStoryboard(name: "Main", bundle: .main)
@@ -89,13 +103,46 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
     private func fetchOAuthToken(_ code: String) {
         oauth2Service.fetchOAuthToken(code) { [weak self] result in
             guard let self else { preconditionFailure("Weak self error") }
-            UIBlockingProgressHUD.dismiss()
             switch result {
             case .success:
-                self.switchToTabBarController()
+                self.fetchProfile { UIBlockingProgressHUD.dismiss() }
             case .failure(let error):
                 print("fetch token error \(error)")
+                UIBlockingProgressHUD.dismiss()
             }
         }
     }
+    
+    private func fetchProfile(completion: @escaping () -> Void ) {
+        guard let token = storage.token else { return }
+        
+        profileService.fetchProfile(with: token) { [weak self] result in
+            guard let self else { preconditionFailure("Weak self error") }
+            switch result {
+            case .success(let profile):
+                UIBlockingProgressHUD.dismiss()
+                self.switchToTabBarController()
+                let username = profile.username
+                self.fetchProfileImage(username: username)
+            case .failure(let error):
+                UIBlockingProgressHUD.dismiss()
+                print("fetch token error \(error)")
+            }
+            completion()
+        }
+    }
+    
+    private func fetchProfileImage(username: String) {
+        profileImageService.fetchImageURL(with: username) { [weak self] result in
+            guard let self else { preconditionFailure("Weak self error") }
+            switch result {
+            case .success(let image):
+                print("image fetched")
+            case .failure(let error):
+                print("fetch image error \(error)")
+            }
+        }
+    }
+    
+    
 }

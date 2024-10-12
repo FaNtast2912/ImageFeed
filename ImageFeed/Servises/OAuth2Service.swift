@@ -70,29 +70,20 @@ final class OAuth2Service {
             return
         }
         
-        let task = urlSession.data(for: request) { [weak self] result in
+        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
             
             guard let self else { preconditionFailure("self is unavalible") }
             
-            
             switch result {
-            case .success(let data):
-                
-                do {
-                    let OAuthTokenResponseBody = try self.decoder.decode(OAuthTokenResponseBody.self, from: data)
-                    self.authToken = OAuthTokenResponseBody.accessToken
-                    completion(.success(OAuthTokenResponseBody.accessToken))
-                } catch {
-                    completion(.failure(error))
-                }
-                
+            case .success(let OAuthTokenResponseBody):
+                self.authToken = OAuthTokenResponseBody.accessToken
+                completion(.success(OAuthTokenResponseBody.accessToken))
             case .failure(let error):
+                print("Error - \(error)")
                 completion(.failure(error))
-                
             }
             self.task = nil
             self.lastCode = nil
-            
         }
         self.task = task
         task.resume()
