@@ -15,6 +15,7 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
     // MARK: - Public Properties
     
     // MARK: - Private Properties
+    private var splashScreenLogoImageView: UIImageView?
     private var alertPresenter: AlertPresenterProtocol?
     private let profileImageService = ProfileImageService.shared
     private let profileService = ProfileService.shared
@@ -41,6 +42,7 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         alertPresenter = AlertPresenter(delegate: self)
+        setupSplashScreen()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -48,23 +50,25 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
         isAuthenticated()
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == SplashViewControllerConstants.showAuthenticationScreenSegueIdentifier {
-            
-            guard
-                let navigationController = segue.destination as? UINavigationController,
-                let viewController = navigationController.viewControllers[0] as? AuthViewController
-            else {
-                assertionFailure("Failed to prepare for \(SplashViewControllerConstants.showAuthenticationScreenSegueIdentifier)")
-                return
-            }
-            
-            viewController.delegate = self
-            
-        } else {
-            super.prepare(for: segue, sender: sender)
-        }
-    }
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == SplashViewControllerConstants.showAuthenticationScreenSegueIdentifier {
+//            
+//            guard
+//                let navigationController = segue.destination as? UINavigationController,
+//                let viewController = navigationController.viewControllers[0] as? AuthViewController
+//            else {
+//                assertionFailure("Failed to prepare for \(SplashViewControllerConstants.showAuthenticationScreenSegueIdentifier)")
+//                return
+//            }
+//            
+//            viewController.delegate = self
+//            
+//        } else {
+//            super.prepare(for: segue, sender: sender)
+//        }
+//    }
+    
+    
     // MARK: - IB Actions
     
     // MARK: - Public Methods
@@ -91,7 +95,13 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
             }
             
         } else {
-            performSegue(withIdentifier: SplashViewControllerConstants.showAuthenticationScreenSegueIdentifier, sender: nil)
+            let storyboard = UIStoryboard(name: "Main", bundle: .main)
+            let authViewController = storyboard.instantiateViewController(withIdentifier: "AuthViewController")
+            guard let authViewController = authViewController as? AuthViewController else { return }
+            authViewController.delegate = self
+            authViewController.modalPresentationStyle = .fullScreen
+            present(authViewController,animated: false)
+//            performSegue(withIdentifier: SplashViewControllerConstants.showAuthenticationScreenSegueIdentifier, sender: nil)
         }
     }
     
@@ -162,4 +172,20 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
         }
     }
     
+    private func setSplashScreenLogoImageView() {
+        let splashScreenLogoImageView = UIImageView()
+        let splashScreenLogo = UIImage(named: "splashScreenLogo")
+        splashScreenLogoImageView.image = splashScreenLogo
+        splashScreenLogoImageView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(splashScreenLogoImageView)
+        splashScreenLogoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        splashScreenLogoImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 272).isActive = true
+        splashScreenLogoImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -464).isActive = true
+        self.splashScreenLogoImageView = splashScreenLogoImageView
+    }
+    
+    private func setupSplashScreen() {
+        setSplashScreenLogoImageView()
+        view.backgroundColor = .ypBlack
+    }
 }

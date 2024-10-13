@@ -8,14 +8,11 @@
 import UIKit
 
 final class TabBarController: UITabBarController {
-    // MARK: - IB Outlets
-
-    // MARK: - Public Properties
-
     // MARK: - Private Properties
-
-    // MARK: - Initializers
-
+    private enum TapBarIdentifiers: String {
+        case imagesListViewController = "ImagesListViewController"
+        case profileViewController = "ProfileViewController"
+    }
     // MARK: - Overrides Methods
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -31,10 +28,4 @@ final class TabBarController: UITabBarController {
                    )
         self.viewControllers = [imagesListViewController, profileViewController]
     }
-    // MARK: - IB Actions
-
-    // MARK: - Public Methods
-
-    // MARK: - Private Methods
-    
 }
