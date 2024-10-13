@@ -19,6 +19,7 @@
 		58246C052CBBB30500212E41 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 58246C042CBBB30500212E41 /* SwiftKeychainWrapper */; };
 		58246C082CBBBEFA00212E41 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58246C072CBBBEF200212E41 /* TabBarController.swift */; };
 		58246C0B2CBBC11800212E41 /* NetworkErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58246C0A2CBBC11100212E41 /* NetworkErrors.swift */; };
+		58246C0D2CBBFE0F00212E41 /* TabBarConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58246C0C2CBBFDFC00212E41 /* TabBarConstants.swift */; };
 		583FC7B12C8C95C400F0ECAA /* FavoritesServise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 583FC7B02C8C95C400F0ECAA /* FavoritesServise.swift */; };
 		583FC7B42C8DE57E00F0ECAA /* UIColorHexExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 583FC7B32C8DE57E00F0ECAA /* UIColorHexExtention.swift */; };
 		589467C42CB44C1000BC80CF /* UIBlockingProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589467C32CB44C1000BC80CF /* UIBlockingProgressHUD.swift */; };
@@ -80,6 +81,7 @@
 		580B078A2CB96359000518D2 /* UserResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserResult.swift; sourceTree = "<group>"; };
 		58246C072CBBBEF200212E41 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		58246C0A2CBBC11100212E41 /* NetworkErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrors.swift; sourceTree = "<group>"; };
+		58246C0C2CBBFDFC00212E41 /* TabBarConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarConstants.swift; sourceTree = "<group>"; };
 		583FC7B02C8C95C400F0ECAA /* FavoritesServise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesServise.swift; sourceTree = "<group>"; };
 		583FC7B32C8DE57E00F0ECAA /* UIColorHexExtention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorHexExtention.swift; sourceTree = "<group>"; };
 		589467C32CB44C1000BC80CF /* UIBlockingProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBlockingProgressHUD.swift; sourceTree = "<group>"; };
@@ -264,6 +266,7 @@
 		58EC7CC62C9C38E400D27F55 /* Constants */ = {
 			isa = PBXGroup;
 			children = (
+				58246C0C2CBBFDFC00212E41 /* TabBarConstants.swift */,
 				5897EF252CAF00B600EBA4B0 /* ProgressHUD+AnimationType.swift */,
 				58EC7CC72C9C390400D27F55 /* ProfileConstants.swift */,
 				58246C0A2CBBC11100212E41 /* NetworkErrors.swift */,
@@ -451,6 +454,7 @@
 				5804BB2C2C9DD0F100038C31 /* OAuth2Service.swift in Sources */,
 				58EC7CCB2C9C528500D27F55 /* AuthViewController.swift in Sources */,
 				580B078B2CB9635D000518D2 /* UserResult.swift in Sources */,
+				58246C0D2CBBFE0F00212E41 /* TabBarConstants.swift in Sources */,
 				5804BB302C9EA97A00038C31 /* OAuthTokenResponseBodyModel.swift in Sources */,
 				589467CA2CB55F3A00BC80CF /* ProfileMock.swift in Sources */,
 				58FD20762C8AE871003FD861 /* ProfileViewController.swift in Sources */,

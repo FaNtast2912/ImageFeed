@@ -164,10 +164,6 @@
                             <color key="shadowColor" name="YP Black"/>
                         </tabBarAppearance>
                     </tabBar>
-                    <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="qNN-Ej-Y4P"/>
-                        <segue destination="UoE-1m-avg" kind="relationship" relationship="viewControllers" id="ZXV-0l-hz2"/>
-                    </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nxj-Ed-yGP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -385,24 +381,6 @@
             </objects>
             <point key="canvasLocation" x="948" y="-488.42364532019707"/>
         </scene>
-        <!--ProfileViewController-->
-        <scene sceneID="az4-wi-Rwi">
-            <objects>
-                <viewController storyboardIdentifier="ProfileViewController" title="profileView" id="UoE-1m-avg" userLabel="ProfileViewController" customClass="ProfileViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="cw7-rX-pkq">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="z68-Lj-9tp"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="" image="profileScreenActive" id="qP7-el-xbl">
-                        <color key="badgeColor" name="YP Black"/>
-                    </tabBarItem>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="byQ-IP-3xv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="44" y="228.32512315270938"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="o9P-vB-fOY">
             <objects>
@@ -431,7 +409,6 @@
         <image name="logoOfUnsplash" width="60" height="60"/>
         <image name="mainScreenActive" width="24" height="24"/>
         <image name="nav_back_button" width="24" height="24"/>
-        <image name="profileScreenActive" width="24" height="24"/>
         <image name="share_button" width="50" height="50"/>
         <image name="shevronBackward" width="24" height="24"/>
         <namedColor name="YP Black">
