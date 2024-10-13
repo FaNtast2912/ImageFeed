@@ -8,8 +8,6 @@
 import Foundation
 
 struct Profile {
-    // MARK: - IB Outlets
-
     // MARK: - Public Properties
     var username: String
     var name: String
@@ -21,15 +19,4 @@ struct Profile {
         }
     }
     var bio: String?
-    // MARK: - Private Properties
-
-    // MARK: - Initializers
-
-    // MARK: - Overrides Methods
-
-    // MARK: - IB Actions
-
-    // MARK: - Public Methods
-
-    // MARK: - Private Methods
 }

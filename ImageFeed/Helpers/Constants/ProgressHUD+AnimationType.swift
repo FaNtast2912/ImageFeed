@@ -6,6 +6,7 @@
 //
 
 import Foundation
+
 public enum AnimationType: CaseIterable {
     case none
     case activityIndicator
