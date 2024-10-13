@@ -47,7 +47,7 @@ final class ProfileImageService {
             
             switch result {
             case .success(let userResult):
-                guard let imageURL = userResult.profileImage.small else { preconditionFailure("cant get image URL") }
+                guard let imageURL = userResult.profileImage.large else { preconditionFailure("cant get image URL") }
                 self.avatarURL = imageURL
                 completion(.success(imageURL))
                 NotificationCenter.default

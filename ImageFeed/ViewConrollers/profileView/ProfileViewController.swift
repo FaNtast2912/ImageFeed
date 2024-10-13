@@ -7,6 +7,8 @@
 
 import Foundation
 import UIKit
+import Kingfisher
+import SwiftKeychainWrapper
 
 final class ProfileViewController: UIViewController {
     // MARK: - IB Outlets
@@ -39,6 +41,8 @@ final class ProfileViewController: UIViewController {
     // MARK: - Actions
     @objc
     private func didTapExitButton() {
+        let removeSuccessful: Bool = KeychainWrapper.standard.removeObject(forKey: "Auth token")
+        guard removeSuccessful else { preconditionFailure("token not removed")}
     }
     // MARK: - Public Methods
     
@@ -61,9 +65,12 @@ final class ProfileViewController: UIViewController {
     private func updateAvatar() {
         guard
             let profileImageURL = ProfileImageService.shared.avatarURL,
-            let url = URL(string: profileImageURL)
+            let url = URL(string: profileImageURL),
+            let pick = profileImageView
         else { return }
-        // TO DO [sprint 11] обновить аватар используя кингфишер
+        pick.kf.indicatorType = .activity
+        let processor = RoundCornerImageProcessor(cornerRadius: 61)
+        pick.kf.setImage(with: url, options: [.processor(processor)])
     }
     
     private func updateProfileDetails() {

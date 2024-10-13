@@ -136,13 +136,11 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
     }
     
     private func fetchProfileImage(username: String) {
-        profileImageService.fetchImageURL(with: username) { [weak self] result in
-//            guard let self else { preconditionFailure("Weak self error") }
+        profileImageService.fetchImageURL(with: username) { result in
             switch result {
-            case .success(let image):
-                print("image fetched")
+            case .success(let imageURL):
+                print("imageURL - \(imageURL)")
             case .failure(let error):
-//                self.showAlert()
                 print("fetch image error \(error)")
             }
         }
