@@ -47,7 +47,7 @@ final class OAuth2Service {
     // MARK: - Public Methods
     func fetchOAuthToken(_ code: String, completion: @escaping (Result<String, any Error>) -> Void) {
         
-        assert(Thread.isMainThread) // вроде как проверка на то что мы в главном потоке.
+        assert(Thread.isMainThread)
         
         if task != nil {
             if lastCode != code {
@@ -67,7 +67,6 @@ final class OAuth2Service {
         
         guard let request = makeOAuthTokenRequest(code: code) else {
             completion(.failure(AuthServiceError.invalidRequest))
-            
             return
         }
         
@@ -80,7 +79,7 @@ final class OAuth2Service {
                 self.authToken = OAuthTokenResponseBody.accessToken
                 completion(.success(OAuthTokenResponseBody.accessToken))
             case .failure(let error):
-                print("Error - \(error)")
+                print("OAuth2Service Error - \(error)")
                 completion(.failure(error))
             }
             self.task = nil

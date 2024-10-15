@@ -14,7 +14,6 @@ final class ProfileImageService {
     // MARK: - Private Properties
     private let urlSession = URLSession.shared
     private var task: URLSessionTask? // для того чтобы смотреть выполняется ли сейчас поход в сеть за токеном
-    private var lastToken: String?// для того чтобы запомнить последний токен и потом сравнивать полученный с ним
     private let storage = OAuth2TokenStorage()
     private let decoder = SnakeCaseJSONDecoder()
     private(set) var avatarURL: String?
@@ -57,12 +56,11 @@ final class ProfileImageService {
                         userInfo: ["URL": imageURL])
                 
             case .failure(let error):
+                print("ProfileImageService Error - \(error)")
                 completion(.failure(error))
                 
             }
             self.task = nil
-            self.lastToken = nil
-            
         }
         self.task = task
         task.resume()

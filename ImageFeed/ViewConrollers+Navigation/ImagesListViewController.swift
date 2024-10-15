@@ -16,7 +16,6 @@ final class ImagesListViewController: UIViewController {
     
     // MARK: - Private Properties
     private let photosName: [String] = Array(0..<20).map{ "\($0)" }
-    private let showSingleImageSegueIdentifier = "ShowSingleImage"
     // MARK: - Initializers
     
     // MARK: - Overrides Methods
@@ -28,22 +27,6 @@ final class ImagesListViewController: UIViewController {
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == showSingleImageSegueIdentifier { // 1
-            guard
-                let viewController = segue.destination as? SingleImageViewController, // 2
-                let indexPath = sender as? IndexPath // 3
-            else {
-                assertionFailure("Invalid segue destination") // 4
-                return
-            }
-            
-            let image = UIImage(named: photosName[indexPath.row]) // 5
-            viewController.image = image // 6
-        } else {
-            super.prepare(for: segue, sender: sender) // 7
-        }
-    }
     // MARK: - IB Actions
     
     // MARK: - Public Methods
@@ -72,7 +55,11 @@ extension ImagesListViewController: UITableViewDataSource {
 
 extension ImagesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: showSingleImageSegueIdentifier, sender: indexPath)
+        let singleImageViewController = SingleImageViewController()
+        let image = UIImage(named: photosName[indexPath.row])
+        singleImageViewController.image = image
+        singleImageViewController.modalPresentationStyle = .fullScreen
+        present(singleImageViewController, animated: true)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

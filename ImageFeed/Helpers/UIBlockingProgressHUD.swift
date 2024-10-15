@@ -17,8 +17,7 @@ final class UIBlockingProgressHUD {
     // MARK: - Public Methods
     static func show() {
         window?.isUserInteractionEnabled = false
-        ProgressHUD.animationType = .ballVerticalBounce
-        ProgressHUD.colorBackground = .ypBlack
+        ProgressHUD.mediaSize = 51
         ProgressHUD.animate()
     }
     

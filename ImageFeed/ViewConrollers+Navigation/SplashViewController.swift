@@ -48,27 +48,7 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         isAuthenticated()
-    }
-    
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == SplashViewControllerConstants.showAuthenticationScreenSegueIdentifier {
-//            
-//            guard
-//                let navigationController = segue.destination as? UINavigationController,
-//                let viewController = navigationController.viewControllers[0] as? AuthViewController
-//            else {
-//                assertionFailure("Failed to prepare for \(SplashViewControllerConstants.showAuthenticationScreenSegueIdentifier)")
-//                return
-//            }
-//            
-//            viewController.delegate = self
-//            
-//        } else {
-//            super.prepare(for: segue, sender: sender)
-//        }
-//    }
-    
-    
+    }    
     // MARK: - IB Actions
     
     // MARK: - Public Methods
@@ -95,13 +75,10 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
             }
             
         } else {
-            let storyboard = UIStoryboard(name: "Main", bundle: .main)
-            let authViewController = storyboard.instantiateViewController(withIdentifier: "AuthViewController")
-            guard let authViewController = authViewController as? AuthViewController else { return }
+            let authViewController = AuthViewController()
             authViewController.delegate = self
             authViewController.modalPresentationStyle = .fullScreen
-            present(authViewController,animated: false)
-//            performSegue(withIdentifier: SplashViewControllerConstants.showAuthenticationScreenSegueIdentifier, sender: nil)
+            present(authViewController, animated: true)
         }
     }
     
@@ -139,7 +116,6 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
                 self.fetchProfileImage(username: username)
             case .failure(let error):
                 print("fetch token error \(error)")
-                self.showAlert()
             }
             completion()
         }

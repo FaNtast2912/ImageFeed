@@ -77,6 +77,7 @@ final class ProfileService {
                 completion(.success(profile))
                 
             case .failure(let error):
+                print("ProfileService Error - \(error)")
                 completion(.failure(error))
             }
             

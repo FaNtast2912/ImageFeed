@@ -10,18 +10,16 @@ import UIKit
 @preconcurrency import WebKit
 
 final class WebViewViewController: UIViewController, WKNavigationDelegate {
-    // MARK: - IB Outlets
-    
-    @IBOutlet private var webView: WKWebView!
-    @IBOutlet private var progressView: UIProgressView!
     
     // MARK: - Public Properties
     
     weak var delegate: WebViewViewControllerDelegate?
     
     // MARK: - Private Properties
+    private var backButton: UIButton?
+    private var webView: WKWebView?
+    private var progressView: UIProgressView?
     private var estimatedProgressObservation: NSKeyValueObservation?
-    
     private enum WebViewConstants {
         static let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
     }
@@ -30,12 +28,14 @@ final class WebViewViewController: UIViewController, WKNavigationDelegate {
     
     // MARK: - Overrides Methods
     override func viewDidLoad() {
+        setWebViewController()
+        guard let webView else { preconditionFailure("unwrap error webView") }
         super.viewDidLoad()
         view.backgroundColor = .ypBlack
-        configureBackButton()
         loadAuthView()
         webView.navigationDelegate = self
         addNewKVO()
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -44,8 +44,8 @@ final class WebViewViewController: UIViewController, WKNavigationDelegate {
     }
        
     // MARK: - IB Actions
-    
-    @IBAction private func didTapBackButton(_ sender: Any?) {
+    @objc
+    private func didTapBackButton() {
         dismiss(animated: true, completion: nil)
     }
     
@@ -66,6 +66,7 @@ final class WebViewViewController: UIViewController, WKNavigationDelegate {
     
     // MARK: - Private Methods
     private func addNewKVO() {
+        guard let webView else { preconditionFailure("unwrap error webView") }
         estimatedProgressObservation = webView.observe(
             \.estimatedProgress,
              options: [],
@@ -80,7 +81,7 @@ final class WebViewViewController: UIViewController, WKNavigationDelegate {
         guard var urlComponents = URLComponents(string: WebViewConstants.unsplashAuthorizeURLString) else {
             return
         }
-        
+        guard let webView else { preconditionFailure("unwrap error webView") }
         urlComponents.queryItems = [
             URLQueryItem(name: "client_id", value: Constants.accessKey),
             URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
@@ -96,6 +97,7 @@ final class WebViewViewController: UIViewController, WKNavigationDelegate {
         
 
         let request = URLRequest(url: url)
+        
         webView.load(request)
         updateProgress()
     }
@@ -114,16 +116,62 @@ final class WebViewViewController: UIViewController, WKNavigationDelegate {
         }
     }
     
-    private func configureBackButton() {
-        navigationController?.navigationBar.backIndicatorImage = UIImage(named: "nav_back_button")
-        navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "nav_back_button")
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        navigationItem.backBarButtonItem?.tintColor? = UIColor.ypBlack
-    }
-    
     private func updateProgress() {
+        guard let webView else { preconditionFailure("unwrap error webView") }
+        guard let progressView else { preconditionFailure("unwrap error progressView") }
         progressView.progress = Float(webView.estimatedProgress)
         progressView.isHidden = fabs(webView.estimatedProgress - 1.0) <= 0.0001
     }
     
+    private func setWebViewController() {
+        view.backgroundColor = .ypBlack
+        setWebView()
+        setBackButton()
+        setProgressView()
+    }
+    
+    private func setWebView() {
+        let webView = WKWebView()
+        webView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(webView)
+        webView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        webView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        webView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        webView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        self.webView = webView
+    }
+    
+    private func setProgressView() {
+        guard let webView else { preconditionFailure("unwrap error webView") }
+        guard let backButton = self.backButton else { preconditionFailure("back button doesn't exist")}
+        let progressView = UIProgressView()
+        progressView.tintColor = .ypBlack
+        progressView.translatesAutoresizingMaskIntoConstraints = false
+        webView.addSubview(progressView)
+        progressView.leadingAnchor.constraint(equalTo: webView.leadingAnchor).isActive = true
+        progressView.trailingAnchor.constraint(equalTo: webView.trailingAnchor).isActive = true
+        progressView.topAnchor.constraint(equalTo: backButton.bottomAnchor).isActive = true
+        self.progressView = progressView
+    }
+    
+    private func setBackButton() {
+        guard let webView else { preconditionFailure("unwrap error webView") }
+        guard let chevronImage = UIImage(named: "shevronBackward") else { preconditionFailure("chevron Image doesn't exist")}
+                
+        let backButton = UIButton.systemButton(
+            with: chevronImage,
+            target: self,
+            action: #selector(Self.didTapBackButton)
+        )
+        backButton.tintColor = .ypBlack
+        backButton.translatesAutoresizingMaskIntoConstraints = false
+        webView.addSubview(backButton)
+        
+        backButton.widthAnchor.constraint(equalToConstant: 24).isActive = true
+        backButton.heightAnchor.constraint(equalToConstant: 24).isActive = true
+        backButton.leadingAnchor.constraint(equalTo: webView.leadingAnchor, constant: 9).isActive = true
+        backButton.topAnchor.constraint(equalTo: webView.layoutMarginsGuide.topAnchor, constant: 9).isActive = true
+        
+        self.backButton = backButton
+    }
 }
