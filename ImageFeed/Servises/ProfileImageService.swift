@@ -17,12 +17,9 @@ final class ProfileImageService {
     private let storage = OAuth2TokenStorage()
     private let decoder = SnakeCaseJSONDecoder()
     private(set) var avatarURL: String?
-    
-    
     private enum AuthServiceError: Error {
         case invalidRequest
     }
-    
     private enum profileImageConstants {
         static let unsplashGetProfileImageURLString = "https://api.unsplash.com/users/"
     }
@@ -30,20 +27,14 @@ final class ProfileImageService {
     private init() {}
     // MARK: - Public Methods
     func fetchImageURL(with username: String, completion: @escaping (Result<String, any Error>) -> Void) {
-        
         assert(Thread.isMainThread)
-        
         task?.cancel()
-        
         guard let request = makeProfileResultRequest(username: username) else {
             completion(.failure(AuthServiceError.invalidRequest))
             return
         }
-        
         let task = urlSession.objectTask(for: request) { [weak self] (result: Result<UserResult, Error>) in
-            
             guard let self else { preconditionFailure("self is unavalible") }
-            
             switch result {
             case .success(let userResult):
                 guard let imageURL = userResult.profileImage.large else { preconditionFailure("cant get image URL") }
@@ -54,11 +45,9 @@ final class ProfileImageService {
                         name: ProfileImageService.didChangeNotification,
                         object: self,
                         userInfo: ["URL": imageURL])
-                
             case .failure(let error):
                 print("ProfileImageService Error - \(error)")
                 completion(.failure(error))
-                
             }
             self.task = nil
         }

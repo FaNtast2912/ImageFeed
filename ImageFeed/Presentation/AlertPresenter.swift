@@ -7,8 +7,6 @@
 import UIKit
 
 class AlertPresenter: AlertPresenterProtocol {
-    
-    
     private weak var delegate: UIViewController?
     
     init(delegate: UIViewController?) {
@@ -17,7 +15,11 @@ class AlertPresenter: AlertPresenterProtocol {
     
     func showAlert(model: AlertModel) {
         
-        let alertController = UIAlertController(title: model.title, message: model.message, preferredStyle: .alert)
+        let alertController = UIAlertController(
+            title: model.title,
+            message: model.message,
+            preferredStyle: .alert
+        )
         let alertAction = UIAlertAction(title: model.buttonText, style: .default) { _ in
             model.completion()
         }
@@ -25,6 +27,4 @@ class AlertPresenter: AlertPresenterProtocol {
         
         delegate?.present(alertController, animated: true, completion: nil)
     }
-   
-    
 }

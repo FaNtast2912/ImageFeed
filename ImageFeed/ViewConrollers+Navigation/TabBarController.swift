@@ -8,24 +8,32 @@
 import UIKit
 
 final class TabBarController: UITabBarController {
-    // MARK: - Private Properties
-    private enum TapBarIdentifiers: String {
-        case imagesListViewController = "ImagesListViewController"
-        case profileViewController = "ProfileViewController"
-    }
     // MARK: - Overrides Methods
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-        let storyboard = UIStoryboard(name: "Main", bundle: .main)
-        
-        let imagesListViewController = storyboard.instantiateViewController(withIdentifier: TapBarIdentifiers.imagesListViewController.rawValue)
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        let imagesListViewController = ImagesListViewController()
         let profileViewController = ProfileViewController()
+        
         profileViewController.tabBarItem = UITabBarItem(
-                       title: "",
-                       image: UIImage(named: "profileScreenActive"),
-                       selectedImage: nil
-                   )
+            title: "",
+            image: UIImage(named: "profileScreenActive"),
+            selectedImage: nil
+        )
+        imagesListViewController.tabBarItem = UITabBarItem(
+            title: "",
+            image: UIImage(named: "mainScreenActive"),
+            selectedImage: nil
+        )
         self.viewControllers = [imagesListViewController, profileViewController]
+        
+        setUITabBarAppearance()
+    }
+    
+    private func setUITabBarAppearance() {
+        let uITabBarAppearance = UITabBarAppearance()
+        uITabBarAppearance.configureWithOpaqueBackground()
+        uITabBarAppearance.backgroundColor = .ypBlack
+        uITabBarAppearance.stackedLayoutAppearance.selected.iconColor = .white
+        tabBar.standardAppearance = uITabBarAppearance
     }
 }

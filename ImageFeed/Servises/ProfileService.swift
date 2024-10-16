@@ -17,11 +17,9 @@ final class ProfileService {
     private var lastToken: String?// для того чтобы запомнить последний токен и потом сравнивать полученный с ним
     private let storage = OAuth2TokenStorage()
     private(set) var profile: Profile?
-    
     private enum AuthServiceError: Error {
         case invalidRequest
     }
-    
     private enum profileResultsConstants {
         static let unsplashGetProfileResultsURLString = "https://api.unsplash.com/me"
     }
@@ -54,12 +52,8 @@ final class ProfileService {
         }
         
         let task = urlSession.objectTask(for: request) { [weak self] (result: Result<ProfileResponseResult, Error>) in
-            
             guard let self else { preconditionFailure("self is unavalible") }
-            
-            
             switch result {
-                
             case .success(let ProfileResponseResult):
                 let username = ProfileResponseResult.username
                 let name = ProfileResponseResult.name
@@ -75,15 +69,12 @@ final class ProfileService {
                 )
                 self.profile = profile
                 completion(.success(profile))
-                
             case .failure(let error):
                 print("ProfileService Error - \(error)")
                 completion(.failure(error))
             }
-            
             self.task = nil
             self.lastToken = nil
-            
         }
         self.task = task
         task.resume()

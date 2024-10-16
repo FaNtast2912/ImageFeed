@@ -8,15 +8,7 @@
 import Foundation
 import UIKit
 
-final class SingleImageViewController: UIViewController {
-    
-    // MARK: - IB Outlets
-    private var imageView: UIImageView?
-    private var backButton: UIButton?
-    private var scrollView: UIScrollView?
-    private var likeButton: UIButton?
-    private var shareButton: UIButton?
-    
+final class SingleImageViewController: UIViewController {   
     // MARK: - Public Properties
     var image: UIImage? {
         didSet {
@@ -27,7 +19,11 @@ final class SingleImageViewController: UIViewController {
         }
     }
     // MARK: - Private Properties
-    
+    private var imageView: UIImageView?
+    private var backButton: UIButton?
+    private var scrollView: UIScrollView?
+    private var likeButton: UIButton?
+    private var shareButton: UIButton?
     // MARK: - Initializers
     
     // MARK: - Overrides Methods
@@ -53,29 +49,11 @@ final class SingleImageViewController: UIViewController {
     
     @objc
     private func didTapLikeButton(_ sender: Any) {
-        
+        //TODO: like service
     }
     // MARK: - Public Methods
     
     // MARK: - Private Methods
-    private func rescaleAndCenterImageInScrollView(image: UIImage) {
-        guard let scrollView else { return }
-        let minZoomScale = scrollView.minimumZoomScale
-        let maxZoomScale = scrollView.maximumZoomScale
-        view.layoutIfNeeded()
-        let visibleRectSize = scrollView.bounds.size
-        let imageSize = image.size
-        let hScale = imageSize.width /  visibleRectSize.width
-        let vScale = imageSize.height / visibleRectSize.height
-        let scale = min(maxZoomScale, max(minZoomScale, min(hScale, vScale)))
-        scrollView.setZoomScale(scale, animated: false)
-        scrollView.layoutIfNeeded()
-        let newContentSize = scrollView.contentSize
-        let x = (newContentSize.width - visibleRectSize.width) / 2
-        let y = (newContentSize.height - visibleRectSize.height) / 2
-        scrollView.setContentOffset(CGPoint(x: x, y: y), animated: false)
-    }
-    
     private func setSingleImageScreen() {
         guard let image else { return }
         setImageView()
@@ -92,7 +70,26 @@ final class SingleImageViewController: UIViewController {
         imageView.image = image
         imageView.frame.size = image.size
         imageView.contentMode = .scaleAspectFit
+        
         self.imageView = imageView
+    }
+    
+    private func setScrollView() {
+        guard let imageView else { return }
+        let scrollView = UIScrollView()
+        scrollView.delegate = self
+        scrollView.minimumZoomScale = 0.1
+        scrollView.maximumZoomScale = 1.25
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.addSubview(imageView)
+        view.addSubview(scrollView)
+        
+        scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        scrollView.leadingAnchor.constraint(equalTo:view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        scrollView.trailingAnchor.constraint(equalTo:view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        
+        self.scrollView = scrollView
     }
     
     private func setBackButton() {
@@ -112,22 +109,6 @@ final class SingleImageViewController: UIViewController {
         backButton.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 8).isActive = true
         
         self.backButton = backButton
-    }
-    
-    private func setScrollView() {
-        guard let imageView else { return }
-        let scrollView = UIScrollView()
-        scrollView.delegate = self
-        scrollView.minimumZoomScale = 0.1
-        scrollView.maximumZoomScale = 1.25
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.addSubview(imageView)
-        view.addSubview(scrollView)
-        scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        scrollView.leadingAnchor.constraint(equalTo:view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-        scrollView.trailingAnchor.constraint(equalTo:view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        self.scrollView = scrollView
     }
     
     private func setLikeButton() {
@@ -161,6 +142,24 @@ final class SingleImageViewController: UIViewController {
         shareButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 711).isActive = true
         
         self.shareButton = shareButton
+    }
+    
+    private func rescaleAndCenterImageInScrollView(image: UIImage) {
+        guard let scrollView else { return }
+        let minZoomScale = scrollView.minimumZoomScale
+        let maxZoomScale = scrollView.maximumZoomScale
+        view.layoutIfNeeded()
+        let visibleRectSize = scrollView.bounds.size
+        let imageSize = image.size
+        let hScale = imageSize.width /  visibleRectSize.width
+        let vScale = imageSize.height / visibleRectSize.height
+        let scale = min(maxZoomScale, max(minZoomScale, min(hScale, vScale)))
+        scrollView.setZoomScale(scale, animated: false)
+        scrollView.layoutIfNeeded()
+        let newContentSize = scrollView.contentSize
+        let x = (newContentSize.width - visibleRectSize.width) / 2
+        let y = (newContentSize.height - visibleRectSize.height) / 2
+        scrollView.setContentOffset(CGPoint(x: x, y: y), animated: false)
     }
 }
 

@@ -10,8 +10,6 @@ import UIKit
 import ProgressHUD
 
 final class AuthViewController: UIViewController, WebViewViewControllerDelegate {
-    // MARK: - IB Outlets
-    
     // MARK: - Public Properties
     weak var delegate: AuthViewControllerDelegate?
     // MARK: - Private Properties
@@ -57,7 +55,6 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
     }
     
     private func setEnterButton() {
-
         let enterButton = UIButton()
         enterButton.setTitle("Войти", for: .normal)
         enterButton.setTitle("Войти", for: .highlighted)
@@ -84,10 +81,12 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
         splashScreenLogoView.image = splashScreenLogo
         splashScreenLogoView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(splashScreenLogoView)
+        
         splashScreenLogoView.widthAnchor.constraint(equalToConstant: 60).isActive = true
         splashScreenLogoView.heightAnchor.constraint(equalToConstant: 60).isActive = true
         splashScreenLogoView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         splashScreenLogoView.topAnchor.constraint(equalTo: view.topAnchor, constant: 280).isActive = true
+        
         self.splashScreenLogoView = splashScreenLogoView
     }
 }

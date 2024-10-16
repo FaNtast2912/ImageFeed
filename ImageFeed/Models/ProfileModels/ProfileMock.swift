@@ -8,6 +8,7 @@
 import Foundation
 
 struct ProfileMock {
+    // MARK: - Public Properties
     let json = """
     {
         "id": "O09JInJLDxI",

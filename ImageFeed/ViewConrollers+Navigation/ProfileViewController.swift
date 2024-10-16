@@ -11,8 +11,6 @@ import Kingfisher
 import SwiftKeychainWrapper
 
 final class ProfileViewController: UIViewController {
-    // MARK: - IB Outlets
-    
     // MARK: - Public Properties
     
     // MARK: - Private Properties

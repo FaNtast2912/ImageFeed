@@ -10,7 +10,6 @@ import UIKit
 @preconcurrency import WebKit
 
 final class WebViewViewController: UIViewController, WKNavigationDelegate {
-    
     // MARK: - Public Properties
     
     weak var delegate: WebViewViewControllerDelegate?
@@ -89,12 +88,9 @@ final class WebViewViewController: UIViewController, WKNavigationDelegate {
             URLQueryItem(name: "scope", value: Constants.accessScope)
         ]
         
-        
-        
         guard let url = urlComponents.url else {
             return
         }
-        
 
         let request = URLRequest(url: url)
         
@@ -141,19 +137,6 @@ final class WebViewViewController: UIViewController, WKNavigationDelegate {
         self.webView = webView
     }
     
-    private func setProgressView() {
-        guard let webView else { preconditionFailure("unwrap error webView") }
-        guard let backButton = self.backButton else { preconditionFailure("back button doesn't exist")}
-        let progressView = UIProgressView()
-        progressView.tintColor = .ypBlack
-        progressView.translatesAutoresizingMaskIntoConstraints = false
-        webView.addSubview(progressView)
-        progressView.leadingAnchor.constraint(equalTo: webView.leadingAnchor).isActive = true
-        progressView.trailingAnchor.constraint(equalTo: webView.trailingAnchor).isActive = true
-        progressView.topAnchor.constraint(equalTo: backButton.bottomAnchor).isActive = true
-        self.progressView = progressView
-    }
-    
     private func setBackButton() {
         guard let webView else { preconditionFailure("unwrap error webView") }
         guard let chevronImage = UIImage(named: "shevronBackward") else { preconditionFailure("chevron Image doesn't exist")}
@@ -173,5 +156,18 @@ final class WebViewViewController: UIViewController, WKNavigationDelegate {
         backButton.topAnchor.constraint(equalTo: webView.layoutMarginsGuide.topAnchor, constant: 9).isActive = true
         
         self.backButton = backButton
+    }
+    
+    private func setProgressView() {
+        guard let webView else { preconditionFailure("unwrap error webView") }
+        guard let backButton = self.backButton else { preconditionFailure("back button doesn't exist")}
+        let progressView = UIProgressView()
+        progressView.tintColor = .ypBlack
+        progressView.translatesAutoresizingMaskIntoConstraints = false
+        webView.addSubview(progressView)
+        progressView.leadingAnchor.constraint(equalTo: webView.leadingAnchor).isActive = true
+        progressView.trailingAnchor.constraint(equalTo: webView.trailingAnchor).isActive = true
+        progressView.topAnchor.constraint(equalTo: backButton.bottomAnchor).isActive = true
+        self.progressView = progressView
     }
 }

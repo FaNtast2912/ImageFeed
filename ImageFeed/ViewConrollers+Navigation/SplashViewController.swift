@@ -10,8 +10,6 @@ import UIKit
 import ProgressHUD
 
 final class SplashViewController: UIViewController, AuthViewControllerDelegate {
-    // MARK: - IB Outlets
-    
     // MARK: - Public Properties
     
     // MARK: - Private Properties
@@ -84,8 +82,7 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
     
     private func switchToTabBarController() {
         guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
-        let tabBarController = UIStoryboard(name: "Main", bundle: .main)
-            .instantiateViewController(withIdentifier: "TabBarController")
+        let tabBarController = TabBarController()
         window.rootViewController = tabBarController
     }
     

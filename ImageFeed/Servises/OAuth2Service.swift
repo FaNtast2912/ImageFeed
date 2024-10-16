@@ -24,29 +24,21 @@ final class OAuth2Service {
     // MARK: - Private Properties
     private var task: URLSessionTask? // для того чтобы смотреть выполняется ли сейчас поход в сеть за токеном
     private var lastCode: String? // для того чтобы запомнить последний токен и потом сравнивать полученный с ним
-    
     private let decoder = JSONDecoder()
     private let urlSession = URLSession.shared
-    
     private enum AuthServiceError: Error {
         case invalidRequest
     }
-    
     private enum NetworkError: Error {
         case codeError
     }
-    
     private enum OAuth2ServiceConstants {
         static let unsplashGetTokenURLString = "https://unsplash.com/oauth/token"
     }
-    
     // MARK: - Initializers
-    
     private init() {}
-    
     // MARK: - Public Methods
     func fetchOAuthToken(_ code: String, completion: @escaping (Result<String, any Error>) -> Void) {
-        
         assert(Thread.isMainThread)
         
         if task != nil {
@@ -112,5 +104,4 @@ final class OAuth2Service {
         return request
     }
     // MARK: - Private Methods
-    
 }

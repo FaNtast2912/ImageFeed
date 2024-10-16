@@ -8,23 +8,17 @@
 import UIKit
 
 final class ImagesListViewController: UIViewController {
-    
-    // MARK: - IB Outlets
-    @IBOutlet private var tableView: UITableView!
-    
     // MARK: - Public Properties
     
     // MARK: - Private Properties
+    private var tableView: UITableView?
     private let photosName: [String] = Array(0..<20).map{ "\($0)" }
     // MARK: - Initializers
     
     // MARK: - Overrides Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.rowHeight = 200
-        tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
+        setTableView()
     }
     
     // MARK: - IB Actions
@@ -32,6 +26,27 @@ final class ImagesListViewController: UIViewController {
     // MARK: - Public Methods
     
     // MARK: - Private Methods
+    
+    private func setTableView() {
+        let tableView = UITableView()
+        tableView.register(ImagesListViewCell.self, forCellReuseIdentifier: ImagesListViewCell.reuseIdentifier)
+        tableView.backgroundColor = .ypBlack
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.rowHeight = 200
+        tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
+        tableView.separatorStyle = .none
+        view.addSubview(tableView)
+        
+        tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        
+        self.tableView = tableView
+    }
+    
 }
 
 // MARK: - Extensions
@@ -42,14 +57,14 @@ extension ImagesListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListCell.reuseIdentifier, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListViewCell.reuseIdentifier, for: indexPath)
         
-        guard let imageListCell = cell as? ImagesListCell else {
+        guard let ImagesListViewCell = cell as? ImagesListViewCell else {
             return UITableViewCell()
         }
         
-        configCell(for: imageListCell, with: indexPath)
-        return imageListCell
+        configCell(for: ImagesListViewCell, with: indexPath)
+        return ImagesListViewCell
     }
 }
 
@@ -76,7 +91,7 @@ extension ImagesListViewController: UITableViewDelegate {
 }
 
 extension ImagesListViewController {
-    func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
+    func configCell(for cell: ImagesListViewCell, with indexPath: IndexPath) {
         cell.configCell(for: cell, with: indexPath)
     }
 }
