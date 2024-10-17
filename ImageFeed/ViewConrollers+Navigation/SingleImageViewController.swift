@@ -8,28 +8,30 @@
 import Foundation
 import UIKit
 
-final class SingleImageViewController: UIViewController {   
+final class SingleImageViewController: UIViewController {
     // MARK: - Public Properties
     var image: UIImage? {
         didSet {
-            guard isViewLoaded, let image, let imageView else { return }
+            guard isViewLoaded, let image else { return }
             imageView.image = image
             imageView.frame.size = image.size
-            rescaleAndCenterImageInScrollView(image: image)
         }
     }
     // MARK: - Private Properties
-    private var imageView: UIImageView?
+    private var imageView = UIImageView()
     private var backButton: UIButton?
-    private var scrollView: UIScrollView?
+    private var scrollView = UIScrollView()
     private var likeButton: UIButton?
     private var shareButton: UIButton?
-    // MARK: - Initializers
-    
     // MARK: - Overrides Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         setSingleImageScreen()
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        updateMinZoomScaleForSize(view.bounds.size)
     }
     // MARK: - IB Actions
     @objc
@@ -51,17 +53,14 @@ final class SingleImageViewController: UIViewController {
     private func didTapLikeButton(_ sender: Any) {
         //TODO: like service
     }
-    // MARK: - Public Methods
-    
     // MARK: - Private Methods
     private func setSingleImageScreen() {
         guard let image else { return }
         setImageView()
-        setScrollView()
+        setScrollView(image: image)
         setBackButton()
         setLikeButton()
         setShareButton()
-        rescaleAndCenterImageInScrollView(image: image)
     }
     
     private func setImageView() {
@@ -74,12 +73,15 @@ final class SingleImageViewController: UIViewController {
         self.imageView = imageView
     }
     
-    private func setScrollView() {
-        guard let imageView else { return }
+    private func setScrollView(image: UIImage) {
         let scrollView = UIScrollView()
+        view.layoutIfNeeded()
         scrollView.delegate = self
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
+        
+        scrollView.layoutIfNeeded()
+        
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(imageView)
         view.addSubview(scrollView)
@@ -144,8 +146,18 @@ final class SingleImageViewController: UIViewController {
         self.shareButton = shareButton
     }
     
+    private func updateMinZoomScaleForSize(_ size: CGSize) {
+        let widthScale = size.width / imageView.bounds.width
+        let heightScale = size.height / imageView.bounds.height
+        let minScale = min(widthScale, heightScale)
+        scrollView.minimumZoomScale = minScale
+        scrollView.zoomScale = minScale
+        guard let image else {preconditionFailure("FUCK!")}
+        rescaleAndCenterImageInScrollView(image: image)
+        
+    }
+    
     private func rescaleAndCenterImageInScrollView(image: UIImage) {
-        guard let scrollView else { return }
         let minZoomScale = scrollView.minimumZoomScale
         let maxZoomScale = scrollView.maximumZoomScale
         view.layoutIfNeeded()
@@ -155,6 +167,7 @@ final class SingleImageViewController: UIViewController {
         let vScale = imageSize.height / visibleRectSize.height
         let scale = min(maxZoomScale, max(minZoomScale, min(hScale, vScale)))
         scrollView.setZoomScale(scale, animated: false)
+        scrollView.zoomScale = scale
         scrollView.layoutIfNeeded()
         let newContentSize = scrollView.contentSize
         let x = (newContentSize.width - visibleRectSize.width) / 2
@@ -162,8 +175,6 @@ final class SingleImageViewController: UIViewController {
         scrollView.setContentOffset(CGPoint(x: x, y: y), animated: false)
     }
 }
-
-
 
 extension SingleImageViewController: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {

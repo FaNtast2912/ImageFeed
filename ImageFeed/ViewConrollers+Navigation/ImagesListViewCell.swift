@@ -17,6 +17,7 @@ final class ImagesListViewCell: UITableViewCell {
     private var likeButton = UIButton()
     private var dateLabel = UILabel()
     private var gradientView = UIView()
+    
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
@@ -31,13 +32,12 @@ final class ImagesListViewCell: UITableViewCell {
     // MARK: - Public Methods
     func configCell(for cell: ImagesListViewCell, with indexPath: IndexPath) {
         setImageCellView(for: cell, with: indexPath)
+        setGradient(for: cell)
         setLikeButton(for: cell, with: indexPath)
         setDateLabel(for: cell)
-        setGradient(for: cell)
     }
     
     // MARK: - Private Methods
-    
     private func setImageCellView(for cell: ImagesListViewCell, with indexPath: IndexPath) {
         guard let image = UIImage(named: "\(indexPath.row)") else { return }
         contentView.addSubview(cell.imageCellView)
@@ -47,6 +47,7 @@ final class ImagesListViewCell: UITableViewCell {
         cell.imageCellView.layer.masksToBounds = true
         cell.contentView.backgroundColor = .ypBlack
         cell.backgroundColor = .ypBlack
+        cell.selectionStyle = .none
         cell.imageCellView.translatesAutoresizingMaskIntoConstraints = false
         
         cell.imageCellView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4).isActive = true
@@ -70,6 +71,7 @@ final class ImagesListViewCell: UITableViewCell {
     }
     
     private func setDateLabel(for cell: ImagesListViewCell) {
+        
         cell.contentView.addSubview(cell.dateLabel)
         cell.dateLabel.text = dateFormatter.string(from: Date())
         cell.dateLabel.textColor = .white
@@ -82,21 +84,26 @@ final class ImagesListViewCell: UITableViewCell {
     
     private func setGradient(for cell: ImagesListViewCell) {
         
+        cell.contentView.addSubview(cell.gradientView)
         cell.gradientView.layer.masksToBounds = true
         cell.gradientView.layer.maskedCorners = [.layerMinXMaxYCorner,.layerMaxXMaxYCorner]
-        let gradientViewLayer = CAGradientLayer()
-        gradientViewLayer.colors = [UIColor.ypBlack, UIColor.ypBlack]
-        gradientViewLayer.frame = cell.gradientView.bounds
-        if cell.gradientView.layer.sublayers?.count == nil  {
-            cell.gradientView.layer.addSublayer(gradientViewLayer)
-        }
-        print(cell.gradientView.layer.description)
-        cell.contentView.addSubview(cell.gradientView)
+        cell.gradientView.layer.cornerRadius = 16
         cell.gradientView.translatesAutoresizingMaskIntoConstraints = false
         
         cell.gradientView.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor, constant: -16).isActive = true
         cell.gradientView.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor, constant: 16).isActive = true
         cell.gradientView.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor, constant: -4).isActive = true
         cell.gradientView.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        
+        cell.gradientView.layoutIfNeeded()
+        let gradientViewLayer = CAGradientLayer()
+        gradientViewLayer.colors = [UIColor.ypBlack0.cgColor, UIColor.ypBlack20.cgColor]
+        gradientViewLayer.frame = cell.gradientView.bounds
+        if cell.gradientView.layer.sublayers?.count == nil  {
+            cell.gradientView.layer.addSublayer(gradientViewLayer)
+        }
     }
 }
+
+
+

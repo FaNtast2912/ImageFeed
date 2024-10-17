@@ -7,14 +7,14 @@
 import UIKit
 
 class AlertPresenter: AlertPresenterProtocol {
+    // MARK: - Private Properties
     private weak var delegate: UIViewController?
-    
+    // MARK: - Initializers
     init(delegate: UIViewController?) {
         self.delegate = delegate
     }
-    
+    // MARK: - Public Methods
     func showAlert(model: AlertModel) {
-        
         let alertController = UIAlertController(
             title: model.title,
             message: model.message,

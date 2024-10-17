@@ -17,8 +17,6 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
     private var splashScreenLogoView: UIImageView?
     private let oauth2Service = OAuth2Service.shared
     private let storage = OAuth2TokenStorage()
-    // MARK: - Initializers
-    
     // MARK: - Overrides Methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +28,6 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
         showWebView()
     }
     // MARK: - Public Methods
-    
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
         delegate?.authViewController(self, didAuthenticateWithCode: code)
         UIBlockingProgressHUD.show()
@@ -39,7 +36,6 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
         dismiss(animated: true)
     }
-    
     // MARK: - Private Methods
     private func showWebView() {
         let webViewViewController = WebViewViewController()

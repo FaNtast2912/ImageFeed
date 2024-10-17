@@ -11,9 +11,7 @@ import UIKit
 
 final class WebViewViewController: UIViewController, WKNavigationDelegate {
     // MARK: - Public Properties
-    
     weak var delegate: WebViewViewControllerDelegate?
-    
     // MARK: - Private Properties
     private var backButton: UIButton?
     private var webView: WKWebView?
@@ -22,9 +20,6 @@ final class WebViewViewController: UIViewController, WKNavigationDelegate {
     private enum WebViewConstants {
         static let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
     }
-    
-    // MARK: - Initializers
-    
     // MARK: - Overrides Methods
     override func viewDidLoad() {
         setWebViewController()
@@ -34,22 +29,18 @@ final class WebViewViewController: UIViewController, WKNavigationDelegate {
         loadAuthView()
         webView.navigationDelegate = self
         addNewKVO()
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         updateProgress()
     }
-       
     // MARK: - IB Actions
     @objc
     private func didTapBackButton() {
         dismiss(animated: true, completion: nil)
     }
-    
     // MARK: - Public Methods
-    
     func webView(
         _ webView: WKWebView,
         decidePolicyFor navigationAction: WKNavigationAction,
@@ -62,7 +53,6 @@ final class WebViewViewController: UIViewController, WKNavigationDelegate {
             decisionHandler(.allow)
         }
     }
-    
     // MARK: - Private Methods
     private func addNewKVO() {
         guard let webView else { preconditionFailure("unwrap error webView") }
@@ -91,7 +81,7 @@ final class WebViewViewController: UIViewController, WKNavigationDelegate {
         guard let url = urlComponents.url else {
             return
         }
-
+        
         let request = URLRequest(url: url)
         
         webView.load(request)
@@ -139,8 +129,8 @@ final class WebViewViewController: UIViewController, WKNavigationDelegate {
     
     private func setBackButton() {
         guard let webView else { preconditionFailure("unwrap error webView") }
-        guard let chevronImage = UIImage(named: "shevronBackward") else { preconditionFailure("chevron Image doesn't exist")}
-                
+        guard let chevronImage = UIImage(named: "chevronBackward") else { preconditionFailure("chevron Image doesn't exist")}
+        
         let backButton = UIButton.systemButton(
             with: chevronImage,
             target: self,

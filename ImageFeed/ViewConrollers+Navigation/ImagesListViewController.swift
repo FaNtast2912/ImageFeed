@@ -8,26 +8,17 @@
 import UIKit
 
 final class ImagesListViewController: UIViewController {
-    // MARK: - Public Properties
-    
     // MARK: - Private Properties
     private var tableView: UITableView?
     private let photosName: [String] = Array(0..<20).map{ "\($0)" }
-    // MARK: - Initializers
-    
     // MARK: - Overrides Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         setTableView()
     }
-    
-    // MARK: - IB Actions
-    
-    // MARK: - Public Methods
-    
     // MARK: - Private Methods
-    
     private func setTableView() {
+        view.backgroundColor = .ypBlack
         let tableView = UITableView()
         tableView.register(ImagesListViewCell.self, forCellReuseIdentifier: ImagesListViewCell.reuseIdentifier)
         tableView.backgroundColor = .ypBlack
@@ -48,9 +39,7 @@ final class ImagesListViewController: UIViewController {
     }
     
 }
-
 // MARK: - Extensions
-
 extension ImagesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return photosName.count
@@ -62,7 +51,7 @@ extension ImagesListViewController: UITableViewDataSource {
         guard let ImagesListViewCell = cell as? ImagesListViewCell else {
             return UITableViewCell()
         }
-        
+
         configCell(for: ImagesListViewCell, with: indexPath)
         return ImagesListViewCell
     }

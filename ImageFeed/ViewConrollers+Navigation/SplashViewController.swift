@@ -10,8 +10,6 @@ import UIKit
 import ProgressHUD
 
 final class SplashViewController: UIViewController, AuthViewControllerDelegate {
-    // MARK: - Public Properties
-    
     // MARK: - Private Properties
     private var splashScreenLogoImageView: UIImageView?
     private var alertPresenter: AlertPresenterProtocol?
@@ -23,10 +21,7 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
         static let showAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreen"
     }
     private var authenticateStatus = false
-    // MARK: - Initializers
-    
     // MARK: - Overrides Methods
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setNeedsStatusBarAppearanceUpdate()
@@ -35,7 +30,6 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .lightContent
     }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,9 +40,7 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         isAuthenticated()
-    }    
-    // MARK: - IB Actions
-    
+    }
     // MARK: - Public Methods
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
         dismiss(animated: true) { [weak self] in
@@ -56,9 +48,7 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
             self.fetchOAuthToken(code)
         }
     }
-    
     // MARK: - Private Methods
-    
     private func isAuthenticated() {
         guard !authenticateStatus else { return }
         
@@ -153,7 +143,8 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
         view.addSubview(splashScreenLogoImageView)
         splashScreenLogoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         splashScreenLogoImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 272).isActive = true
-        splashScreenLogoImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -464).isActive = true
+        splashScreenLogoImageView.heightAnchor.constraint(equalToConstant: 75).isActive = true
+        splashScreenLogoImageView.widthAnchor.constraint(equalToConstant: 72).isActive = true
         self.splashScreenLogoImageView = splashScreenLogoImageView
     }
     

@@ -11,8 +11,6 @@ import Kingfisher
 import SwiftKeychainWrapper
 
 final class ProfileViewController: UIViewController {
-    // MARK: - Public Properties
-    
     // MARK: - Private Properties
     private let storage = OAuth2TokenStorage()
     private var profile: Profile?
@@ -26,8 +24,6 @@ final class ProfileViewController: UIViewController {
     private var favoritesTextLabel: UILabel?
     private var noFavoritesPhotoPlaceHolder: UIImageView?
     private var profileImageServiceObserver: NSObjectProtocol?
-    // MARK: - Initializers
-    
     // MARK: - Overrides Methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,11 +38,7 @@ final class ProfileViewController: UIViewController {
         let removeSuccessful: Bool = KeychainWrapper.standard.removeObject(forKey: "Auth token")
         guard removeSuccessful else { preconditionFailure("token not removed")}
     }
-    // MARK: - Public Methods
-    
     // MARK: - Private Methods
-    
-    
     private func addProfileImageObserver() {
         profileImageServiceObserver = NotificationCenter.default
             .addObserver(
@@ -67,7 +59,7 @@ final class ProfileViewController: UIViewController {
             let pick = profileImageView
         else { return }
         pick.kf.indicatorType = .activity
-        let processor = RoundCornerImageProcessor(cornerRadius: 61)
+        let processor = RoundCornerImageProcessor(cornerRadius: 61, backgroundColor: .ypBlack)
         pick.kf.setImage(with: url, options: [.processor(processor)])
     }
     
@@ -105,7 +97,6 @@ final class ProfileViewController: UIViewController {
     }
     
     private func setExitButton() {
-        
         guard let exitImage = UIImage(named: "logout"),
               let profileImageView = self.profileImageView else {return}
         

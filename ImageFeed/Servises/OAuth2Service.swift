@@ -9,7 +9,6 @@ import Foundation
 
 final class OAuth2Service {
     // MARK: - Public Properties
-    
     var authToken: String? {
         get {
             OAuth2TokenStorage().token
@@ -18,9 +17,7 @@ final class OAuth2Service {
             OAuth2TokenStorage().token = newValue
         }
     }
-    
     static let shared = OAuth2Service()
-    
     // MARK: - Private Properties
     private var task: URLSessionTask? // для того чтобы смотреть выполняется ли сейчас поход в сеть за токеном
     private var lastCode: String? // для того чтобы запомнить последний токен и потом сравнивать полученный с ним
@@ -103,5 +100,4 @@ final class OAuth2Service {
         request.httpMethod = "POST"
         return request
     }
-    // MARK: - Private Methods
 }
