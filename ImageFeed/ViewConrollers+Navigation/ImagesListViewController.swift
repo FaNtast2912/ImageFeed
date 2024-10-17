@@ -8,71 +8,62 @@
 import UIKit
 
 final class ImagesListViewController: UIViewController {
-    
-    // MARK: - IB Outlets
-    @IBOutlet private var tableView: UITableView!
-    
-    // MARK: - Public Properties
-    
     // MARK: - Private Properties
+    private var tableView: UITableView?
     private let photosName: [String] = Array(0..<20).map{ "\($0)" }
-    private let showSingleImageSegueIdentifier = "ShowSingleImage"
-    // MARK: - Initializers
-    
     // MARK: - Overrides Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.delegate = self
+        setTableView()
+    }
+    // MARK: - Private Methods
+    private func setTableView() {
+        view.backgroundColor = .ypBlack
+        let tableView = UITableView()
+        tableView.register(ImagesListViewCell.self, forCellReuseIdentifier: ImagesListViewCell.reuseIdentifier)
+        tableView.backgroundColor = .ypBlack
         tableView.dataSource = self
+        tableView.delegate = self
+        tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.rowHeight = 200
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
+        tableView.separatorStyle = .none
+        view.addSubview(tableView)
+        
+        tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        
+        self.tableView = tableView
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == showSingleImageSegueIdentifier { // 1
-            guard
-                let viewController = segue.destination as? SingleImageViewController, // 2
-                let indexPath = sender as? IndexPath // 3
-            else {
-                assertionFailure("Invalid segue destination") // 4
-                return
-            }
-            
-            let image = UIImage(named: photosName[indexPath.row]) // 5
-            viewController.image = image // 6
-        } else {
-            super.prepare(for: segue, sender: sender) // 7
-        }
-    }
-    // MARK: - IB Actions
-    
-    // MARK: - Public Methods
-    
-    // MARK: - Private Methods
 }
-
 // MARK: - Extensions
-
 extension ImagesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return photosName.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListCell.reuseIdentifier, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListViewCell.reuseIdentifier, for: indexPath)
         
-        guard let imageListCell = cell as? ImagesListCell else {
+        guard let ImagesListViewCell = cell as? ImagesListViewCell else {
             return UITableViewCell()
         }
-        
-        configCell(for: imageListCell, with: indexPath)
-        return imageListCell
+
+        configCell(for: ImagesListViewCell, with: indexPath)
+        return ImagesListViewCell
     }
 }
 
 extension ImagesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: showSingleImageSegueIdentifier, sender: indexPath)
+        let singleImageViewController = SingleImageViewController()
+        let image = UIImage(named: photosName[indexPath.row])
+        singleImageViewController.image = image
+        singleImageViewController.modalPresentationStyle = .fullScreen
+        present(singleImageViewController, animated: true)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -89,7 +80,7 @@ extension ImagesListViewController: UITableViewDelegate {
 }
 
 extension ImagesListViewController {
-    func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
+    func configCell(for cell: ImagesListViewCell, with indexPath: IndexPath) {
         cell.configCell(for: cell, with: indexPath)
     }
 }
