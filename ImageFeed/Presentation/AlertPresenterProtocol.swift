@@ -4,7 +4,8 @@
 //
 //  Created by Maksim Zakharov on 12.10.2024.
 //
+import UIKit
 
 protocol AlertPresenterProtocol {
-    func showAlert(model: AlertModel)
+    static func showAlert(model: AlertModel, vc: UIViewController)
 }

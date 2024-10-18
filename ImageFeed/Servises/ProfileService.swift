@@ -54,19 +54,8 @@ final class ProfileService {
         let task = urlSession.objectTask(for: request) { [weak self] (result: Result<ProfileResponseResult, Error>) in
             guard let self else { preconditionFailure("self is unavalible") }
             switch result {
-            case .success(let ProfileResponseResult):
-                let username = ProfileResponseResult.username
-                let name = ProfileResponseResult.name
-                let firstName = ProfileResponseResult.firstName
-                let lastName = ProfileResponseResult.lastName
-                let bio = ProfileResponseResult.bio
-                let profile = Profile(
-                    username: username,
-                    name: name ?? "",
-                    firstName: firstName ?? "",
-                    lastName: lastName ?? "",
-                    bio: bio ?? ""
-                )
+            case .success(let profileResponseResult):
+                let profile = Profile(from: profileResponseResult)
                 self.profile = profile
                 completion(.success(profile))
             case .failure(let error):

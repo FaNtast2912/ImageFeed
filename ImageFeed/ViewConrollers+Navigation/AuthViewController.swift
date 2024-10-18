@@ -53,7 +53,6 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
     private func setEnterButton() {
         let enterButton = UIButton()
         enterButton.setTitle("Войти", for: .normal)
-        enterButton.setTitle("Войти", for: .highlighted)
         enterButton.titleLabel?.font = .boldSystemFont(ofSize: 18)
         enterButton.setTitleColor(.ypBlack, for: .normal)
         enterButton.setTitleColor(.ypBlack, for: .highlighted)

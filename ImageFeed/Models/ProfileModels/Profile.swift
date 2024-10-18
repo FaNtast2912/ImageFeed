@@ -19,4 +19,12 @@ struct Profile {
         }
     }
     var bio: String?
+    
+    init(from result: ProfileResponseResult) {
+        self.username = result.username
+        self.name = result.name ?? ""
+        self.firstName = result.firstName ?? ""
+        self.lastName = result.lastName ?? ""
+        self.bio = result.bio ?? ""
+    }
 }

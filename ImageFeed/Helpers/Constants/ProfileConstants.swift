@@ -8,6 +8,7 @@
 import Foundation
 
 enum Constants {
+    static let unsplashGetProfileImageURLString = "https://api.unsplash.com/users/"
     static let accessKey = "3zNSGrShYXG9TjxOwE_JyHQNcXer3VsJO8vBRZ8kYw0"
     static let secretKey = "72HwmKAutUivxvd9nOZ2upxWKY0y-vPH79pVIbm_Ans"
     static let redirectURI = "urn:ietf:wg:oauth:2.0:oob"

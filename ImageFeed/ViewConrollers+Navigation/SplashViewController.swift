@@ -12,7 +12,6 @@ import ProgressHUD
 final class SplashViewController: UIViewController, AuthViewControllerDelegate {
     // MARK: - Private Properties
     private var splashScreenLogoImageView: UIImageView?
-    private var alertPresenter: AlertPresenterProtocol?
     private let profileImageService = ProfileImageService.shared
     private let profileService = ProfileService.shared
     private let oauth2Service = OAuth2Service.shared
@@ -33,7 +32,6 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        alertPresenter = AlertPresenter(delegate: self)
         setupSplashScreen()
     }
     
@@ -71,7 +69,10 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
     }
     
     private func switchToTabBarController() {
-        guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
+        guard let window = UIApplication.shared.windows.first else {
+            assertionFailure("Invalid Configuration")
+            return
+        }
         let tabBarController = TabBarController()
         window.rootViewController = tabBarController
     }
@@ -131,7 +132,7 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
                 self.authenticateStatus = false
                 self.isAuthenticated()
             }
-            self.alertPresenter?.showAlert(model: alertModel)
+            AlertPresenter.showAlert(model: alertModel, vc: self)
         }
     }
     

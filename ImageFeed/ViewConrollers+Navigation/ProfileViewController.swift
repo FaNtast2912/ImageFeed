@@ -59,7 +59,7 @@ final class ProfileViewController: UIViewController {
             let pick = profileImageView
         else { return }
         pick.kf.indicatorType = .activity
-        let processor = RoundCornerImageProcessor(cornerRadius: 61, backgroundColor: .ypBlack)
+        let processor = RoundCornerImageProcessor(cornerRadius: 0, backgroundColor: .ypBlack)
         pick.kf.setImage(with: url, options: [.processor(processor)])
     }
     
@@ -85,6 +85,9 @@ final class ProfileViewController: UIViewController {
     
     private func setProfileImage() {
         let profileImageView = UIImageView()
+        profileImageView.frame.size = CGSize(width: 70, height: 70)
+        profileImageView.layer.cornerRadius = profileImageView.frame.size.width / 2
+        profileImageView.layer.masksToBounds = true
         let profileImage = UIImage(named: "userPick")
         profileImageView.image = profileImage
         profileImageView.translatesAutoresizingMaskIntoConstraints = false

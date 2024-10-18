@@ -20,9 +20,6 @@ final class ProfileImageService {
     private enum AuthServiceError: Error {
         case invalidRequest
     }
-    private enum profileImageConstants {
-        static let unsplashGetProfileImageURLString = "https://api.unsplash.com/users/"
-    }
     // MARK: - Initializers
     private init() {}
     // MARK: - Public Methods
@@ -56,7 +53,7 @@ final class ProfileImageService {
     }
     
     func makeProfileResultRequest(username: String) -> URLRequest? {
-        guard let url = URL(string: profileImageConstants.unsplashGetProfileImageURLString + username) else {
+        guard let url = URL(string: Constants.unsplashGetProfileImageURLString + username) else {
             assertionFailure("Cant make URL")
             return nil
         }

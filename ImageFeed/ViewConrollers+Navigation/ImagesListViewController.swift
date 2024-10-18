@@ -11,11 +11,6 @@ final class ImagesListViewController: UIViewController {
     // MARK: - Private Properties
     private var tableView: UITableView?
     private let photosName: [String] = Array(0..<20).map{ "\($0)" }
-    // MARK: - Overrides Methods
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setTableView()
-    }
     // MARK: - Private Methods
     private func setTableView() {
         view.backgroundColor = .ypBlack
@@ -37,8 +32,13 @@ final class ImagesListViewController: UIViewController {
         
         self.tableView = tableView
     }
-    
+    // MARK: - Overrides Methods
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setTableView()
+    }
 }
+
 // MARK: - Extensions
 extension ImagesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
