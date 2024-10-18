@@ -7,13 +7,15 @@
 
 import Foundation
 import UIKit
+import Kingfisher
+import SwiftKeychainWrapper
 
 final class ProfileViewController: UIViewController {
-    // MARK: - IB Outlets
-    
-    // MARK: - Public Properties
-    
     // MARK: - Private Properties
+    private let storage = OAuth2TokenStorage()
+    private var profile: Profile?
+    private let profileService = ProfileService.shared
+    private let profileImageService = ProfileImageService.shared
     private var profileImageView: UIImageView?
     private var exitButton: UIButton?
     private var fullNameTextLabel: UILabel?
@@ -21,21 +23,54 @@ final class ProfileViewController: UIViewController {
     private var profileStatusTextLabel: UILabel?
     private var favoritesTextLabel: UILabel?
     private var noFavoritesPhotoPlaceHolder: UIImageView?
-    // MARK: - Initializers
-    
+    private var profileImageServiceObserver: NSObjectProtocol?
     // MARK: - Overrides Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         setProfileScreen()
-        
+        updateProfileDetails()
+        addProfileImageObserver()
+        updateAvatar()
     }
     // MARK: - Actions
     @objc
     private func didTapExitButton() {
+        let removeSuccessful: Bool = KeychainWrapper.standard.removeObject(forKey: "Auth token")
+        guard removeSuccessful else { preconditionFailure("token not removed")}
     }
-    // MARK: - Public Methods
-    
     // MARK: - Private Methods
+    private func addProfileImageObserver() {
+        profileImageServiceObserver = NotificationCenter.default
+            .addObserver(
+                forName: ProfileImageService.didChangeNotification,
+                object: nil,
+                queue: .main,
+                using: { [weak self] _ in
+                    guard let self = self else { return }
+                    self.updateAvatar()
+                }
+            )
+    }
+    
+    private func updateAvatar() {
+        guard
+            let profileImageURL = ProfileImageService.shared.avatarURL,
+            let url = URL(string: profileImageURL),
+            let pick = profileImageView
+        else { return }
+        pick.kf.indicatorType = .activity
+        let processor = RoundCornerImageProcessor(cornerRadius: 0, backgroundColor: .ypBlack)
+        pick.kf.setImage(with: url, options: [.processor(processor)])
+    }
+    
+    private func updateProfileDetails() {
+        guard let profile = profileService.profile else {
+            return
+        }
+        self.fullNameTextLabel?.text = profile.name
+        self.profileLoginTextLabel?.text = profile.loginName
+        self.profileStatusTextLabel?.text = profile.bio
+    }
     
     private func setProfileScreen() {
         view.backgroundColor = .ypBlack
@@ -50,6 +85,9 @@ final class ProfileViewController: UIViewController {
     
     private func setProfileImage() {
         let profileImageView = UIImageView()
+        profileImageView.frame.size = CGSize(width: 70, height: 70)
+        profileImageView.layer.cornerRadius = profileImageView.frame.size.width / 2
+        profileImageView.layer.masksToBounds = true
         let profileImage = UIImage(named: "userPick")
         profileImageView.image = profileImage
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -62,7 +100,6 @@ final class ProfileViewController: UIViewController {
     }
     
     private func setExitButton() {
-        
         guard let exitImage = UIImage(named: "logout"),
               let profileImageView = self.profileImageView else {return}
         
@@ -88,7 +125,7 @@ final class ProfileViewController: UIViewController {
         let fullNameTextLabel = UILabel()
         view.addSubview(fullNameTextLabel)
         fullNameTextLabel.translatesAutoresizingMaskIntoConstraints = false
-        fullNameTextLabel.text = "Екатерина Новикова"
+        fullNameTextLabel.text = ""
         fullNameTextLabel.textColor = .white
         fullNameTextLabel.font = .boldSystemFont(ofSize: 23)
         
@@ -104,7 +141,7 @@ final class ProfileViewController: UIViewController {
         let profileLoginTextLabel = UILabel()
         view.addSubview(profileLoginTextLabel)
         profileLoginTextLabel.translatesAutoresizingMaskIntoConstraints = false
-        profileLoginTextLabel.text = "ekaterina_nov"
+        profileLoginTextLabel.text = ""
         profileLoginTextLabel.textColor = .white
         profileLoginTextLabel.font = .systemFont(ofSize: 13)
         
@@ -120,7 +157,7 @@ final class ProfileViewController: UIViewController {
         let profileStatusTextLabel = UILabel()
         view.addSubview(profileStatusTextLabel)
         profileStatusTextLabel.translatesAutoresizingMaskIntoConstraints = false
-        profileStatusTextLabel.text = "Hello, world!"
+        profileStatusTextLabel.text = ""
         profileStatusTextLabel.textColor = .white
         profileStatusTextLabel.font = .systemFont(ofSize: 13)
         
