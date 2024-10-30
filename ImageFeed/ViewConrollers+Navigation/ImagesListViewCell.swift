@@ -17,14 +17,12 @@ final class ImagesListViewCell: UITableViewCell {
     private lazy var likeButton = UIButton()
     private lazy var dateLabel = UILabel()
     private lazy var gradientView = UIView()
-    
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
         formatter.timeStyle = .none
         return formatter
     }()
-    
     // MARK: - Overrides Methods
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -40,9 +38,9 @@ final class ImagesListViewCell: UITableViewCell {
         //TODO: like service
     }
     // MARK: - Public Methods
-    func configCell(for cell: ImagesListViewCell, with indexPath: IndexPath) {
-        guard let image = UIImage(named: "\(indexPath.row)") else { return }
-        imageCellView.image = image
+    func configCell(for cell: ImagesListViewCell, with indexPath: IndexPath, from data: [Photo]) {
+        let photo = data[indexPath.row].thumbImageURL
+        imageCellView.kf.setImage(with: photo)
         dateLabel.text = dateFormatter.string(from: Date())
         let isLiked = indexPath.row % 2 == 0
         likeButton.imageView?.image = isLiked ? UIImage(named: "like_button_on") : UIImage(named: "like_button_off")
