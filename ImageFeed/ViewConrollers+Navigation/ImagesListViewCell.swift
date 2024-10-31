@@ -40,6 +40,7 @@ final class ImagesListViewCell: UITableViewCell {
     // MARK: - Public Methods
     func configCell(for cell: ImagesListViewCell, with indexPath: IndexPath, from data: [Photo]) {
         let photo = data[indexPath.row].thumbImageURL
+        imageCellView.kf.indicatorType = .activity
         imageCellView.kf.setImage(with: photo)
         dateLabel.text = dateFormatter.string(from: Date())
         let isLiked = indexPath.row % 2 == 0

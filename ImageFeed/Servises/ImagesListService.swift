@@ -81,6 +81,7 @@ final class ImagesListService {
     
     private func makePhotosRequest() -> URLRequest? {
         let nextPage = (lastLoadedPage ?? 0) + 1
+        lastLoadedPage = nextPage
         guard var component = URLComponents(string: Constants.defaultBaseURLString + "/photos") else {
             assertionFailure("Cant make component")
             return nil

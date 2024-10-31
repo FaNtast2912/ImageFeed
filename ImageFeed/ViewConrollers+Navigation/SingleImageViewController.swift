@@ -10,10 +10,10 @@ import UIKit
 
 final class SingleImageViewController: UIViewController {
     // MARK: - Public Properties
-    var image: UIImage? {
+    var image: Photo? {
         didSet {
             guard isViewLoaded, let image else { return }
-            imageView.image = image
+            imageView.kf.setImage(with: image.largeImageURL)
             imageView.frame.size = image.size
         }
     }
@@ -55,9 +55,8 @@ final class SingleImageViewController: UIViewController {
     }
     // MARK: - Private Methods
     private func setSingleImageScreen() {
-        guard let image else { return }
         setImageView()
-        setScrollView(image: image)
+        setScrollView()
         setBackButton()
         setLikeButton()
         setShareButton()
@@ -66,14 +65,14 @@ final class SingleImageViewController: UIViewController {
     private func setImageView() {
         guard let image else { return }
         let imageView = UIImageView()
-        imageView.image = image
+        imageView.kf.setImage(with: image.largeImageURL)
         imageView.frame.size = image.size
         imageView.contentMode = .scaleAspectFit
         
         self.imageView = imageView
     }
     
-    private func setScrollView(image: UIImage) {
+    private func setScrollView() {
         let scrollView = UIScrollView()
         view.layoutIfNeeded()
         scrollView.delegate = self
@@ -152,20 +151,20 @@ final class SingleImageViewController: UIViewController {
         let minScale = min(widthScale, heightScale)
         scrollView.minimumZoomScale = minScale
         scrollView.zoomScale = minScale
-        guard let image else {preconditionFailure("FUCK!")}
+        guard let image else {preconditionFailure("Image doesn't exist")}
         rescaleAndCenterImageInScrollView(image: image)
         
     }
     
-    private func rescaleAndCenterImageInScrollView(image: UIImage) {
+    private func rescaleAndCenterImageInScrollView(image: Photo) {
         let minZoomScale = scrollView.minimumZoomScale
         let maxZoomScale = scrollView.maximumZoomScale
         view.layoutIfNeeded()
         let visibleRectSize = scrollView.bounds.size
         let imageSize = image.size
-        let hScale = imageSize.width /  visibleRectSize.width
-        let vScale = imageSize.height / visibleRectSize.height
-        let scale = min(maxZoomScale, max(minZoomScale, min(hScale, vScale)))
+        let hScale =   visibleRectSize.width / imageSize.width
+        let vScale =  visibleRectSize.height / imageSize.height
+        let scale = min(maxZoomScale, max(minZoomScale, max(hScale, vScale)))
         scrollView.setZoomScale(scale, animated: false)
         scrollView.zoomScale = scale
         scrollView.layoutIfNeeded()

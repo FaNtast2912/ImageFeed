@@ -37,6 +37,16 @@ final class ImagesListViewController: UIViewController {
     // MARK: - Overrides Methods
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        downloadNextPagePhotos()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setTableView()
+    }
+    
+    // MARK: - Private Methods
+    private func downloadNextPagePhotos() {
         imagesListService.fetchPhotosNextPage { [weak self] result in
             guard let self else { preconditionFailure("self is unavailable") }
             switch result {
@@ -47,11 +57,6 @@ final class ImagesListViewController: UIViewController {
                 print(error)
             }
         }
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setTableView()
     }
 }
 
@@ -76,7 +81,8 @@ extension ImagesListViewController: UITableViewDataSource {
 extension ImagesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let singleImageViewController = SingleImageViewController()
-//        let image = UIImage(named: photosName[indexPath.row])
+        let image = photosName[indexPath.row]
+        singleImageViewController.image = image
         singleImageViewController.modalPresentationStyle = .fullScreen
         present(singleImageViewController, animated: true)
     }
@@ -102,6 +108,7 @@ extension ImagesListViewController {
 
 extension ImagesListViewController {
     func tableView( _ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
+        guard indexPath.row == photosName.count - 1 else {return}
+        downloadNextPagePhotos()
     }
 }
