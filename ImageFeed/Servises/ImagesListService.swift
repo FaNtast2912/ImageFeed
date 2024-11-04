@@ -11,21 +11,18 @@ final class ImagesListService {
 
     // MARK: - Public Properties
     static let shared = ImagesListService()
+    static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
     // MARK: - Private Properties
     private let urlSession = URLSession.shared
     private(set) var photos: [Photo] = []
     private var lastLoadedPage: Int?
     private let storage = OAuth2TokenStorage()
     private var dataTask: URLSessionTask?
+    private var likeTask: URLSessionTask?
     private enum ImagesServiceError: Error {
         case invalidRequest
     }
-    private lazy var dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .long
-        formatter.timeStyle = .none
-        return formatter
-    }()
+    private let dateFormatter = ISO8601DateFormatter()
     // MARK: - Initializers
     private init() {}
     // MARK: - Overrides Methods
@@ -33,14 +30,51 @@ final class ImagesListService {
     // MARK: - IB Actions
 
     // MARK: - Public Methods
+    func clearPhotos() {
+        photos.removeAll()
+        lastLoadedPage = nil
+    }
+    
+    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Bool , Error>) -> Void) {
+        likeTask?.cancel()
+        assert(Thread.isMainThread)
+        guard let request = makeIsLikeRequest(id: photoId, isLiked: isLike) else {
+            preconditionFailure("bad request")
+        }
+        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<LikeModel, Error>) in
+            guard let self else { preconditionFailure("self is unavalible") }
+            switch result {
+            case .success(let isLikedPoto):
+                let currentLike = isLikedPoto.photo.likedByUser
+                if let index = self.photos.firstIndex(where: { $0.id == photoId }) {
+                    let photo = self.photos[index]
+                    let newPhoto = Photo(
+                        id: photo.id,
+                        size: photo.size,
+                        createdAt: photo.createdAt,
+                        welcomeDescription: photo.welcomeDescription,
+                        thumbImageURL: photo.thumbImageURL,
+                        largeImageURL: photo.largeImageURL,
+                        isLiked: currentLike
+                    )
+                    self.photos[index] = newPhoto
+                }
+                completion(.success(currentLike))
+                NotificationCenter.default.post(name: ImagesListService.didChangeNotification, object: self)
+            case .failure(let error):
+                print("Images Service Error - \(error)")
+            }
+        }
+        self.likeTask = task
+        task.resume()
+    }
 
-    func fetchPhotosNextPage(completion: @escaping (Result<[Photo], any Error>) -> Void) {
+    func fetchPhotosNextPage() {
         
         assert(Thread.isMainThread)
         
         guard let request = makePhotosRequest() else {
-            completion(.failure(ImagesServiceError.invalidRequest))
-            return
+            preconditionFailure("bad request")
         }
         
         guard dataTask == nil else { return }
@@ -49,14 +83,15 @@ final class ImagesListService {
             guard let self else { preconditionFailure("self is unavalible") }
             switch result {
             case .success(let response):
-                var photos: [Photo] = []
                 response.forEach { response in
-                    photos.append(self.makePhotos(from: response))
+                    self.photos.append(self.makePhotos(from: response))
                 }
-                completion(.success(photos))
+                NotificationCenter.default.post(name: ImagesListService.didChangeNotification, object: self)
+                let nextPage = (lastLoadedPage ?? 0) + 1
+                self.dataTask = nil
+                self.lastLoadedPage = nextPage
             case .failure(let error):
                 print("ProfileService Error - \(error)")
-                completion(.failure(error))
             }
             self.dataTask = nil
         }
@@ -74,7 +109,7 @@ final class ImagesListService {
             createdAt: dateFormatter.date(from: result.createdAt ?? ""),
             welcomeDescription: result.description,
             thumbImageURL: result.urls.thumb,
-            largeImageURL: result.urls.thumb,
+            largeImageURL: result.urls.full,
             isLiked: result.likedByUser
         )
     }
@@ -90,7 +125,7 @@ final class ImagesListService {
         component.queryItems = [
             URLQueryItem(name: "page", value: nextPage.description)
         ]
-        
+        		
         guard let url = component.url else {
             assertionFailure("Cant make URL")
             return nil
@@ -98,6 +133,19 @@ final class ImagesListService {
         
         let token = String(describing: storage.token!)
         var request = URLRequest(url: url)
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        return request
+    }
+    
+    private func makeIsLikeRequest(id: String, isLiked: Bool ) -> URLRequest? {
+        
+        guard let url = URL(string: Constants.defaultBaseURLString + "/photos/\(id)/like") else {
+            assertionFailure("Failed to create URL")
+            return nil
+        }
+        let token = String(describing: storage.token!)
+        var request = URLRequest(url: url)
+        request.httpMethod = isLiked ? "POST" : "DELETE"
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         return request
     }

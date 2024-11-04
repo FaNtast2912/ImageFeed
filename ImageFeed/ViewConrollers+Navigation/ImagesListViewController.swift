@@ -8,11 +8,31 @@
 import UIKit
 import Kingfisher
 
-final class ImagesListViewController: UIViewController {
+final class ImagesListViewController: UIViewController, ImagesListCellDelegate {
+    // MARK: - Public Properties
+    static var dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .none
+        return formatter
+    }()
     // MARK: - Private Properties
     private var tableView: UITableView?
     private var photosName: [Photo] = []
     private let imagesListService = ImagesListService.shared
+    private var imagesListServiceObserver: NSObjectProtocol?
+    // MARK: - Overrides Methods
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setTableView()
+        addImagesListServiceObserver()
+        imagesListService.fetchPhotosNextPage()
+    }
+    
     // MARK: - Private Methods
     private func setTableView() {
         view.backgroundColor = .ypBlack
@@ -34,30 +54,61 @@ final class ImagesListViewController: UIViewController {
         
         self.tableView = tableView
     }
-    // MARK: - Overrides Methods
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        downloadNextPagePhotos()
+    
+    private func addImagesListServiceObserver() {
+        imagesListServiceObserver = NotificationCenter.default
+            .addObserver(
+                forName: ImagesListService.didChangeNotification,
+                object: nil,
+                queue: .main,
+                using: { [weak self] _ in
+                    guard let self = self else { return }
+                    self.updateTableViewAnimated()
+                }
+            )
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setTableView()
+    private func updateTableViewAnimated() {
+        guard let tableView else {
+            preconditionFailure("table view doesn't exist")
+        }
+        let oldCount = photosName.count
+        let newCount = imagesListService.photos.count
+        photosName = imagesListService.photos
+        if oldCount != newCount {
+            tableView.performBatchUpdates {
+                let indexPaths = (oldCount..<newCount).map { i in
+                    IndexPath(row: i, section: 0)
+                }
+                tableView.insertRows(at: indexPaths, with: .automatic)
+            } completion: { _ in }
+        }
     }
     
-    // MARK: - Private Methods
-    private func downloadNextPagePhotos() {
-        imagesListService.fetchPhotosNextPage { [weak self] result in
-            guard let self else { preconditionFailure("self is unavailable") }
-            switch result {
-            case let .success(photos):
-                self.photosName += photos
-                self.tableView?.reloadData()
-            case let .failure(error):
-                print(error)
+    private func setIsLiked(for cell: ImagesListViewCell) {
+        guard let tableView else { preconditionFailure("tableView doesn't exist") }
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        let photo = photosName[indexPath.row]
+        UIBlockingProgressHUD.show()
+        imagesListService.changeLike(photoId: photo.id, isLike: !photo.isLiked) { [weak self] response in
+            guard let self else { preconditionFailure("self doesn't exist")}
+            switch response {
+            case.success(let currentLike):
+                self.photosName[indexPath.row].isLiked = currentLike
+                cell.refreshLikeImage(to: currentLike)
+                UIBlockingProgressHUD.dismiss()
+            case.failure(let error):
+                UIBlockingProgressHUD.dismiss()
+                print("Cant refresh like condition \(error)")
             }
         }
     }
+    
+    // MARK: - Public Methods
+    func imageListCellDidTapLike(_ cell: ImagesListViewCell) {
+        setIsLiked(for: cell)
+    }
+    
 }
 
 // MARK: - Extensions
@@ -74,6 +125,7 @@ extension ImagesListViewController: UITableViewDataSource {
         }
 
         configCell(for: ImagesListViewCell, with: indexPath, from: photosName)
+        ImagesListViewCell.delegate = self
         return ImagesListViewCell
     }
 }
@@ -88,27 +140,27 @@ extension ImagesListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        guard let image = UIImage(named: photosName[indexPath.row]) else {
-//            return 0
-//        }
-//        let imageInsets = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
-//        let imageViewWidth = tableView.bounds.width - imageInsets.left - imageInsets.right
-//        let imageWidth = image.size.width == 0 ? 1 : image.size.width
-//        let scale = imageViewWidth / imageWidth
-//        let cellHeight = image.size.height * scale + imageInsets.top + imageInsets.bottom
-        return 250 //cellHeight
+        let image = photosName[indexPath.row]
+        let imageInsets = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
+        let imageViewWidth = tableView.bounds.width - imageInsets.left - imageInsets.right
+        let imageWidth = image.size.width == 0 ? 1 : image.size.width
+        let scale = imageViewWidth / imageWidth
+        let cellHeight = image.size.height * scale + imageInsets.top + imageInsets.bottom
+        return cellHeight
     }
 }
 
 extension ImagesListViewController {
     func configCell(for cell: ImagesListViewCell, with indexPath: IndexPath, from data: [Photo]) {
         cell.configCell(for: cell, with: indexPath, from: data)
+        guard let tableView else {return}
+        tableView.reloadRows(at: [indexPath], with: .automatic)
     }
 }
 
 extension ImagesListViewController {
     func tableView( _ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard indexPath.row == photosName.count - 1 else {return}
-        downloadNextPagePhotos()
+        imagesListService.fetchPhotosNextPage()
     }
 }

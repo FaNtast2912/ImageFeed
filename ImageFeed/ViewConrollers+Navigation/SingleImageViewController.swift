@@ -13,6 +13,7 @@ final class SingleImageViewController: UIViewController {
     var image: Photo? {
         didSet {
             guard isViewLoaded, let image else { return }
+            imageView.kf.indicatorType = .activity
             imageView.kf.setImage(with: image.largeImageURL)
             imageView.frame.size = image.size
         }
@@ -62,10 +63,41 @@ final class SingleImageViewController: UIViewController {
         setShareButton()
     }
     
+    private func showError() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { preconditionFailure("weak self error")}
+            let alertModel = AlertModel(
+                title: "Что-то пошло не так(",
+                message: "Попробовать ещё раз?",
+                buttonText: "Повторить", buttonText2: "Не надо"
+            ) { [weak self] in
+                guard let self else { preconditionFailure("weak self error")}
+                UIBlockingProgressHUD.show()
+                setImage(for: self.imageView)
+            }
+            AlertPresenter.showAlert(model: alertModel, vc: self)
+        }
+    }
+    
+    private func setImage(for view: UIImageView) {
+        guard let image else { return }
+        view.kf.setImage(with: image.largeImageURL) { [weak self] result in
+            UIBlockingProgressHUD.dismiss()
+            guard let self = self else { return }
+            switch result {
+            case .success(let imageResult):
+                self.rescaleAndCenterImageInScrollView(image: imageResult.image)
+            case .failure:
+                self.showError()
+            }
+        }
+    }
+    
     private func setImageView() {
         guard let image else { return }
         let imageView = UIImageView()
-        imageView.kf.setImage(with: image.largeImageURL)
+        UIBlockingProgressHUD.show()
+        setImage(for: imageView)
         imageView.frame.size = image.size
         imageView.contentMode = .scaleAspectFit
         
@@ -151,12 +183,12 @@ final class SingleImageViewController: UIViewController {
         let minScale = min(widthScale, heightScale)
         scrollView.minimumZoomScale = minScale
         scrollView.zoomScale = minScale
-        guard let image else {preconditionFailure("Image doesn't exist")}
-        rescaleAndCenterImageInScrollView(image: image)
+        //        guard let image else {preconditionFailure("Image doesn't exist")}
+        //        rescaleAndCenterImageInScrollView(image: image)
         
     }
     
-    private func rescaleAndCenterImageInScrollView(image: Photo) {
+    private func rescaleAndCenterImageInScrollView(image: UIImage) {
         let minZoomScale = scrollView.minimumZoomScale
         let maxZoomScale = scrollView.maximumZoomScale
         view.layoutIfNeeded()
