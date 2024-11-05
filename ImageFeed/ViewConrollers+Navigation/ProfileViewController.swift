@@ -37,7 +37,7 @@ final class ProfileViewController: UIViewController {
     // MARK: - Actions
     @objc
     private func didTapExitButton() {
-        
+        profileLogoutService.logout()
     }
     // MARK: - Private Methods
     private func addProfileImageObserver() {
