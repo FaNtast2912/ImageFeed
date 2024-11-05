@@ -18,7 +18,13 @@ final class ImagesListViewCell: UITableViewCell {
     private lazy var likeButton = UIButton()
     private lazy var dateLabel = UILabel()
     private lazy var gradientView = UIView()
-    private lazy var dateFormatter = ImagesListViewController.dateFormatter
+    private let isoDateFormatter = ISO8601DateFormatter()
+    private lazy var dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .none
+        return formatter
+    }()
     // MARK: - Overrides Methods
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -43,8 +49,11 @@ final class ImagesListViewCell: UITableViewCell {
         let photo = data[indexPath.row].thumbImageURL
         imageCellView.kf.setImage(with: photo, placeholder: UIImage(named: "cellPlaceHolder"))
         imageCellView.kf.indicatorType = .activity
-        guard let photoDate = data[indexPath.row].createdAt else { return }
-        dateLabel.text = dateFormatter.string(from: photoDate)
+        if let photoDate = data[indexPath.row].createdAt, let date = isoDateFormatter.date(from: photoDate) {
+            dateLabel.text = dateFormatter.string(from: date)
+        } else {
+            dateLabel.text = ""
+        }
         likeButton.imageView?.image = data[indexPath.row].isLiked ? UIImage(named: "like_button_on") : UIImage(named: "like_button_off")
     }
     

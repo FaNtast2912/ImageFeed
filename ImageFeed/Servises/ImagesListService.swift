@@ -22,7 +22,6 @@ final class ImagesListService {
     private enum ImagesServiceError: Error {
         case invalidRequest
     }
-    private let dateFormatter = ISO8601DateFormatter()
     // MARK: - Initializers
     private init() {}
     // MARK: - Overrides Methods
@@ -84,7 +83,7 @@ final class ImagesListService {
             switch result {
             case .success(let response):
                 response.forEach { response in
-                    self.photos.append(self.makePhotos(from: response))
+                    self.photos.append(Photo(from: response))
                 }
                 NotificationCenter.default.post(name: ImagesListService.didChangeNotification, object: self)
                 let nextPage = (lastLoadedPage ?? 0) + 1
@@ -99,20 +98,6 @@ final class ImagesListService {
         task.resume()
     }
     // MARK: - Private Methods
-    private func makePhotos(from result: PhotoResponseResult) -> Photo {
-        return Photo(
-            id: result.id,
-            size: CGSize(
-                width: result.width,
-                height: result.height
-            ),
-            createdAt: dateFormatter.date(from: result.createdAt ?? ""),
-            welcomeDescription: result.description,
-            thumbImageURL: result.urls.thumb,
-            largeImageURL: result.urls.full,
-            isLiked: result.likedByUser
-        )
-    }
     
     private func makePhotosRequest() -> URLRequest? {
         let nextPage = (lastLoadedPage ?? 0) + 1
@@ -131,9 +116,11 @@ final class ImagesListService {
             return nil
         }
         
-        let token = String(describing: storage.token!)
+        guard let token = storage.token else { preconditionFailure("token doesn't exist") }
+        let tokenString = String(describing: token)
+        
         var request = URLRequest(url: url)
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(tokenString)", forHTTPHeaderField: "Authorization")
         return request
     }
     
@@ -143,10 +130,11 @@ final class ImagesListService {
             assertionFailure("Failed to create URL")
             return nil
         }
-        let token = String(describing: storage.token!)
+        guard let token = storage.token else { preconditionFailure("token doesn't exist") }
+        let tokenString = String(describing: token)
         var request = URLRequest(url: url)
         request.httpMethod = isLiked ? "POST" : "DELETE"
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(tokenString)", forHTTPHeaderField: "Authorization")
         return request
     }
 }

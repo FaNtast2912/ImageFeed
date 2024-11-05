@@ -38,8 +38,18 @@ final class ProfileViewController: UIViewController {
     @objc
     private func didTapExitButton() {
         profileLogoutService.logout()
+        switchToSplashViewController()
     }
     // MARK: - Private Methods
+    private func switchToSplashViewController() {
+        guard let window = UIApplication.shared.windows.first else {
+            assertionFailure("Invalid Configuration")
+            return
+        }
+        window.rootViewController = SplashViewController()
+        window.makeKeyAndVisible()
+    }
+    
     private func addProfileImageObserver() {
         profileImageServiceObserver = NotificationCenter.default
             .addObserver(

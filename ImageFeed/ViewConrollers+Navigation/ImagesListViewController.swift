@@ -9,13 +9,6 @@ import UIKit
 import Kingfisher
 
 final class ImagesListViewController: UIViewController, ImagesListCellDelegate {
-    // MARK: - Public Properties
-    static var dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .none
-        return formatter
-    }()
     // MARK: - Private Properties
     private var tableView: UITableView?
     private var photosName: [Photo] = []

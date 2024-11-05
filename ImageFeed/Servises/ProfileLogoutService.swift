@@ -24,7 +24,6 @@ final class ProfileLogoutService {
         cleanToken()
         clearProfileImage()
         clearImageListImages()
-        switchToSplashViewController()
     }
     // MARK: - Private Methods
     private func cleanCookies() {
@@ -47,15 +46,6 @@ final class ProfileLogoutService {
     
     private func clearImageListImages() {
         imagesListService.clearPhotos()
-    }
-    
-    private func switchToSplashViewController() {
-        guard let window = UIApplication.shared.windows.first else {
-            assertionFailure("Invalid Configuration")
-            return
-        }
-        window.rootViewController = SplashViewController()
-        window.makeKeyAndVisible()
     }
 }
 
