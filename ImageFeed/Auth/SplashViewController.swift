@@ -16,9 +16,6 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
     private let profileService = ProfileService.shared
     private let oauth2Service = OAuth2Service.shared
     private let storage = OAuth2TokenStorage()
-    private enum SplashViewControllerConstants {
-        static let showAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreen"
-    }
     private var authenticateStatus = false
     // MARK: - Overrides Methods
     override func viewWillAppear(_ animated: Bool) {
@@ -74,6 +71,7 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
             return
         }
         let tabBarController = TabBarController()
+        
         window.rootViewController = tabBarController
     }
     

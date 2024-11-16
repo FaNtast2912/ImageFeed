@@ -12,7 +12,7 @@ final class SingleImageViewController: UIViewController {
     // MARK: - Public Properties
     var image: Photo? {
         didSet {
-            guard isViewLoaded, let image else { return }
+            guard let image else { return }
             imageView.kf.indicatorType = .activity
             imageView.kf.setImage(with: image.largeImageURL)
             imageView.frame.size = image.size
@@ -183,9 +183,6 @@ final class SingleImageViewController: UIViewController {
         let minScale = min(widthScale, heightScale)
         scrollView.minimumZoomScale = minScale
         scrollView.zoomScale = minScale
-        //        guard let image else {preconditionFailure("Image doesn't exist")}
-        //        rescaleAndCenterImageInScrollView(image: image)
-        
     }
     
     private func rescaleAndCenterImageInScrollView(image: UIImage) {

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Profile {
+public struct Profile {
     // MARK: - Public Properties
     var username: String
     var name: String
@@ -20,6 +20,13 @@ struct Profile {
     }
     var bio: String?
     
+    init(username: String, name: String, firstName: String, lastName: String, bio: String?) {
+        self.username = username
+        self.name = name
+        self.firstName = firstName
+        self.lastName = lastName
+        self.bio = bio
+    }
     init(from result: ProfileResponseResult) {
         self.username = result.username
         self.name = result.name ?? ""
@@ -27,4 +34,5 @@ struct Profile {
         self.lastName = result.lastName ?? ""
         self.bio = result.bio ?? ""
     }
+    
 }

@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 
-final class ImagesListViewCell: UITableViewCell {
+public final class ImagesListViewCell: UITableViewCell {
     // MARK: - Public Properties
     static let reuseIdentifier = "ImagesListCell"
     weak var delegate: ImagesListCellDelegate?
@@ -31,7 +31,7 @@ final class ImagesListViewCell: UITableViewCell {
         setCellUI()
     }
     
-    override func prepareForReuse() {
+    public override func prepareForReuse() {
         super.prepareForReuse()
         imageCellView.kf.cancelDownloadTask()
     }
@@ -42,12 +42,26 @@ final class ImagesListViewCell: UITableViewCell {
     // MARK: - IB Actions
     @objc
     private func didTapLikeButton(_ sender: Any) {
-        delegate?.imageListCellDidTapLike(self)
+        delegate?.imageListCellDidTapLike(for: self)
     }
     // MARK: - Public Methods
-    func configCell(for cell: ImagesListViewCell, with indexPath: IndexPath, from data: [Photo]) {
+    func configCell(for cell: ImagesListViewCell, with indexPath: IndexPath, from data: [Photo]) -> Bool {
+        var isDownloadDone = false
+        
         let photo = data[indexPath.row].thumbImageURL
-        imageCellView.kf.setImage(with: photo, placeholder: UIImage(named: "cellPlaceHolder"))
+        imageCellView.kf.setImage(with: photo, placeholder: UIImage(named: "cellPlaceHolder")) { [weak self] result in
+            guard let self else {
+                print("self is unavailable")
+                return
+            }
+            switch result {
+            case .success(_):
+                isDownloadDone = true
+            case .failure(let error):
+                imageCellView.image = UIImage(named: "cellPlaceHolder")
+                debugPrint("Kingfisher again cant download pictures! Error - \(error.localizedDescription)")
+            }
+        }
         imageCellView.kf.indicatorType = .activity
         if let photoDate = data[indexPath.row].createdAt, let date = isoDateFormatter.date(from: photoDate) {
             dateLabel.text = dateFormatter.string(from: date)
@@ -55,6 +69,7 @@ final class ImagesListViewCell: UITableViewCell {
             dateLabel.text = ""
         }
         likeButton.imageView?.image = data[indexPath.row].isLiked ? UIImage(named: "like_button_on") : UIImage(named: "like_button_off")
+        return isDownloadDone
     }
     
     func refreshLikeImage(to isLike: Bool) {

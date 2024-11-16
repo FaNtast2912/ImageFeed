@@ -72,6 +72,8 @@ final class ImagesListService {
         
         assert(Thread.isMainThread)
         
+        let nextPage = (lastLoadedPage ?? 0) + 1
+        
         guard let request = makePhotosRequest() else {
             preconditionFailure("bad request")
         }
@@ -86,7 +88,6 @@ final class ImagesListService {
                     self.photos.append(Photo(from: response))
                 }
                 NotificationCenter.default.post(name: ImagesListService.didChangeNotification, object: self)
-                let nextPage = (lastLoadedPage ?? 0) + 1
                 self.dataTask = nil
                 self.lastLoadedPage = nextPage
             case .failure(let error):
