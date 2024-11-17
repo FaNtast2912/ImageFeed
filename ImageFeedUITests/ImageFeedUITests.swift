@@ -8,6 +8,14 @@
 import XCTest
 
 class Image_FeedUITests: XCTestCase {
+    
+    private enum PersonalData {
+        static let email = ""
+        static let password = ""
+        static let fullName = ""
+        static let login = "@"
+    }
+    
     private let app = XCUIApplication() // переменная приложения
     
     override func setUpWithError() throws {
@@ -27,13 +35,13 @@ class Image_FeedUITests: XCTestCase {
         XCTAssertTrue(loginTextField.waitForExistence(timeout: 5))
         loginTextField.tap()
         XCTAssertTrue(loginTextField.waitForExistence(timeout: 2))
-        loginTextField.typeText("")
+        loginTextField.typeText(PersonalData.email)
         
         let passwordTextField = webView.descendants(matching: .secureTextField).element
         XCTAssertTrue(passwordTextField.waitForExistence(timeout: 5))
         passwordTextField.tap()
         XCTAssertTrue(passwordTextField.waitForExistence(timeout: 2))
-        passwordTextField.typeText("")
+        passwordTextField.typeText(PersonalData.password)
         
         webView.buttons["Login"].tap()
         
@@ -77,8 +85,8 @@ class Image_FeedUITests: XCTestCase {
         sleep(3)
         app.tabBars.buttons.element(boundBy: 1).tap()
         
-        XCTAssertTrue(app.staticTexts[""].exists)
-        XCTAssertTrue(app.staticTexts[""].exists)
+        XCTAssertTrue(app.staticTexts[PersonalData.fullName].exists)
+        XCTAssertTrue(app.staticTexts[PersonalData.login].exists)
         
         app.buttons["logout button"].tap()
         
