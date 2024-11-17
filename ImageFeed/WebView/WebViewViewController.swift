@@ -113,6 +113,7 @@ final class WebViewViewController: UIViewController, WKNavigationDelegate, WebVi
         webView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         webView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         webView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        webView.accessibilityIdentifier = "UnsplashWebView"
         self.webView = webView
     }
     

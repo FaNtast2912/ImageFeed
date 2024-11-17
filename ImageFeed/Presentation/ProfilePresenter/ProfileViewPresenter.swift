@@ -17,7 +17,7 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
     // MARK: - Public Methods
     
     func viewDidLoad() {
-        loadProfile()
+        loadProfile(from: profileService.profile)
         loadAvatar(from: profileImageService.avatarURL)
     }
     
@@ -25,11 +25,7 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
         view?.updateAvatar(from: url)
     }
     
-    func loadProfile() {
-        guard let profile = profileService.profile else {
-            print("Profile didn't download")
-            return
-        }
+    func loadProfile(from profile: Profile?) {
         view?.updateProfile(profile: profile)
     }
     

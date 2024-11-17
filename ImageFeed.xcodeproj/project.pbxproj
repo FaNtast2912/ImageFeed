@@ -30,6 +30,7 @@
 		588D51AA2CE8FD3800F7CF0D /* ImagesListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588D51A92CE8FD2E00F7CF0D /* ImagesListPresenter.swift */; };
 		588D51AC2CE8FD5500F7CF0D /* ImagesListViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588D51AB2CE8FD4400F7CF0D /* ImagesListViewControllerProtocol.swift */; };
 		588D51AE2CE8FDB200F7CF0D /* ImagesListPresenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588D51AD2CE8FDA500F7CF0D /* ImagesListPresenterProtocol.swift */; };
+		588D51D32CEA0E1C00F7CF0D /* ImagesListServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588D51D22CEA0E1300F7CF0D /* ImagesListServiceProtocol.swift */; };
 		589467C42CB44C1000BC80CF /* UIBlockingProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589467C32CB44C1000BC80CF /* UIBlockingProgressHUD.swift */; };
 		589467C62CB54B4000BC80CF /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589467C52CB54B4000BC80CF /* ProfileService.swift */; };
 		589467C82CB54BEE00BC80CF /* ProfileResponseResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589467C72CB54BEE00BC80CF /* ProfileResponseResult.swift */; };
@@ -123,6 +124,7 @@
 		588D51A92CE8FD2E00F7CF0D /* ImagesListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListPresenter.swift; sourceTree = "<group>"; };
 		588D51AB2CE8FD4400F7CF0D /* ImagesListViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListViewControllerProtocol.swift; sourceTree = "<group>"; };
 		588D51AD2CE8FDA500F7CF0D /* ImagesListPresenterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListPresenterProtocol.swift; sourceTree = "<group>"; };
+		588D51D22CEA0E1300F7CF0D /* ImagesListServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListServiceProtocol.swift; sourceTree = "<group>"; };
 		589467C32CB44C1000BC80CF /* UIBlockingProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBlockingProgressHUD.swift; sourceTree = "<group>"; };
 		589467C52CB54B4000BC80CF /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		589467C72CB54BEE00BC80CF /* ProfileResponseResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileResponseResult.swift; sourceTree = "<group>"; };
@@ -184,7 +186,7 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		58FA58102CD3732A00CC143F /* Image FeedTests */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (588D517A2CE781B200F7CF0D /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 588D517B2CE781B200F7CF0D /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = "Image FeedTests"; sourceTree = "<group>"; };
+		58FA58102CD3732A00CC143F /* ImageFeedTests */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (588D517A2CE781B200F7CF0D /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 588D517B2CE781B200F7CF0D /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = ImageFeedTests; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -246,6 +248,7 @@
 			children = (
 				58E7809A2CD9143D002DB74F /* ProfileLogoutService.swift */,
 				58FA58042CD1371B00CC143F /* ImagesListService.swift */,
+				588D51D22CEA0E1300F7CF0D /* ImagesListServiceProtocol.swift */,
 				5804BB2B2C9DD0F100038C31 /* OAuth2Service.swift */,
 				589467C52CB54B4000BC80CF /* ProfileService.swift */,
 				580B07882CB95915000518D2 /* ProfileImageService.swift */,
@@ -392,7 +395,7 @@
 			children = (
 				58DC27A52C8223CA00A8D4F1 /* ImageFeed */,
 				58DC27C62C8223CE00A8D4F1 /* ImageFeedUITests */,
-				58FA58102CD3732A00CC143F /* Image FeedTests */,
+				58FA58102CD3732A00CC143F /* ImageFeedTests */,
 				58DC27A42C8223CA00A8D4F1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -412,8 +415,8 @@
 		58DC27A52C8223CA00A8D4F1 /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
-				588D51A32CE8F8EC00F7CF0D /* WebView */,
 				588D51A22CE8F8D100F7CF0D /* Auth */,
+				588D51A32CE8F8EC00F7CF0D /* WebView */,
 				588D51A52CE8FA3A00F7CF0D /* TabBar */,
 				588D51A62CE8FA4A00F7CF0D /* ImagesList */,
 				588D51A72CE8FA6400F7CF0D /* SingleImage */,
@@ -549,7 +552,7 @@
 				58FA58142CD3732A00CC143F /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				58FA58102CD3732A00CC143F /* Image FeedTests */,
+				58FA58102CD3732A00CC143F /* ImageFeedTests */,
 			);
 			name = "Image FeedTests";
 			packageProductDependencies = (
@@ -703,6 +706,7 @@
 				58B400542CBAC7CB00523C26 /* AlertPresenter.swift in Sources */,
 				58EC7CCD2C9C908800D27F55 /* WebViewViewController.swift in Sources */,
 				589467C62CB54B4000BC80CF /* ProfileService.swift in Sources */,
+				588D51D32CEA0E1C00F7CF0D /* ImagesListServiceProtocol.swift in Sources */,
 				588D519F2CE8F5E000F7CF0D /* ProfileViewControllerStubProtocol.swift in Sources */,
 				588D51752CE65BB400F7CF0D /* AuthHelperProtocol.swift in Sources */,
 				589467C42CB44C1000BC80CF /* UIBlockingProgressHUD.swift in Sources */,

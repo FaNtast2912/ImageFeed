@@ -80,13 +80,14 @@ final class ProfileViewTest: XCTestCase {
 }
 
 final class ProfileViewPresenterSpy: ProfileViewPresenterProtocol {
+    
     var view: ProfileViewControllerProtocol?
     var viewDidLoadCalled: Bool = false
     var logoutDidCalled: Bool = false
     func viewDidLoad() {
         viewDidLoadCalled = true
     }
-    func loadProfile() {
+    func loadProfile(from profile: ImageFeed.Profile?) {
         
     }
     
@@ -99,13 +100,14 @@ final class ProfileViewPresenterSpy: ProfileViewPresenterProtocol {
 }
 
 final class ProfileViewControllerSpy: ProfileViewControllerProtocol {
+    
     var presenter: ProfileViewPresenterProtocol?
     
     var updateAvatarCalled: Bool = false
     
     var updateProfileCalled: Bool = false
     
-    func updateProfile(profile: Profile) {
+    func updateProfile(profile: Profile?) {
         updateProfileCalled = true
     }
     

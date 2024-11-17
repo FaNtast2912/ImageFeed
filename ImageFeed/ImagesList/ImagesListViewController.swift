@@ -47,7 +47,8 @@ final class ImagesListViewController: UIViewController, ImagesListCellDelegate, 
         self.tableView = tableView
     }
     
-    private func addImagesListServiceObserver() {
+    // MARK: - Public Methods
+    func addImagesListServiceObserver() {
         imagesListServiceObserver = NotificationCenter.default
             .addObserver(
                 forName: ImagesListService.didChangeNotification,
@@ -59,7 +60,7 @@ final class ImagesListViewController: UIViewController, ImagesListCellDelegate, 
                 }
             )
     }
-    // MARK: - Public Methods
+    
     func setupPresenter(_ presenter: ImagesListPresenterProtocol) {
         self.presenter = presenter
         self.presenter?.view = self
@@ -78,10 +79,9 @@ final class ImagesListViewController: UIViewController, ImagesListCellDelegate, 
     }
     
     func imageListCellDidTapLike(for cell: ImagesListViewCell) {
-        guard let tableView else { preconditionFailure("tableView doesn't exist") }
-        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        let indexPath = tableView?.indexPath(for: cell)
         UIBlockingProgressHUD.show()
-        presenter?.updateLike(for: indexPath.row, cell: cell) { result in
+        presenter?.updateLike(for: indexPath?.row, cell: cell) { result in
             switch result {
             case .success(_):
                 UIBlockingProgressHUD.dismiss()
@@ -102,17 +102,13 @@ extension ImagesListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListViewCell.reuseIdentifier, for: indexPath)
-        
         guard let ImagesListViewCell = cell as? ImagesListViewCell else {
             return UITableViewCell()
         }
         ImagesListViewCell.delegate = self
         guard let presenter else { preconditionFailure("presenter doesn't exist") }
-        
-        let data = presenter.photosName
-        
-        configCell(for: ImagesListViewCell, with: indexPath, from: data)
-        
+        guard let photo = presenter.returnPhoto(by: indexPath.row) else { preconditionFailure("Photo is nil")}
+        ImagesListViewCell.configCell(from: photo)
         return ImagesListViewCell
     }
 }
@@ -121,7 +117,8 @@ extension ImagesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let presenter else { preconditionFailure("presenter doesn't exist") }
         let singleImageViewController = SingleImageViewController()
-        let image = presenter.returnPhoto(by: indexPath.row)
+        let indexPath = indexPath.isEmpty ? nil : indexPath.row
+        let image = presenter.returnPhoto(by: indexPath)
         singleImageViewController.image = image
         singleImageViewController.modalPresentationStyle = .fullScreen
         present(singleImageViewController, animated: true)
@@ -129,7 +126,7 @@ extension ImagesListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         guard let presenter else { preconditionFailure("presenter doesn't exist") }
-        let image = presenter.returnPhoto(by: indexPath.row)
+        guard let image = presenter.returnPhoto(by: indexPath.row) else { preconditionFailure("image is nil") }
         let imageInsets = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
         let imageViewWidth = tableView.bounds.width - imageInsets.left - imageInsets.right
         let imageWidth = image.size.width == 0 ? 1 : image.size.width
@@ -140,17 +137,9 @@ extension ImagesListViewController: UITableViewDelegate {
 }
 
 extension ImagesListViewController {
-    func configCell(for cell: ImagesListViewCell, with indexPath: IndexPath, from data: [Photo]) {
-        if cell.configCell(for: cell, with: indexPath, from: data) {
-            guard let tableView else {return}
-            tableView.reloadRows(at: [indexPath], with: .automatic)
-        }
-    }
-}
-
-extension ImagesListViewController {
     func tableView( _ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard let presenter else { preconditionFailure("presenter doesn't exist") }
-        presenter.loadNextPageIfNeeded(currentNumbers: indexPath.row)
+        let indexPath = indexPath.isEmpty ? nil : indexPath.row
+        presenter.loadNextPageIfNeeded(currentNumbers: indexPath)
     }
 }

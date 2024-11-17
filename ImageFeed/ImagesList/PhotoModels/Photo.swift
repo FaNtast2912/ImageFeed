@@ -11,11 +11,11 @@ public struct Photo {
     let size: CGSize
     let createdAt: String?
     let welcomeDescription: String?
-    let thumbImageURL: URL
-    let largeImageURL: URL
+    let thumbImageURL: URL?
+    let largeImageURL: URL?
     var isLiked: Bool
     
-    init(id: String, size: CGSize, createdAt: String?, welcomeDescription: String?, thumbImageURL: URL, largeImageURL: URL, isLiked: Bool) {
+    init(id: String, size: CGSize, createdAt: String?, welcomeDescription: String?, thumbImageURL: URL?, largeImageURL: URL?, isLiked: Bool) {
         self.id = id
         self.size = size
         self.createdAt = createdAt

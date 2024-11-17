@@ -124,12 +124,13 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
             let alertModel = AlertModel(
                 title: "Что-то пошло не так(",
                 message: "Не удалось войти в систему",
-                buttonText: "Ок", buttonText2: nil
-            ) { [weak self] in
-                guard let self else { preconditionFailure("weak self error")}
-                self.authenticateStatus = false
-                self.isAuthenticated()
-            }
+                buttonText: "Ок", buttonText2: nil,
+                completion: { [weak self] in
+                    guard let self else { preconditionFailure("weak self error")}
+                    self.authenticateStatus = false
+                    self.isAuthenticated()
+                }
+            )
             AlertPresenter.showAlert(model: alertModel, vc: self)
         }
     }

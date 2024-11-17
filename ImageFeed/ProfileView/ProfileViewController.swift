@@ -34,9 +34,24 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
     // MARK: - Actions
     @objc
     func didTapExitButton() {
-        presenter?.logoutDidTapped()
+        showAlert()
     }
+    
     // MARK: - Private Methods
+    private func showAlert() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            let alertModel = AlertModel(
+                title: "Пока Пока!",
+                message: "Уверены что хотите выйти?",
+                buttonText: "Да",
+                buttonText2: "Нет",
+                completion: { self.presenter?.logoutDidTapped() }
+            )
+            AlertPresenter.showAlert(model: alertModel, vc: self)
+        }
+    }
+    
     private func addProfileImageObserver() {
         profileImageServiceObserver = NotificationCenter.default
             .addObserver(
@@ -94,6 +109,7 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
         exitButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
         exitButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12).isActive = true
         exitButton.centerYAnchor.constraint(equalTo: profileImageView.centerYAnchor).isActive = true
+        exitButton.accessibilityIdentifier = "logout button"
         
         self.exitButton = exitButton
     }
@@ -186,7 +202,11 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
         let processor = RoundCornerImageProcessor(cornerRadius: 0, backgroundColor: .ypBlack)
         pick.kf.setImage(with: url, options: [.processor(processor)])
     }
-    func updateProfile(profile: Profile) {
+    func updateProfile(profile: Profile?) {
+        guard let profile else {
+            print("profile is nil")
+            return
+        }
         self.fullNameTextLabel?.text = profile.name
         self.profileLoginTextLabel?.text = profile.loginName
         self.profileStatusTextLabel?.text = profile.bio
