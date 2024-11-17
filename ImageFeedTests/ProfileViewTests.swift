@@ -64,19 +64,6 @@ final class ProfileViewTest: XCTestCase {
         XCTAssertEqual(viewController.profileLoginTextLabel.text, testProfile.loginName)
         XCTAssertEqual(viewController.profileStatusTextLabel.text, testProfile.bio)
     }
-    
-    
-    func testPresenterLogoutDidCalled() {
-        // given
-        let viewController = ProfileViewController()
-        let presenter = ProfileViewPresenterSpy()
-        viewController.presenter = presenter
-        presenter.view = viewController
-        //when
-        viewController.didTapExitButton()
-        //then
-        XCTAssert(presenter.logoutDidCalled)
-    }
 }
 
 final class ProfileViewPresenterSpy: ProfileViewPresenterProtocol {

@@ -13,6 +13,7 @@ final class ImagesListViewController: UIViewController, ImagesListCellDelegate, 
     // MARK: - Private Properties
     private var tableView: UITableView?
     private var imagesListServiceObserver: NSObjectProtocol?
+    
     // MARK: - Overrides Methods
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)

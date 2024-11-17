@@ -76,7 +76,6 @@ final class SingleImageViewController: UIViewController {
                     setImage(for: self.imageView)
                 }
             )
-                
             AlertPresenter.showAlert(model: alertModel, vc: self)
         }
     }
