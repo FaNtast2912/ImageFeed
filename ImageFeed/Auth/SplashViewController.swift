@@ -126,7 +126,7 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
                 message: "Не удалось войти в систему",
                 buttonText: "Ок", buttonText2: nil,
                 completion: { [weak self] in
-                    guard let self else { preconditionFailure("weak self error")}
+                    guard let self else { return }
                     self.authenticateStatus = false
                     self.isAuthenticated()
                 }

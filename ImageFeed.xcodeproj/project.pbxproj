@@ -271,6 +271,7 @@
 		588D51A32CE8F8EC00F7CF0D /* WebView */ = {
 			isa = PBXGroup;
 			children = (
+				588D51AF2CE8FEF000F7CF0D /* WebViewPresenter */,
 				58EC7CCC2C9C908800D27F55 /* WebViewViewController.swift */,
 				58FF085B2CE4B48A00E1B5F7 /* WebViewViewControllerProtocol.swift */,
 				5804BB292C9DABDF00038C31 /* WebViewControllerDelegate.swift */,
@@ -302,6 +303,7 @@
 		588D51A62CE8FA4A00F7CF0D /* ImagesList */ = {
 			isa = PBXGroup;
 			children = (
+				588D51B12CE8FF0F00F7CF0D /* ImagesListPresenter */,
 				58FA58082CD2827D00CC143F /* PhotoModels */,
 				58DC27AA2C8223CA00A8D4F1 /* ImagesListViewController.swift */,
 				588D51AB2CE8FD4400F7CF0D /* ImagesListViewControllerProtocol.swift */,
@@ -322,6 +324,7 @@
 		588D51A82CE8FA7C00F7CF0D /* ProfileView */ = {
 			isa = PBXGroup;
 			children = (
+				588D51B02CE8FF0500F7CF0D /* ProfilePresenter */,
 				58246C092CBBC08300212E41 /* ProfileModels */,
 				58FD20752C8AE871003FD861 /* ProfileViewController.swift */,
 				588D51862CE8AC4100F7CF0D /* ProfileViewControllerProtocol.swift */,
@@ -383,9 +386,6 @@
 			isa = PBXGroup;
 			children = (
 				588D51B22CE8FF1C00F7CF0D /* AlertPresenter */,
-				588D51B12CE8FF0F00F7CF0D /* ImagesListPresenter */,
-				588D51B02CE8FF0500F7CF0D /* ProfilePresenter */,
-				588D51AF2CE8FEF000F7CF0D /* WebViewPresenter */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";

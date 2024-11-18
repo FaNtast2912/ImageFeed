@@ -21,7 +21,7 @@ enum Constants {
     static let defaultBaseURLString = "https://api.unsplash.com"
     
     static private var defaultBaseURLgetter: URL {
-        guard let url = URL(string: "https://api.unsplash.com") else {preconditionFailure("Unable to construct unsplashUrl")}
+        guard let url = URL(string: "https://api.unsplash.com") else { preconditionFailure("Unable to construct unsplashUrl") }
         return url
     }
     
