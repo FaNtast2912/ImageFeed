@@ -11,8 +11,14 @@ final class TabBarController: UITabBarController {
     // MARK: - Overrides Methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         let imagesListViewController = ImagesListViewController()
+        let imagesListPresenter = ImagesListPresenter()
+        imagesListViewController.setupPresenter(imagesListPresenter)
+        
         let profileViewController = ProfileViewController()
+        let profilePresenter = ProfileViewPresenter()
+        profileViewController.setupPresenter(profilePresenter)
         
         profileViewController.tabBarItem = UITabBarItem(
             title: "",

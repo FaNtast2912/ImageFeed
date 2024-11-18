@@ -6,5 +6,5 @@
 //
 
 protocol ImagesListCellDelegate: AnyObject {
-    func imageListCellDidTapLike(_ cell: ImagesListViewCell)
+    func imageListCellDidTapLike(for cell: ImagesListViewCell)
 }

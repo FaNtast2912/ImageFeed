@@ -10,13 +10,12 @@ import UIKit
 import Kingfisher
 import SwiftKeychainWrapper
 
-final class ProfileViewController: UIViewController {
+final class ProfileViewController: UIViewController, ProfileViewControllerProtocol {
+    //MARK: - Public Properties
+    var presenter: ProfileViewPresenterProtocol?
     // MARK: - Private Properties
     private let storage = OAuth2TokenStorage()
     private var profile: Profile?
-    private let profileService = ProfileService.shared
-    private let profileImageService = ProfileImageService.shared
-    private let profileLogoutService = ProfileLogoutService.shared
     private var profileImageView: UIImageView?
     private var exitButton: UIButton?
     private var fullNameTextLabel: UILabel?
@@ -25,29 +24,32 @@ final class ProfileViewController: UIViewController {
     private var favoritesTextLabel: UILabel?
     private var noFavoritesPhotoPlaceHolder: UIImageView?
     private var profileImageServiceObserver: NSObjectProtocol?
-    
     // MARK: - Overrides Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         setProfileScreen()
-        updateProfileDetails()
         addProfileImageObserver()
-        updateAvatar()
+        presenter?.viewDidLoad()
     }
     // MARK: - Actions
     @objc
-    private func didTapExitButton() {
-        profileLogoutService.logout()
-        switchToSplashViewController()
+    func didTapExitButton() {
+        showAlert()
     }
+    
     // MARK: - Private Methods
-    private func switchToSplashViewController() {
-        guard let window = UIApplication.shared.windows.first else {
-            assertionFailure("Invalid Configuration")
-            return
+    private func showAlert() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            let alertModel = AlertModel(
+                title: "Пока Пока!",
+                message: "Уверены что хотите выйти?",
+                buttonText: "Да",
+                buttonText2: "Нет",
+                completion: { self.presenter?.logoutDidTapped() }
+            )
+            AlertPresenter.showAlert(model: alertModel, vc: self)
         }
-        window.rootViewController = SplashViewController()
-        window.makeKeyAndVisible()
     }
     
     private func addProfileImageObserver() {
@@ -58,29 +60,9 @@ final class ProfileViewController: UIViewController {
                 queue: .main,
                 using: { [weak self] _ in
                     guard let self = self else { return }
-                    self.updateAvatar()
+                    presenter?.loadAvatar(from: ProfileImageService.shared.avatarURL)
                 }
             )
-    }
-    
-    private func updateAvatar() {
-        guard
-            let profileImageURL = ProfileImageService.shared.avatarURL,
-            let url = URL(string: profileImageURL),
-            let pick = profileImageView
-        else { return }
-        pick.kf.indicatorType = .activity
-        let processor = RoundCornerImageProcessor(cornerRadius: 0, backgroundColor: .ypBlack)
-        pick.kf.setImage(with: url, options: [.processor(processor)])
-    }
-    
-    private func updateProfileDetails() {
-        guard let profile = profileService.profile else {
-            return
-        }
-        self.fullNameTextLabel?.text = profile.name
-        self.profileLoginTextLabel?.text = profile.loginName
-        self.profileStatusTextLabel?.text = profile.bio
     }
     
     private func setProfileScreen() {
@@ -127,6 +109,7 @@ final class ProfileViewController: UIViewController {
         exitButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
         exitButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12).isActive = true
         exitButton.centerYAnchor.constraint(equalTo: profileImageView.centerYAnchor).isActive = true
+        exitButton.accessibilityIdentifier = "logout button"
         
         self.exitButton = exitButton
     }
@@ -206,6 +189,27 @@ final class ProfileViewController: UIViewController {
         noFavoritesPhotoPlaceHolder.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 130).isActive = true
         noFavoritesPhotoPlaceHolder.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 332).isActive = true
         self.noFavoritesPhotoPlaceHolder = noFavoritesPhotoPlaceHolder
+    }
+    
+    // MARK: - Public Methods
+    func setupPresenter(_ presenter: ProfileViewPresenterProtocol) {
+        self.presenter = presenter
+        self.presenter?.view = self
+    }
+    func updateAvatar(from url: URL?) {
+        guard let pick = profileImageView else { return }
+        pick.kf.indicatorType = .activity
+        let processor = RoundCornerImageProcessor(cornerRadius: 0, backgroundColor: .ypBlack)
+        pick.kf.setImage(with: url, options: [.processor(processor)])
+    }
+    func updateProfile(profile: Profile?) {
+        guard let profile else {
+            print("profile is nil")
+            return
+        }
+        self.fullNameTextLabel?.text = profile.name
+        self.profileLoginTextLabel?.text = profile.loginName
+        self.profileStatusTextLabel?.text = profile.bio
     }
 }
 

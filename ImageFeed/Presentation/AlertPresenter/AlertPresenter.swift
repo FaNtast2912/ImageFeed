@@ -27,6 +27,7 @@ class AlertPresenter: AlertPresenterProtocol {
             }
             alertController.addAction(alertSecondAction)
         }
+        
         vc.present(alertController, animated: true, completion: nil)
     }
 }

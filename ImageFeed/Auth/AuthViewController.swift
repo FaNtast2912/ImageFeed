@@ -38,7 +38,11 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
     }
     // MARK: - Private Methods
     private func showWebView() {
+        let authHelper = AuthHelper()
         let webViewViewController = WebViewViewController()
+        let webViewPresenter = WebViewPresenter(authHelper: authHelper)
+        webViewPresenter.view = webViewViewController
+        webViewViewController.presenter = webViewPresenter
         webViewViewController.delegate = self
         webViewViewController.modalPresentationStyle = .fullScreen
         present(webViewViewController, animated: true)
@@ -60,6 +64,7 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
         enterButton.addTarget(self, action: #selector(didEnterButtonTapped), for: .touchUpInside)
         enterButton.translatesAutoresizingMaskIntoConstraints = false
         enterButton.layer.cornerRadius = 16
+        enterButton.accessibilityIdentifier = "Authenticate"
         view.addSubview(enterButton)
         
         enterButton.widthAnchor.constraint(equalToConstant: 343).isActive = true

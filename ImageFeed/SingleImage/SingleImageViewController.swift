@@ -12,7 +12,7 @@ final class SingleImageViewController: UIViewController {
     // MARK: - Public Properties
     var image: Photo? {
         didSet {
-            guard isViewLoaded, let image else { return }
+            guard let image else { return }
             imageView.kf.indicatorType = .activity
             imageView.kf.setImage(with: image.largeImageURL)
             imageView.frame.size = image.size
@@ -69,12 +69,13 @@ final class SingleImageViewController: UIViewController {
             let alertModel = AlertModel(
                 title: "Что-то пошло не так(",
                 message: "Попробовать ещё раз?",
-                buttonText: "Повторить", buttonText2: "Не надо"
-            ) { [weak self] in
-                guard let self else { preconditionFailure("weak self error")}
-                UIBlockingProgressHUD.show()
-                setImage(for: self.imageView)
-            }
+                buttonText: "Повторить", buttonText2: "Не надо",
+                completion:  { [weak self] in
+                    guard let self else { preconditionFailure("weak self error")}
+                    UIBlockingProgressHUD.show()
+                    setImage(for: self.imageView)
+                }
+            )
             AlertPresenter.showAlert(model: alertModel, vc: self)
         }
     }
@@ -140,7 +141,7 @@ final class SingleImageViewController: UIViewController {
         backButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
         backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8).isActive = true
         backButton.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 8).isActive = true
-        
+        backButton.accessibilityIdentifier = "nav back button white"
         self.backButton = backButton
     }
     
@@ -157,6 +158,7 @@ final class SingleImageViewController: UIViewController {
         likeButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         likeButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 69).isActive = true
         likeButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 711).isActive = true
+        likeButton.accessibilityIdentifier = "like button"
         
         self.likeButton = likeButton
     }
@@ -183,9 +185,6 @@ final class SingleImageViewController: UIViewController {
         let minScale = min(widthScale, heightScale)
         scrollView.minimumZoomScale = minScale
         scrollView.zoomScale = minScale
-        //        guard let image else {preconditionFailure("Image doesn't exist")}
-        //        rescaleAndCenterImageInScrollView(image: image)
-        
     }
     
     private func rescaleAndCenterImageInScrollView(image: UIImage) {

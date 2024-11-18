@@ -16,9 +16,6 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
     private let profileService = ProfileService.shared
     private let oauth2Service = OAuth2Service.shared
     private let storage = OAuth2TokenStorage()
-    private enum SplashViewControllerConstants {
-        static let showAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreen"
-    }
     private var authenticateStatus = false
     // MARK: - Overrides Methods
     override func viewWillAppear(_ animated: Bool) {
@@ -74,6 +71,7 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
             return
         }
         let tabBarController = TabBarController()
+        
         window.rootViewController = tabBarController
     }
     
@@ -126,12 +124,13 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
             let alertModel = AlertModel(
                 title: "Что-то пошло не так(",
                 message: "Не удалось войти в систему",
-                buttonText: "Ок", buttonText2: nil
-            ) { [weak self] in
-                guard let self else { preconditionFailure("weak self error")}
-                self.authenticateStatus = false
-                self.isAuthenticated()
-            }
+                buttonText: "Ок", buttonText2: nil,
+                completion: { [weak self] in
+                    guard let self else { return }
+                    self.authenticateStatus = false
+                    self.isAuthenticated()
+                }
+            )
             AlertPresenter.showAlert(model: alertModel, vc: self)
         }
     }
