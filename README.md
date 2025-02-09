@@ -1,5 +1,7 @@
 # Image Feed
 
+![ImageFeed Demo](https://raw.githubusercontent.com/FaNtast2912/ImageFeed/main/Demo/ImageFeedDemo.gif) 
+
 # Ссылки
 
 - [Дизайн в Figma](https://clck.ru/38ddGT)
