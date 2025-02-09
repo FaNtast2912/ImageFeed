@@ -1,6 +1,7 @@
 # Image Feed
 
-![ImageFeed Demo](https://raw.githubusercontent.com/FaNtast2912/ImageFeed/main/Demo/ImageFeedDemo.gif) 
+<img src="https://raw.githubusercontent.com/FaNtast2912/ImageFeed/main/Demo/ImageFeedDemo.gif" alt="ImageFeed Demo" width="200">  
+*Demonstrates image browsing and OAuth 2.0 login flow.*   
 
 # Ссылки
 
